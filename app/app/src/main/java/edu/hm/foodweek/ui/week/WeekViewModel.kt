@@ -1,13 +1,13 @@
-package edu.hm.foodweek.ui.dashboard
+package edu.hm.foodweek.ui.week
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DashboardViewModel : ViewModel() {
+class WeekViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+        value = "This is week Fragment"
     }
     val text: LiveData<String> = _text
 }
