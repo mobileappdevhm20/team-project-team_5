@@ -6,22 +6,22 @@
     app:startDestination="@id/navigation_week">
     <fragment
         android:id="@+id/navigation_week"
-        android:name="edu.hm.foodweek.ui.week.WeekFragment"
+        android:name="edu.hm.foodweek.week.screen.WeekFragment"
         android:label="@string/title_week"
         tools:layout="@layout/fragment_week" />
     <fragment
         android:id="@+id/navigation_plan"
-        android:name="edu.hm.foodweek.ui.plans.PlanFragment"
+        android:name="edu.hm.foodweek.plans.screen.PlanFragment"
         android:label="@string/title_plan"
         tools:layout="@layout/fragment_plan" />
     <fragment
         android:id="@+id/navigation_shopping"
-        android:name="edu.hm.foodweek.ui.shopping.ShoppingFragment"
+        android:name="edu.hm.foodweek.shopping.screen.ShoppingFragment"
         android:label="@string/title_shopping"
         tools:layout="@layout/fragment_shopping" />
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="edu.hm.foodweek.ui.shopping.SettingsFragment"
+        android:name="edu.hm.foodweek.shopping.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings"/>
 </navigation>

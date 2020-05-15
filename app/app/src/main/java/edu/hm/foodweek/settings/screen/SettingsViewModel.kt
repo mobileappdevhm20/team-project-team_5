@@ -1,4 +1,4 @@
-package edu.hm.foodweek.ui.shopping
+package edu.hm.foodweek.shopping
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

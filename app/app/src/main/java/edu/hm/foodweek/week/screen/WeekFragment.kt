@@ -1,4 +1,4 @@
-package edu.hm.foodweek.ui.plans
+package edu.hm.foodweek.week.screen
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import edu.hm.foodweek.R
 
-class PlanFragment : Fragment() {
+class WeekFragment : Fragment() {
 
-    private lateinit var planViewModel: PlanViewModel
+    private lateinit var weekViewModel: WeekViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        planViewModel =
-                ViewModelProviders.of(this).get(PlanViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_plan, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        planViewModel.text.observe(viewLifecycleOwner, Observer {
+        weekViewModel =
+                ViewModelProviders.of(this).get(WeekViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_week, container, false)
+        val textView: TextView = root.findViewById(R.id.text_dashboard)
+        weekViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

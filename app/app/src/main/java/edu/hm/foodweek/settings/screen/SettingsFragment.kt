@@ -1,4 +1,4 @@
-package edu.hm.foodweek.ui.shopping
+package edu.hm.foodweek.shopping
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import edu.hm.foodweek.R
+import edu.hm.foodweek.shopping.screen.ShoppingViewModel
 
 class SettingsFragment : Fragment() {
 

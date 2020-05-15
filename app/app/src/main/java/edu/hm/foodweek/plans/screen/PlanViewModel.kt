@@ -1,4 +1,4 @@
-package edu.hm.foodweek.ui.plans
+package edu.hm.foodweek.plans.screen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

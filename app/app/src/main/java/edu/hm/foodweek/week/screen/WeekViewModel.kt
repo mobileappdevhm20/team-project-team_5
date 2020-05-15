@@ -1,13 +1,13 @@
-package edu.hm.foodweek.ui.shopping
+package edu.hm.foodweek.week.screen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ShoppingViewModel : ViewModel() {
+class WeekViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is shopping Fragment"
+        value = "This is week Fragment"
     }
     val text: LiveData<String> = _text
 }
