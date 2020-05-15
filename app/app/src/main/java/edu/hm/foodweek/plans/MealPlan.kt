@@ -25,8 +25,11 @@ class MealPlan(
     )
 
     fun getShoppingList(): List<Ingredient> {
-        // todo: impl. this
-        return emptyList()
+        return week
+            .map { listOf(it.breakfast, it.lunch, it.dinner).flatten() }
+            .flatten()
+            .map { it.ingredients }
+            .flatten()
     }
 
 }
