@@ -1,14 +1,20 @@
 package edu.hm.foodweek.plans
 
+import androidx.room.*
 import edu.hm.foodweek.recipes.Ingredient
 import edu.hm.foodweek.recipes.Recipe
 import edu.hm.foodweek.storage.User
 
-class MealPlan(
+@Entity(tableName = "meal_plan")
+data class MealPlan(
+    @PrimaryKey
     val title: String,
+    @Embedded
     val creator: User
 ) {
+    @Ignore
     val draft = true
+    @Ignore
     private val week = Array(7, { RecipesPerDay() })
 
     fun getWeek(): Array<RecipesPerDay> {

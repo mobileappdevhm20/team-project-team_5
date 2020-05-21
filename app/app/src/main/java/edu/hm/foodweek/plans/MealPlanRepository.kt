@@ -39,7 +39,7 @@ class MealPlanRepository {
     * leave until we have mocked data
     * */
     fun getMealNow(): LiveData<MealPlan> {
-        return MutableLiveData<MealPlan>().apply { value = MealPlan("denis is the greatest", User()) }
+        return MutableLiveData<MealPlan>().apply { value = MealPlan("denis is the greatest", User("hi@email.com", "denis")) }
     }
 
     companion object {
