@@ -4,27 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import edu.hm.foodweek.R
+import edu.hm.foodweek.util.InjectorUtils
+import kotlinx.android.synthetic.main.fragment_week.view.*
 
 class WeekFragment : Fragment() {
 
-    private lateinit var weekViewModel: WeekViewModel
+    private lateinit var viewModel: WeekViewModel
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        weekViewModel =
-                ViewModelProviders.of(this).get(WeekViewModel::class.java)
+        viewModel = InjectorUtils.provideWeekViewModel(this)
         val root = inflater.inflate(R.layout.fragment_week, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
-        weekViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        viewModel.currentMealPlan.observe(viewLifecycleOwner, Observer {
+            root.next_recipe_text_view.text = it.title.toString()
         })
         return root
     }

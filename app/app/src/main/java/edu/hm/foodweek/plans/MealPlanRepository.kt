@@ -3,6 +3,7 @@ package edu.hm.foodweek.plans
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import edu.hm.foodweek.storage.User
 
 
 class MealPlanRepository {
@@ -16,7 +17,7 @@ class MealPlanRepository {
         return _mealPlans
     }
 
-    fun createMealPlan(mealPlan: MealPlan): Boolean{
+    fun createMealPlan(mealPlan: MealPlan): Boolean {
         val created = mealPlans.add(mealPlan)
         _mealPlans.postValue(mealPlans)
         return created
@@ -32,6 +33,13 @@ class MealPlanRepository {
         mealPlans[mealPlans.indexOf(mealPlan)] = mealPlan
         _mealPlans.postValue(mealPlans)
         return mealPlan
+    }
+
+    /*
+    * leave until we have mocked data
+    * */
+    fun getMealNow(): LiveData<MealPlan> {
+        return MutableLiveData<MealPlan>().apply { value = MealPlan("denis is the greatest", User()) }
     }
 
     companion object {

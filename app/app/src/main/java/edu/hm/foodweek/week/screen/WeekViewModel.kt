@@ -1,13 +1,12 @@
 package edu.hm.foodweek.week.screen
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import edu.hm.foodweek.plans.MealPlanRepository
 
-class WeekViewModel : ViewModel() {
+class WeekViewModel(private val mealPlanRepository: MealPlanRepository, application: Application) : AndroidViewModel(
+    application
+) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is week Fragment"
-    }
-    val text: LiveData<String> = _text
+    val currentMealPlan = mealPlanRepository.getMealNow()
 }
