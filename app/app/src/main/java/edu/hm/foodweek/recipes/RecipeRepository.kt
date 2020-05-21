@@ -1,11 +1,11 @@
 package edu.hm.foodweek.recipes
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 
 class RecipeRepository {
-    private var instance: RecipeRepository? = null
     private var recipes: MutableList<Recipe> = mutableListOf()
     private var _recipes: MutableLiveData<List<Recipe>> = MutableLiveData(recipes)
 
@@ -31,15 +31,20 @@ class RecipeRepository {
         return recipe
     }
 
-    @Synchronized
-    private fun createInstance() {
-        if (instance == null) {
-            instance = RecipeRepository()
-        }
-    }
 
-    fun getInstance(): RecipeRepository {
-        if (instance == null) createInstance()
-        return instance!!
+    companion object {
+        private var instance: RecipeRepository? = null
+
+        @Synchronized
+        private fun createInstance() {
+            if (instance == null) {
+                instance = RecipeRepository()
+            }
+        }
+
+        fun getInstance(context: Context): RecipeRepository {
+            if (instance == null) createInstance()
+            return instance!!
+        }
     }
 }

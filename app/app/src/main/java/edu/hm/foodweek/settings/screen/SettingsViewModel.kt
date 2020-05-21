@@ -1,4 +1,4 @@
-package edu.hm.foodweek.shopping
+package edu.hm.foodweek.settings.screen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

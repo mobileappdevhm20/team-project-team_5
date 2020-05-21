@@ -1,13 +1,16 @@
 package edu.hm.foodweek.plans
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 
 class MealPlanRepository {
-    private var instance: MealPlanRepository? = null
+
     private var mealPlans: MutableList<MealPlan> = mutableListOf()
     private var _mealPlans: MutableLiveData<List<MealPlan>> = MutableLiveData(mealPlans)
+
+    val scheduledMealPlans: Map<Int, MealPlan> = emptyMap()
 
     fun getAllMealPlans(): LiveData<List<MealPlan>> {
         return _mealPlans
@@ -31,15 +34,20 @@ class MealPlanRepository {
         return mealPlan
     }
 
-    @Synchronized
-    private fun createInstance() {
-        if (instance == null) {
-            instance = MealPlanRepository()
+    companion object {
+        private var instance: MealPlanRepository? = null
+
+        @Synchronized
+        private fun createInstance() {
+            if (instance == null) {
+                instance = MealPlanRepository()
+            }
+        }
+
+        fun getInstance(context: Context): MealPlanRepository {
+            if (instance == null) createInstance()
+            return instance!!
         }
     }
 
-    fun getInstance(): MealPlanRepository {
-        if (instance == null) createInstance()
-        return instance!!
-    }
 }

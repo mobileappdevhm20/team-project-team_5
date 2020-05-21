@@ -1,4 +1,4 @@
-package edu.hm.foodweek.shopping
+package edu.hm.foodweek.settings.screen
 
 import android.os.Bundle
 import android.view.LayoutInflater

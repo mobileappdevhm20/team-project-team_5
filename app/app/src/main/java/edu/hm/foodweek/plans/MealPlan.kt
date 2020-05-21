@@ -2,9 +2,11 @@ package edu.hm.foodweek.plans
 
 import edu.hm.foodweek.recipes.Ingredient
 import edu.hm.foodweek.recipes.Recipe
+import edu.hm.foodweek.storage.User
 
 class MealPlan(
-    val title:String
+    val title: String,
+    val creator: User
 ) {
     val draft = true
     private val week = Array(7, { RecipesPerDay() })
