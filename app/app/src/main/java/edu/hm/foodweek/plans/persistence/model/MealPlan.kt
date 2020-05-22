@@ -1,4 +1,4 @@
-package edu.hm.foodweek.plans
+package edu.hm.foodweek.plans.persistence.model
 
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -18,8 +18,9 @@ data class MealPlanWithMealsAndRecipes(
     @Embedded
     val plan: MealPlan,
     @Relation(
+        entity = Meal::class,
         parentColumn = "planId",
         entityColumn = "mealPlanId"
     )
-    val meals: List<MealAndRecipe>
+    var meals: List<MealAndRecipe>
 )

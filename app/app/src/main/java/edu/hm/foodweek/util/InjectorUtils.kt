@@ -2,7 +2,7 @@ package edu.hm.foodweek.util
 
 import android.content.Context
 import androidx.fragment.app.Fragment
-import edu.hm.foodweek.plans.MealPlanRepository
+import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.recipes.RecipeRepository
 import edu.hm.foodweek.week.screen.WeekViewModel
 import edu.hm.foodweek.week.screen.WeekViewModelFactory

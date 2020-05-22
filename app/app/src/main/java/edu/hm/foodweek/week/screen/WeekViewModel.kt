@@ -2,7 +2,7 @@ package edu.hm.foodweek.week.screen
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import edu.hm.foodweek.plans.MealPlanRepository
+import edu.hm.foodweek.plans.persistence.MealPlanRepository
 
 class WeekViewModel(private val mealPlanRepository: MealPlanRepository, application: Application) : AndroidViewModel(
     application

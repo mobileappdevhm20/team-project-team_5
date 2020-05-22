@@ -2,13 +2,14 @@ package edu.hm.foodweek
 
 import android.content.Context
 import androidx.room.*
-import edu.hm.foodweek.plans.*
 import edu.hm.foodweek.plans.persistence.MealPlanDao
+import edu.hm.foodweek.plans.persistence.model.*
+import edu.hm.foodweek.recipes.Recipe
 import edu.hm.foodweek.storage.User
 import edu.hm.foodweek.storage.UserDao
 
 @Database(
-    entities = [User::class, MealPlan::class, Meal::class, MealRecipeCrossRef::class],
+    entities = [User::class, MealPlan::class, Recipe::class, Meal::class, MealRecipeCrossRef::class],
     version = 1
 )
 @TypeConverters(Converters::class)

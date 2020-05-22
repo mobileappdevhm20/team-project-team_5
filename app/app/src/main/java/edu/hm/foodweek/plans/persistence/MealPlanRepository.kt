@@ -1,8 +1,9 @@
-package edu.hm.foodweek.plans
+package edu.hm.foodweek.plans.persistence
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import edu.hm.foodweek.plans.persistence.model.MealPlan
 
 
 class MealPlanRepository {
@@ -47,7 +48,8 @@ class MealPlanRepository {
         @Synchronized
         private fun createInstance() {
             if (instance == null) {
-                instance = MealPlanRepository()
+                instance =
+                    MealPlanRepository()
             }
         }
 

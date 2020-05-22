@@ -1,4 +1,4 @@
-package edu.hm.foodweek.plans
+package edu.hm.foodweek.plans.persistence.model
 
 import androidx.room.*
 import edu.hm.foodweek.recipes.Recipe
