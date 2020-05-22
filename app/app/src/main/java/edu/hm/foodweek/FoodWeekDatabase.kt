@@ -1,15 +1,17 @@
 package edu.hm.foodweek
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import edu.hm.foodweek.plans.MealPlan
+import androidx.room.*
+import edu.hm.foodweek.plans.*
 import edu.hm.foodweek.plans.persistence.MealPlanDao
 import edu.hm.foodweek.storage.User
 import edu.hm.foodweek.storage.UserDao
 
-@Database(entities = [User::class, MealPlan::class], version = 1)
+@Database(
+    entities = [User::class, MealPlan::class, Meal::class, MealRecipeCrossRef::class],
+    version = 1
+)
+@TypeConverters(Converters::class)
 abstract class FoodWeekDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun mealPlanDao(): MealPlanDao
@@ -33,4 +35,18 @@ abstract class FoodWeekDatabase : RoomDatabase() {
         }
 
     }
+}
+
+class Converters {
+    @TypeConverter
+    fun toWeekDay(value: String) = enumValueOf<WeekDay>(value)
+
+    @TypeConverter
+    fun fromWeekDay(value: WeekDay) = value.name
+
+    @TypeConverter
+    fun toMealTime(value: String) = enumValueOf<MealTime>(value)
+
+    @TypeConverter
+    fun fromMealTime(value: MealTime) = value.name
 }

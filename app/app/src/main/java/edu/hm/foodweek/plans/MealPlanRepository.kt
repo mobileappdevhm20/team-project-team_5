@@ -3,7 +3,6 @@ package edu.hm.foodweek.plans
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import edu.hm.foodweek.storage.User
 
 
 class MealPlanRepository {
@@ -39,7 +38,7 @@ class MealPlanRepository {
     * leave until we have mocked data
     * */
     fun getMealNow(): LiveData<MealPlan> {
-        return MutableLiveData<MealPlan>().apply { value = MealPlan("denis is the greatest", User("hi@email.com", "denis")) }
+        return MutableLiveData<MealPlan>()
     }
 
     companion object {

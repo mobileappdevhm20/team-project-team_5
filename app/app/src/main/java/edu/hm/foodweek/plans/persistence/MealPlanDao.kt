@@ -1,19 +1,15 @@
 package edu.hm.foodweek.plans.persistence
 
-import androidx.room.*
-import edu.hm.foodweek.plans.MealPlan
+import androidx.room.Dao
+import androidx.room.Query
+import androidx.room.Transaction
+import edu.hm.foodweek.plans.MealPlanWithMealsAndRecipes
 
 @Dao
 interface MealPlanDao {
-    @Insert
-    fun insert(mealPlan: MealPlan)
 
-    @Update
-    fun update(mealPlan: MealPlan)
+    @Transaction
+    @Query("SELECT * FROM MealPlan")
+    fun getPlansWithMealsAndRecipes(): List<MealPlanWithMealsAndRecipes>
 
-    @Query(value = "SELECT * FROM meal_plan WHERE title = :title")
-    fun get(title: String): MealPlan?
-
-    @Delete
-    fun delete(mealPlan: MealPlan)
 }
