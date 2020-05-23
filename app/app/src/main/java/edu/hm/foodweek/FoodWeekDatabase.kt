@@ -2,11 +2,14 @@ package edu.hm.foodweek
 
 import android.content.Context
 import androidx.room.*
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import edu.hm.foodweek.plans.persistence.MealPlanDao
 import edu.hm.foodweek.plans.persistence.model.*
-import edu.hm.foodweek.recipes.Recipe
-import edu.hm.foodweek.storage.User
-import edu.hm.foodweek.storage.UserDao
+import edu.hm.foodweek.recipes.persistence.model.Ingredient
+import edu.hm.foodweek.recipes.persistence.model.Recipe
+import edu.hm.foodweek.users.persistence.UserDao
+import edu.hm.foodweek.users.persistence.model.User
 
 @Database(
     entities = [User::class, MealPlan::class, Recipe::class, Meal::class, MealRecipeCrossRef::class],
@@ -39,15 +42,48 @@ abstract class FoodWeekDatabase : RoomDatabase() {
 }
 
 class Converters {
+    // ################# WeekDay
     @TypeConverter
     fun toWeekDay(value: String) = enumValueOf<WeekDay>(value)
 
     @TypeConverter
     fun fromWeekDay(value: WeekDay) = value.name
 
+    // ################# MealTime
     @TypeConverter
     fun toMealTime(value: String) = enumValueOf<MealTime>(value)
 
     @TypeConverter
     fun fromMealTime(value: MealTime) = value.name
+
+    // ################# List<Ingredient>
+    @TypeConverter
+    fun toIngredientList(value: String) = run {
+        val itemType = object : TypeToken<List<Ingredient>>() {}.type
+        Gson().fromJson<List<Ingredient>>(value, itemType)
+    }
+
+    @TypeConverter
+    fun fromIngredientList(value: List<Ingredient>) = Gson().toJson(value)
+
+    // ################# List<String>
+    @TypeConverter
+    fun toStringList(value: String) = run {
+        val itemType = object : TypeToken<List<String>>() {}.type
+        Gson().fromJson<List<String>>(value, itemType)
+    }
+
+    @TypeConverter
+    fun fromStringList(value: List<String>) = Gson().toJson(value)
+
+    // ################# Set<String>
+    @TypeConverter
+    fun toStringSet(value: String) = run {
+        val itemType = object : TypeToken<List<String>>() {}.type
+        Gson().fromJson<List<String>>(value, itemType).toSet()
+    }
+
+    @TypeConverter
+    fun fromStringSet(value: Set<String>) = Gson().toJson(value.toList())
 }
+

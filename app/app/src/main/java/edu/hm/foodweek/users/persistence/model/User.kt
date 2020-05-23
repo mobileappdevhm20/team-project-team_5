@@ -1,4 +1,4 @@
-package edu.hm.foodweek.storage
+package edu.hm.foodweek.users.persistence.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

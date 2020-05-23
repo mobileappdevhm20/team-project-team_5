@@ -1,6 +1,7 @@
-package edu.hm.foodweek.storage
+package edu.hm.foodweek.users.persistence
 
 import androidx.room.*
+import edu.hm.foodweek.users.persistence.model.User
 
 @Dao
 interface UserDao {

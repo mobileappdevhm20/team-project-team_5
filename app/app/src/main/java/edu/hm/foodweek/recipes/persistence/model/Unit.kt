@@ -1,4 +1,4 @@
-package edu.hm.foodweek.recipes
+package edu.hm.foodweek.recipes.persistence.model
 
 enum class UnitScale {
     Millilitre,Litre,Gram,KiloGram,Pieces
@@ -6,5 +6,5 @@ enum class UnitScale {
 
 data class Unit(
     val value:Int,
-    val scale:UnitScale
+    val scale: UnitScale
 )

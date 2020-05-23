@@ -1,7 +1,7 @@
 package edu.hm.foodweek.plans.persistence.model
 
 import androidx.room.*
-import edu.hm.foodweek.recipes.Recipe
+import edu.hm.foodweek.recipes.persistence.model.Recipe
 
 @Entity
 data class Meal(

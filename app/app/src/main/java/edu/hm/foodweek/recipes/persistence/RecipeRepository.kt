@@ -1,8 +1,9 @@
-package edu.hm.foodweek.recipes
+package edu.hm.foodweek.recipes.persistence
 
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import edu.hm.foodweek.recipes.persistence.model.Recipe
 
 
 class RecipeRepository {
@@ -38,7 +39,8 @@ class RecipeRepository {
         @Synchronized
         private fun createInstance() {
             if (instance == null) {
-                instance = RecipeRepository()
+                instance =
+                    RecipeRepository()
             }
         }
 
