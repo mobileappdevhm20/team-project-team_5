@@ -18,21 +18,22 @@ class Converters {
         val itemType = object : TypeToken<List<Meal>>() {}.type
         Gson().fromJson<List<Meal>>(value, itemType)
     }
-
+/*
     // ################# WeekDay
     @TypeConverter
     fun toWeekDay(value: String) = enumValueOf<WeekDay>(value)
 
     @TypeConverter
     fun fromWeekDay(value: WeekDay) = value.name
-
+*/
+  /*
     // ################# MealTime
     @TypeConverter
     fun toMealTime(value: String) = enumValueOf<MealTime>(value)
 
     @TypeConverter
     fun fromMealTime(value: MealTime) = value.name
-
+*/
     // ################# List<Ingredient>
     @TypeConverter
     fun toIngredientList(value: String) = run {

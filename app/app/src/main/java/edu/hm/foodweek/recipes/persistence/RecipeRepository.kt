@@ -3,33 +3,26 @@ package edu.hm.foodweek.recipes.persistence
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import edu.hm.foodweek.FoodWeekDatabase
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 
 
-class RecipeRepository {
-    private var recipes: MutableList<Recipe> = mutableListOf()
-    private var _recipes: MutableLiveData<List<Recipe>> = MutableLiveData(recipes)
-
+class RecipeRepository(context: Context) {
+    val dao = FoodWeekDatabase.getInstance(context).recipeDao()
     fun getAllRecipes(): LiveData<List<Recipe>> {
-        return _recipes
+        return dao.getAllRecipe()
     }
 
-    fun createRecipe(recipe: Recipe): Boolean{
-        val created = recipes.add(recipe)
-        _recipes.postValue(recipes)
-        return created
+    suspend fun createRecipe(recipe: Recipe){
+        dao.createRecipe(recipe)
     }
 
-    fun deleteRecipe(recipe: Recipe): Boolean {
-        val removed = recipes.remove(recipe)
-        _recipes.postValue(recipes)
-        return removed
+    suspend fun deleteRecipe(recipe: Recipe) {
+        deleteRecipe(recipe)
     }
 
-    fun updateRecipe(recipe: Recipe): Recipe {
-        recipes[recipes.indexOf(recipe)] = recipe
-        _recipes.postValue(recipes)
-        return recipe
+    suspend fun updateRecipe(recipe: Recipe) {
+        dao.updateRecipe(recipe)
     }
 
 
@@ -37,15 +30,15 @@ class RecipeRepository {
         private var instance: RecipeRepository? = null
 
         @Synchronized
-        private fun createInstance() {
+        private fun createInstance(context: Context) {
             if (instance == null) {
                 instance =
-                    RecipeRepository()
+                    RecipeRepository(context)
             }
         }
 
         fun getInstance(context: Context): RecipeRepository {
-            if (instance == null) createInstance()
+            if (instance == null) createInstance(context)
             return instance!!
         }
     }

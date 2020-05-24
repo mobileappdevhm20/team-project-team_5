@@ -20,8 +20,9 @@ object InjectorUtils {
     }
 
     private fun provideWeekViewModelFactory(fragment: Fragment): WeekViewModelFactory {
-        val repository = getMealPlanRepository(fragment.requireContext())
-        return WeekViewModelFactory(repository, fragment.requireActivity().application)
+        val mealPlanRepository = getMealPlanRepository(fragment.requireContext())
+        val recipeRepository = getRecipeRepository(fragment.requireContext())
+        return WeekViewModelFactory(mealPlanRepository,recipeRepository, fragment.requireActivity().application)
     }
 
     fun provideWeekViewModel(fragment: Fragment): WeekViewModel {

@@ -8,15 +8,22 @@ import edu.hm.foodweek.plans.persistence.model.Meal
 import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.plans.persistence.model.MealTime
 import edu.hm.foodweek.plans.persistence.model.WeekDay
+import edu.hm.foodweek.recipes.persistence.RecipeRepository
+import edu.hm.foodweek.recipes.persistence.model.Recipe
 import kotlinx.coroutines.launch
 
-class WeekViewModel(private val mealPlanRepository: MealPlanRepository, application: Application) :
+class WeekViewModel(
+    private val mealPlanRepository: MealPlanRepository,
+    private val recipeRepository: RecipeRepository,
+    application: Application
+) :
     AndroidViewModel(
         application
     ) {
     val allMealPlans = mealPlanRepository.getAllMealPlans()
+    val allRecipes = recipeRepository.getAllRecipes()
 
-    fun createOnClick() {
+    fun createMeal() {
         viewModelScope.launch {
             mealPlanRepository.createMealPlan(
                 MealPlan(
@@ -26,7 +33,23 @@ class WeekViewModel(private val mealPlanRepository: MealPlanRepository, applicat
                     "imgUrl",
                     0,
                     true,
-                    listOf(Meal(WeekDay.MONDAY,MealTime.BREAKFAST,"1"))
+                    listOf(Meal(WeekDay.MONDAY, MealTime.BREAKFAST, "1"))
+                )
+            )
+        }
+    }
+
+
+    fun createRecipe() {
+        viewModelScope.launch {
+            recipeRepository.createRecipe(
+                Recipe(
+                    0,
+                    "title 1",
+                    "description",
+                    emptyList(),
+                    emptyList(),
+                    emptySet()
                 )
             )
         }
