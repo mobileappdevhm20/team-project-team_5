@@ -47,9 +47,6 @@ class WeekFragment : Fragment() {
     }
 
     private fun setOnClicks(root: View) {
-        root.btn_add_meal.setOnClickListener {
-            viewModel.createMeal()
-        }
         root.btn_add_recipe.setOnClickListener {
             viewModel.createRecipe()
         }

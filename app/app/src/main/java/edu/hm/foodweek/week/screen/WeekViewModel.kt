@@ -23,21 +23,7 @@ class WeekViewModel(
     val allMealPlans = mealPlanRepository.getAllMealPlans()
     val allRecipes = recipeRepository.getAllRecipes()
 
-    fun createMeal() {
-        viewModelScope.launch {
-            mealPlanRepository.createMealPlan(
-                MealPlan(
-                    0,
-                    "hello World",
-                    "description",
-                    "imgUrl",
-                    0,
-                    true,
-                    listOf(Meal(WeekDay.MONDAY, MealTime.BREAKFAST, "1"))
-                )
-            )
-        }
-    }
+
 
 
     fun createRecipe() {

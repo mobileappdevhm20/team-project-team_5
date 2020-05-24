@@ -16,6 +16,10 @@ interface RecipeDao {
     @Query("SELECT * FROM Recipe where recipeId = :id")
     fun getRecipe(id: Long): LiveData<Recipe>
 
+    @Query("SELECT * FROM Recipe where recipeId = :id")
+    suspend fun getRecipeNoLD(id: Long): Recipe
+
+
     @Insert
     suspend fun createRecipe(recipe: Recipe): Long
 

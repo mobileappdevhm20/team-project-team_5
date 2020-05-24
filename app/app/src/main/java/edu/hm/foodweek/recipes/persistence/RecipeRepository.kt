@@ -17,6 +17,10 @@ class RecipeRepository(context: Context) {
         return dao.getRecipe(id)
     }
 
+    suspend fun getRecipeByIdNoLD(id:Long):Recipe{
+        return dao.getRecipeNoLD(id)
+    }
+
     suspend fun createRecipe(recipe: Recipe) {
         dao.createRecipe(recipe)
     }
