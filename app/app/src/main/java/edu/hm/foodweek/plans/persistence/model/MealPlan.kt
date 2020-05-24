@@ -12,7 +12,6 @@ data class MealPlan(
     val imageURL: String,
     val creatorId: Long,
     var draft: Boolean = true,
-    // these ids aren't verfiyed
     var meals : List<Meal> = emptyList()
 )
 

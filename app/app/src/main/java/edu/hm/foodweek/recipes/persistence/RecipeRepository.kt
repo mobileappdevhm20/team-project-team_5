@@ -13,7 +13,11 @@ class RecipeRepository(context: Context) {
         return dao.getAllRecipe()
     }
 
-    suspend fun createRecipe(recipe: Recipe){
+    fun getRecipeById(id: Long): LiveData<Recipe> {
+        return dao.getRecipe(id)
+    }
+
+    suspend fun createRecipe(recipe: Recipe) {
         dao.createRecipe(recipe)
     }
 

@@ -15,6 +15,10 @@ class MealPlanRepository(context: Context) {
         return dao.getAllMealPlans()
     }
 
+    fun getMealPlanbyId(id:Long) : LiveData<MealPlan>{
+        return dao.getMealPlan(id)
+    }
+
     suspend fun createMealPlan(mealPlan: MealPlan) {
          dao.createMealPlan(mealPlan)
     }
