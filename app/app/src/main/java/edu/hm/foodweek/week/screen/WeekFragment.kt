@@ -21,8 +21,12 @@ class WeekFragment : Fragment() {
     ): View? {
         viewModel = InjectorUtils.provideWeekViewModel(this)
         val root = inflater.inflate(R.layout.fragment_week, container, false)
-        viewModel.currentMealPlan.observe(viewLifecycleOwner, Observer {
-            root.next_recipe_text_view.text = it.title.toString()
+        root.btn.setOnClickListener {
+            viewModel.createOnClick()
+        }
+        viewModel.allMealPlans.observe(viewLifecycleOwner, Observer {
+            if (it.isNotEmpty())
+                root.next_recipe_text_view.text = it.toString()
         })
         return root
     }

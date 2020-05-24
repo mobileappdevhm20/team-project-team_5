@@ -3,58 +3,43 @@ package edu.hm.foodweek.plans.persistence
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import edu.hm.foodweek.FoodWeekDatabase
 import edu.hm.foodweek.plans.persistence.model.MealPlan
 
 
-class MealPlanRepository {
+class MealPlanRepository(context: Context) {
 
-    private var mealPlans: MutableList<MealPlan> = mutableListOf()
-    private var _mealPlans: MutableLiveData<List<MealPlan>> = MutableLiveData(mealPlans)
-
-    val scheduledMealPlans: Map<Int, MealPlan> = emptyMap()
+    val dao = FoodWeekDatabase.getInstance(context).mealPlanDao()
 
     fun getAllMealPlans(): LiveData<List<MealPlan>> {
-        return _mealPlans
+        return dao.getAllMealPlans()
     }
 
-    fun createMealPlan(mealPlan: MealPlan): Boolean {
-        val created = mealPlans.add(mealPlan)
-        _mealPlans.postValue(mealPlans)
-        return created
+    suspend fun createMealPlan(mealPlan: MealPlan) {
+         dao.createMealPlan(mealPlan)
     }
 
-    fun deleteMealPlan(mealPlan: MealPlan): Boolean {
-        val removed = mealPlans.remove(mealPlan)
-        _mealPlans.postValue(mealPlans)
-        return removed
+    suspend fun deleteMealPlan(mealPlan: MealPlan) {
+        return dao.deleteMealPlan(mealPlan)
     }
 
-    fun updateMealPlan(mealPlan: MealPlan): MealPlan {
-        mealPlans[mealPlans.indexOf(mealPlan)] = mealPlan
-        _mealPlans.postValue(mealPlans)
-        return mealPlan
-    }
-
-    /*
-    * leave until we have mocked data
-    * */
-    fun getMealNow(): LiveData<MealPlan> {
-        return MutableLiveData<MealPlan>()
+    suspend fun updateMealPlan(mealPlan: MealPlan) {
+        return dao.updateMealPlan(mealPlan)
     }
 
     companion object {
         private var instance: MealPlanRepository? = null
 
         @Synchronized
-        private fun createInstance() {
+        private fun createInstance(context: Context) {
             if (instance == null) {
                 instance =
-                    MealPlanRepository()
+                    MealPlanRepository(context)
             }
         }
 
         fun getInstance(context: Context): MealPlanRepository {
-            if (instance == null) createInstance()
+            if (instance == null) createInstance(context)
             return instance!!
         }
     }
