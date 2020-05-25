@@ -11,12 +11,16 @@ class MealPlanRepository(context: Context) {
 
     val dao = FoodWeekDatabase.getInstance(context).mealPlanDao()
 
-    fun getAllMealPlans(): LiveData<List<MealPlan>> {
+    fun getLiveDataAllMealPlans(): LiveData<List<MealPlan>> {
         return dao.getAllMealPlans()
     }
 
-    fun getMealPlanbyId(id:Long) : LiveData<MealPlan>{
+    fun getLiveDataMealPlanById(id:Long) : LiveData<MealPlan>{
         return dao.getMealPlan(id)
+    }
+
+    fun getMealPlanById(id:Long) : MealPlan{
+        return dao.getMealPlanNoLiveData(id)
     }
 
     suspend fun createMealPlan(mealPlan: MealPlan) {

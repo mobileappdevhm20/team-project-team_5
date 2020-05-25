@@ -6,18 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_add_meal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="create new mealplan"
-        />
-
-    <TextView
-        android:id="@+id/meal_plan_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="default_text" />
 
     <Spinner
         android:id="@+id/meal_plan_spinner"
@@ -26,9 +14,21 @@
         android:spinnerMode="dropdown" />
 
     <TextView
+        android:id="@+id/meal_plan_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="default_text" />
+
+    <TextView
         android:id="@+id/recipe_list_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_add_meal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="create new mealplan" />
 
 </LinearLayout>
 

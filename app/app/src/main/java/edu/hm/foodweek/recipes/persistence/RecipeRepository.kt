@@ -2,7 +2,6 @@ package edu.hm.foodweek.recipes.persistence
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import edu.hm.foodweek.FoodWeekDatabase
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 
@@ -13,12 +12,12 @@ class RecipeRepository(context: Context) {
         return dao.getAllRecipe()
     }
 
-    fun getRecipeById(id: Long): LiveData<Recipe> {
+    fun getLiveDataRecipeById(id: Long): LiveData<Recipe> {
         return dao.getRecipe(id)
     }
 
-    suspend fun getRecipeByIdNoLD(id:Long):Recipe{
-        return dao.getRecipeNoLD(id)
+    suspend fun getRecipeById(id:Long):Recipe{
+        return dao.getRecipeNoLiveData(id)
     }
 
     suspend fun createRecipe(recipe: Recipe) {
@@ -32,7 +31,6 @@ class RecipeRepository(context: Context) {
     suspend fun updateRecipe(recipe: Recipe) {
         dao.updateRecipe(recipe)
     }
-
 
     companion object {
         private var instance: RecipeRepository? = null

@@ -4,10 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
-import edu.hm.foodweek.plans.persistence.model.Meal
-import edu.hm.foodweek.plans.persistence.model.MealPlan
-import edu.hm.foodweek.plans.persistence.model.MealTime
-import edu.hm.foodweek.plans.persistence.model.WeekDay
 import edu.hm.foodweek.recipes.persistence.RecipeRepository
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 import kotlinx.coroutines.launch
@@ -20,7 +16,7 @@ class WeekViewModel(
     AndroidViewModel(
         application
     ) {
-    val allMealPlans = mealPlanRepository.getAllMealPlans()
+    val allMealPlans = mealPlanRepository.getLiveDataAllMealPlans()
     val allRecipes = recipeRepository.getAllRecipes()
 
 

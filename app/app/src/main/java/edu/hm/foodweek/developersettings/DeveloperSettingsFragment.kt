@@ -16,6 +16,7 @@ import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.settings.screen.SettingsViewModel
 import edu.hm.foodweek.util.InjectorUtils
 import kotlinx.android.synthetic.main.fragment_developer_settings.view.*
+import java.lang.StringBuilder
 
 class DeveloperSettingsFragment : Fragment() {
 
@@ -29,54 +30,69 @@ class DeveloperSettingsFragment : Fragment() {
         settingsViewModel = InjectorUtils.provideSettingsViewModel(this)
         val rootView = inflater.inflate(R.layout.fragment_developer_settings, container, false)
 
+        // dropdown
+        setSpinnerAdapter(rootView)
+        setAndObserveSpinnerValues(rootView)
+        // selected MealPlan
+        oberserveSelectedMealPlan(rootView)
+        // recipe TextView
+        observeRecipesForSelectedMealPlan(rootView)
+        // Button
+        setButtonClick(rootView)
+        return rootView
+    }
+
+    private fun setButtonClick(rootView: View) {
+        rootView.btn_add_meal.setOnClickListener {
+            settingsViewModel.createMeal()
+        }
+    }
+
+    private fun observeRecipesForSelectedMealPlan(rootView: View) {
+        settingsViewModel.selectedRecipes.observe(viewLifecycleOwner, Observer {
+            val stringBuilder = StringBuilder("")
+            stringBuilder.append(it.toString()).append("\n\n")
+            rootView.recipe_list_text_view.text = stringBuilder.toString()
+        })
+    }
+
+    private fun oberserveSelectedMealPlan(rootView: View) {
+        settingsViewModel.selectedMealPlan.observe(viewLifecycleOwner, Observer {
+            rootView.meal_plan_text_view.text = it?.toString() ?: "No Meal-plan selected"
+        })
+    }
+
+    private fun setAndObserveSpinnerValues(rootView: View) {
+        settingsViewModel.allMealPlans.observe(viewLifecycleOwner, Observer {
+            if (it.isNullOrEmpty()) {
+                rootView.meal_plan_spinner.visibility = View.GONE
+            } else {
+                rootView.meal_plan_spinner.visibility = View.VISIBLE
+                rootView.meal_plan_spinner.adapter = SpinnAdapter(this.requireContext(), it)
+            }
+        })
+    }
+
+    private fun setSpinnerAdapter(rootView: View) {
         rootView.meal_plan_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                settingsViewModel.selectedIndex.postValue(0)
+                //settingsViewModel.selectedIndex.postValue(0)
             }
 
             override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
+                parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                Log.d("DevSettings", "selected : $position")
                 settingsViewModel.selectedIndex.postValue(position)
             }
 
         }
-        settingsViewModel.selectedMeal.observe(viewLifecycleOwner, Observer {
-            if (it != null)
-                rootView.meal_plan_text_view.text = it.toString()
-        })
-        settingsViewModel.allMealPlans.observe(viewLifecycleOwner, Observer {
-            Log.d("DevSettings", "$it")
-            if (!it.isNullOrEmpty())
-                rootView.meal_plan_spinner.adapter = SpinnAdapter(this.requireContext(), it)
-        })
-
-        settingsViewModel.selectedRecipes.observe(viewLifecycleOwner, Observer {
-            if (!it.isNullOrEmpty()) {
-                for (recipe in it) {
-                    rootView.recipe_list_text_view.text = recipe.toString() + "\n"
-                }
-            }
-        })
-
-        settingsViewModel.allRecipes.observe(viewLifecycleOwner, Observer {
-            Log.d("DevSettings", "all recipes: $it")
-        })
-
-        rootView.btn_add_meal.setOnClickListener {
-            settingsViewModel.createMeal()
-        }
-        return rootView
     }
 }
 
 private open class SpinnAdapter(val context: Context, val mealPlans: List<MealPlan>) : BaseAdapter() {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        return TextView(context).apply { text = mealPlans[position].let {it.title + it.planId.toString() } }
+        return TextView(context).apply { text = mealPlans[position].let { it.title + it.planId.toString() } }
     }
 
     override fun getItem(position: Int): Any {
@@ -88,7 +104,7 @@ private open class SpinnAdapter(val context: Context, val mealPlans: List<MealPl
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        return TextView(context).apply { text = mealPlans[position].let {it.title + it.planId.toString() } }
+        return TextView(context).apply { text = mealPlans[position].let { it.title + it.planId.toString() } }
     }
 
     override fun getCount(): Int {
