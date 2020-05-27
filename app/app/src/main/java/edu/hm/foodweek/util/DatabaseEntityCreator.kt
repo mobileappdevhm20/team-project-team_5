@@ -13,6 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 object DatabaseEntityCreator {
+    val initialDatabaseSeed = 1234L
+
     // Insert data using daos
     val recipe1 = Recipe(
         0,
@@ -27,7 +29,7 @@ object DatabaseEntityCreator {
         "UTL",
         1,
         true,
-        listOf(recipe1).map { recipe -> Meal(WeekDay.MONDAY, MealTime.BREAKFAST, recipe.recipeId) }
+        listOf(recipe1).map { recipe -> Meal(WeekDay.getRandom(initialDatabaseSeed), MealTime.getRandom(initialDatabaseSeed), recipe.recipeId) }
     )
 
     fun createRecipes(): List<Recipe> {
