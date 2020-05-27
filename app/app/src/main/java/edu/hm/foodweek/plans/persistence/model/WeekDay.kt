@@ -7,8 +7,8 @@ enum class WeekDay {
     MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY;
 
     companion object {
-        fun getRandom(seed: Long = 0L): WeekDay {
-            return when (Random(seed).nextInt(IntRange(0, 6))) {
+        fun getRandom(): WeekDay {
+            return when (Random.nextInt(IntRange(0, 6))) {
                 0 -> MONDAY
                 1 -> TUESDAY
                 2 -> WEDNESDAY

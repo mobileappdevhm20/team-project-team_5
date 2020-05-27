@@ -2,7 +2,6 @@ package edu.hm.foodweek.developersettings
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +50,9 @@ class DeveloperSettingsFragment : Fragment() {
     private fun observeRecipesForSelectedMealPlan(rootView: View) {
         settingsViewModel.selectedRecipes.observe(viewLifecycleOwner, Observer {
             val stringBuilder = StringBuilder("")
-            stringBuilder.append(it.toString()).append("\n\n")
+            for (recipe in it.distinct()) {
+                stringBuilder.append(recipe).append("\n\n")
+            }
             rootView.recipe_list_text_view.text = stringBuilder.toString()
         })
     }
