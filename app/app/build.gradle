@@ -1,22 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'jacoco-android'
 apply plugin: 'kotlin-kapt'
-
-jacoco {
-    toolVersion = "0.8.5"
-}
-
-tasks.withType(Test) {
-    jacoco.includeNoLocationClasses = true
-}
-
-jacocoAndroidUnitTestReport{
-    csv.enabled false
-    html.enabled true
-    xml.enabled true
-}
 
 android {
     compileSdkVersion 29
@@ -32,23 +17,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    flavorDimensions "jacoco"
-    productFlavors {
-        free {
-            dimension "jacoco"
-        }
-        paid {
-            dimension "jacoco"
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            testCoverageEnabled true
         }
     }
 
