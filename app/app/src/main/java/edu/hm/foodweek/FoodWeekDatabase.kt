@@ -1,6 +1,7 @@
 package edu.hm.foodweek
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -13,11 +14,13 @@ import edu.hm.foodweek.recipes.persistence.model.Recipe
 import edu.hm.foodweek.users.persistence.UserDao
 import edu.hm.foodweek.users.persistence.model.User
 import edu.hm.foodweek.util.Converters
-import java.util.concurrent.Executors
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @Database(
-    entities = [MealPlan::class,User::class,Recipe::class],
+    entities = [MealPlan::class, User::class, Recipe::class],
     version = 1
 )
 @TypeConverters(Converters::class)
@@ -42,12 +45,31 @@ abstract class FoodWeekDatabase : RoomDatabase() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
                                 super.onCreate(db)
                                 //pre-populate data
-                                Executors.newSingleThreadExecutor().execute {
-                                    instance?.let {
-                                        // Insert data using daos
-                                        // -> it.recipeDao().createRecipe()...
+                                instance?.let {
+                                    // Insert data using daos
+                                    Log.i("FoodWeekDatabase", "OnCreate")
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        Log.i("FoodWeekDatabase", "Insert recipe")
+                                        it.recipeDao().createRecipe(
+                                            Recipe(
+                                                0,
+                                                "Initial Recipe",
+                                                "Initial description"
+                                            )
+                                        )
+
+                                        it.mealPlanDao().createMealPlan(
+                                            MealPlan(
+                                                0,
+                                                "Inital Title",
+                                                "Inital description",
+                                                "UTL",
+                                                1
+                                            )
+                                        )
                                     }
                                 }
+
                             }
                         })
                         .fallbackToDestructiveMigration().build()
