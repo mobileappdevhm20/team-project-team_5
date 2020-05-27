@@ -14,6 +14,7 @@ import edu.hm.foodweek.recipes.persistence.model.Recipe
 import edu.hm.foodweek.users.persistence.UserDao
 import edu.hm.foodweek.users.persistence.model.User
 import edu.hm.foodweek.util.Converters
+import edu.hm.foodweek.util.DatabaseEntityCreator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,6 +33,7 @@ abstract class FoodWeekDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: FoodWeekDatabase? = null
+
         fun getInstance(context: Context): FoodWeekDatabase {
             synchronized(this) {
                 var instance = INSTANCE
@@ -46,30 +48,8 @@ abstract class FoodWeekDatabase : RoomDatabase() {
                                 super.onCreate(db)
                                 //pre-populate data
                                 instance?.let {
-                                    // Insert data using daos
-                                    Log.i("FoodWeekDatabase", "OnCreate")
-                                    CoroutineScope(Dispatchers.IO).launch {
-                                        Log.i("FoodWeekDatabase", "Insert recipe")
-                                        it.recipeDao().createRecipe(
-                                            Recipe(
-                                                0,
-                                                "Initial Recipe",
-                                                "Initial description"
-                                            )
-                                        )
-
-                                        it.mealPlanDao().createMealPlan(
-                                            MealPlan(
-                                                0,
-                                                "Inital Title",
-                                                "Inital description",
-                                                "UTL",
-                                                1
-                                            )
-                                        )
-                                    }
+                                    DatabaseEntityCreator.insertPresetIntoDatabase(it.recipeDao(), it.mealPlanDao())
                                 }
-
                             }
                         })
                         .fallbackToDestructiveMigration().build()
