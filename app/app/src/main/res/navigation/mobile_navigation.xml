@@ -13,7 +13,24 @@
         android:id="@+id/navigation_plan"
         android:name="edu.hm.foodweek.plans.screen.PlanFragment"
         android:label="@string/title_plan"
-        tools:layout="@layout/fragment_plan" />
+        tools:layout="@layout/fragment_plan">
+        <action
+            android:id="@+id/startPlanDetails"
+            app:destination="@+id/navigation_plan_details">
+            <argument
+                android:name="mealPlanId"
+                app:argType="long" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_plan_details"
+        android:name="edu.hm.foodweek.plans.screen.PlanDetailsFragment"
+        android:label="@string/title_plan_details"
+        tools:layout="@layout/fragment_plan_details">
+        <argument
+            android:name="mealPlanId"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_shopping"
         android:name="edu.hm.foodweek.shopping.screen.ShoppingFragment"

@@ -9,6 +9,7 @@ data class Recipe(
     val recipeId: Long,
     val title: String,
     val description: String,
+    val url: String = "",
     val ingredients: List<Ingredient> = emptyList(),
     val steps: List<String> = emptyList(),
     val labels: Set<String> = emptySet()

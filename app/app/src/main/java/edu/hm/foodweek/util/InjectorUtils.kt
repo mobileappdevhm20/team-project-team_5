@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import edu.hm.foodweek.developersettings.SettingsViewModelFactory
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
+import edu.hm.foodweek.plans.screen.PlanDetailsViewModelFactory
 import edu.hm.foodweek.recipes.persistence.RecipeRepository
 import edu.hm.foodweek.settings.screen.SettingsViewModel
 import edu.hm.foodweek.week.screen.WeekViewModel
@@ -26,6 +27,20 @@ object InjectorUtils {
         val mealPlanRepository = getMealPlanRepository(fragment.requireContext())
         val recipeRepository = getRecipeRepository(fragment.requireContext())
         return WeekViewModelFactory(
+            mealPlanRepository,
+            recipeRepository,
+            fragment.requireActivity().application
+        )
+    }
+
+    fun providePlanDetailsModelFactory(
+        fragment: Fragment,
+        mealPlanId: Long
+    ): PlanDetailsViewModelFactory {
+        val mealPlanRepository = getMealPlanRepository(fragment.requireContext())
+        val recipeRepository = getRecipeRepository(fragment.requireContext())
+        return PlanDetailsViewModelFactory(
+            mealPlanId,
             mealPlanRepository,
             recipeRepository,
             fragment.requireActivity().application

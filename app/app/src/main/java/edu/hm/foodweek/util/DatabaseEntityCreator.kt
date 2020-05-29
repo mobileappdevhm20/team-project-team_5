@@ -20,19 +20,20 @@ object DatabaseEntityCreator {
     var mealPlanId = 1L
 
     val recipe1 = Recipe(
-        recipeId++,
-        "Initial Recipe",
-        "Initial description"
+        recipeId = recipeId++,
+        title = "Initial Recipe",
+        description = "Initial description"
     )
     val recipe2 = Recipe(
-        recipeId++,
-        "Tomato Dipp with Bread",
-        "The best way to use old tomatoes",
-        arrayListOf(
+        recipeId = recipeId++,
+        title = "Tomato Dipp with Bread",
+        description = "The best way to use old tomatoes",
+        url = "https://www.gimmesomeoven.com/wp-content/uploads/2017/02/Catalan-Tomato-Bread-Pan-Con-Tomate-Recipe.jpg",
+        ingredients = arrayListOf(
             Ingredient("tomato", edu.hm.foodweek.recipes.persistence.model.Unit(3, UnitScale.Pieces)),
             Ingredient("Bread", edu.hm.foodweek.recipes.persistence.model.Unit(1, UnitScale.KiloGram))
         ),
-        arrayListOf(
+        steps = arrayListOf(
             "munch those lucky tomatoes",
             "heat them in the microwave for 3 minutes",
             "cut bread into slices",
@@ -43,14 +44,15 @@ object DatabaseEntityCreator {
     )
 
     val recipe3 = Recipe(
-        recipeId++,
-        "Nutella Toast",
-        "toast and nutella",
-        arrayListOf(
+        recipeId = recipeId++,
+        title = "Nutella Toast",
+        description = "toast and nutella",
+        url = "https://www.einfachbacken.de/sites/einfachbacken.de/files/styles/facebook/public/2020-01/french_toast_mit_nutella.jpg?h=4521fff0&itok=YdSpSTsN",
+        ingredients = arrayListOf(
             Ingredient("Nutella", edu.hm.foodweek.recipes.persistence.model.Unit(50, UnitScale.Gram)),
             Ingredient("Bread", edu.hm.foodweek.recipes.persistence.model.Unit(1, UnitScale.Pieces))
         ),
-        arrayListOf(
+        steps = arrayListOf(
             "take bread slice",
             "spread the nutella on the bread",
             "eat"
@@ -58,15 +60,16 @@ object DatabaseEntityCreator {
     )
 
     val recipe4 = Recipe(
-        recipeId++,
-        "cornflakes",
-        "cornflakes with milk",
-        arrayListOf(
+        recipeId = recipeId++,
+        title = "cornflakes",
+        description = "cornflakes with milk",
+        url = "https://www.lidl-kochen.de/images/recipe/17367/cornflakes-mit-milch-133578.jpg",
+        ingredients = arrayListOf(
             Ingredient("Cornflakes", edu.hm.foodweek.recipes.persistence.model.Unit(90, UnitScale.Gram)),
             Ingredient("Milk", edu.hm.foodweek.recipes.persistence.model.Unit(100, UnitScale.Millilitre)),
             Ingredient("Fruits", edu.hm.foodweek.recipes.persistence.model.Unit(50, UnitScale.Gram))
         ),
-        arrayListOf(
+        steps = arrayListOf(
             "optional: cut fruits",
             "put cornflakes and fruits in a bowl",
             "milk on it"
@@ -74,10 +77,11 @@ object DatabaseEntityCreator {
     )
 
     val recipe5 = Recipe(
-        recipeId++,
-        "Pizza",
-        "Basic Pizza",
-        arrayListOf(
+        recipeId = recipeId++,
+        title = "Pizza",
+        description = "Basic Pizza",
+        url = "https://www.delonghi.com/Global/recipes/multifry/pizza_fresca.jpg",
+        ingredients = arrayListOf(
             Ingredient("flour", edu.hm.foodweek.recipes.persistence.model.Unit(150, UnitScale.Gram)),
             Ingredient("yeast", edu.hm.foodweek.recipes.persistence.model.Unit(20, UnitScale.Millilitre)),
             Ingredient("sugar", edu.hm.foodweek.recipes.persistence.model.Unit(20, UnitScale.Gram)),
@@ -89,7 +93,7 @@ object DatabaseEntityCreator {
             Ingredient("cheese", edu.hm.foodweek.recipes.persistence.model.Unit(500, UnitScale.Gram)),
             Ingredient("herbs", edu.hm.foodweek.recipes.persistence.model.Unit(10, UnitScale.Gram))
         ),
-        arrayListOf(
+        steps = arrayListOf(
             "Dough: Take a bowl and put in the flour,yeast,sugar,salt,olive oil,water. Mix it for 10 Minutes",
             "Put a towel on the bowl and let the dough rest for 1h",
             "Sauce: mix tomatoes with herbs and garlic powder for 1 minute",
@@ -119,8 +123,11 @@ object DatabaseEntityCreator {
         true,
         listOf(
             Meal(WeekDay.MONDAY, MealTime.DINNER, recipe2.recipeId),
+            Meal(WeekDay.TUESDAY, MealTime.DINNER, recipe2.recipeId),
             Meal(WeekDay.WEDNESDAY, MealTime.DINNER, recipe2.recipeId),
+            Meal(WeekDay.THURSDAY, MealTime.LUNCH, recipe2.recipeId),
             Meal(WeekDay.FRIDAY, MealTime.DINNER, recipe2.recipeId),
+            Meal(WeekDay.SATURDAY, MealTime.LUNCH, recipe3.recipeId),
             Meal(WeekDay.SUNDAY, MealTime.DINNER, recipe2.recipeId),
             Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe5.recipeId)
         )

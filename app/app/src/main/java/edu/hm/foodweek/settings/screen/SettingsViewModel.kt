@@ -60,7 +60,7 @@ class SettingsViewModel(
 
     fun createMeal() {
         viewModelScope.launch {
-            recipeRepository.createRecipe(Recipe(0, "foo", "foo part twoo"))
+            recipeRepository.createRecipe(Recipe(0, "foo", "foo part twoo", ""))
             mealPlanRepository.createMealPlan(
                 MealPlan(
                     0,

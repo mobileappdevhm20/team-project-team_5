@@ -29,9 +29,7 @@ class WeekViewModel(
                     0,
                     "title 1",
                     "description",
-                    emptyList(),
-                    emptyList(),
-                    emptySet()
+                    ""
                 )
             )
         }

@@ -2,6 +2,7 @@
     <string name="app_name">FoodWeek</string>
     <string name="title_week">My Week</string>
     <string name="title_plan">Meal Plans</string>
+    <string name="title_plan_details">Meal Plans Details</string>
     <string name="title_shopping">Shopping List</string>
     <string name="title_settings">Settings</string>
 </resources>
