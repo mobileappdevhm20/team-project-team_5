@@ -118,7 +118,7 @@ object DatabaseEntityCreator {
         mealPlanId++,
         "tomato plan",
         "reuse all your tomatoes",
-        "www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
+        "http://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
         0,
         true,
         listOf(
@@ -137,7 +137,7 @@ object DatabaseEntityCreator {
         mealPlanId++,
         "Pizza all day long",
         "this is for the pizza lovers",
-        "www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
+        "http://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
         0,
         true,
         listOf(
