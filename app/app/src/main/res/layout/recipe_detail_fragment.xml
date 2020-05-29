@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="model"
+            type="edu.hm.foodweek.recipes.RecipeDetailViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/general_padding"
+        tools:context=".recipes.RecipeDetailFragment">
+
+        <TextView
+            android:id="@+id/recipe_title"
+            style="@style/TitleHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/title_padding"
+            android:text="@{model.title}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Recipe Title" />
+
+        <ImageView
+            android:id="@+id/image_preview"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/image_padding"
+            android:scaleType="centerCrop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipe_title"
+            tools:layout_height="180dp"
+            tools:layout_width="match_parent"
+            tools:src="@drawable/ic_no_image_found"
+            tools:tint="#000" />
+
+        <TextView
+            android:id="@+id/cooking_time_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cooking time: NoTime"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="@id/image_preview"
+            app:layout_constraintTop_toBottomOf="@id/image_preview" />
+
+        <TextView
+            android:id="@+id/ingredients_header"
+            style="@style/ListHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/title_padding"
+            android:text="@string/ingredients_list_header"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cooking_time_preview" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recipe_ingredients_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/list_identation"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ingredients_header" />
+
+        <TextView
+            android:id="@+id/preparation_header"
+            style="@style/ListHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/title_padding"
+            android:text="@string/steps_list_header"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipe_ingredients_list" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recipe_steps_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/list_identation"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/preparation_header" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -44,9 +44,26 @@
         <action
             android:id="@+id/action_navigation_settings_to_developerSettingsFragment"
             app:destination="@id/developerSettingsFragment" />
+        <action
+            android:id="@+id/action_navigation_settings_to_developerSettingsFragment2"
+            app:destination="@id/developerSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/developerSettingsFragment"
         android:name="edu.hm.foodweek.developersettings.DeveloperSettingsFragment"
-        android:label="DeveloperSettingsFragment" />
+        android:label="Developer Settings"
+        >
+        <action
+            android:id="@+id/action_developerSettingsFragment_to_recipeDetailFragment"
+            app:destination="@id/recipeDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeDetailFragment"
+        android:name="edu.hm.foodweek.recipes.RecipeDetailFragment"
+        tools:layout="@layout/recipe_detail_fragment" >
+        <argument
+            android:name="recipeId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
 </navigation>

@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import edu.hm.foodweek.developersettings.SettingsViewModelFactory
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.screen.PlanDetailsViewModelFactory
+import edu.hm.foodweek.recipes.RecipeDetailViewModel
+import edu.hm.foodweek.recipes.RecipeDetailViewModelFactory
 import edu.hm.foodweek.recipes.persistence.RecipeRepository
 import edu.hm.foodweek.settings.screen.SettingsViewModel
 import edu.hm.foodweek.week.screen.WeekViewModel
@@ -13,6 +15,7 @@ import edu.hm.foodweek.week.screen.WeekViewModelFactory
 object InjectorUtils {
 
     private var weekViewModel: WeekViewModel? = null
+    private var recipeDetailViewmodel: RecipeDetailViewModel? = null
     private var settingsViewModel: SettingsViewModel? = null
 
     private fun getRecipeRepository(context: Context): RecipeRepository {
@@ -33,7 +36,7 @@ object InjectorUtils {
         )
     }
 
-    fun providePlanDetailsModelFactory(
+    fun providePlanDetailsViewModelFactory(
         fragment: Fragment,
         mealPlanId: Long
     ): PlanDetailsViewModelFactory {
@@ -57,6 +60,14 @@ object InjectorUtils {
         )
     }
 
+    private fun provideRecipeDetailViewModelFactory(fragment: Fragment): RecipeDetailViewModelFactory {
+        val recipeRepository = getRecipeRepository(fragment.requireContext())
+        return RecipeDetailViewModelFactory(
+            recipeRepository,
+            fragment.requireActivity().application
+        )
+    }
+
     fun provideWeekViewModel(fragment: Fragment): WeekViewModel {
         if (weekViewModel == null) {
             weekViewModel = provideWeekViewModelFactory(fragment).create(WeekViewModel::class.java)
@@ -70,6 +81,13 @@ object InjectorUtils {
                 provideSettingsViewModelFactory(fragment).create(SettingsViewModel::class.java)
         }
         return settingsViewModel!!
+    }
+
+    fun provideRecipeDetailViewModel(fragment: Fragment): RecipeDetailViewModel {
+        if (recipeDetailViewmodel == null) {
+            recipeDetailViewmodel = provideRecipeDetailViewModelFactory(fragment).create(RecipeDetailViewModel::class.java)
+        }
+        return recipeDetailViewmodel!!
     }
 
 

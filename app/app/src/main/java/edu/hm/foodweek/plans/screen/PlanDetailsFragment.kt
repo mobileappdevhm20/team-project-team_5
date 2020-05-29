@@ -20,7 +20,7 @@ class PlanDetailsFragment : Fragment() {
 
     private val args: PlanDetailsFragmentArgs by navArgs()
     private val viewModel: PlanDetailsViewModel by viewModels {
-        InjectorUtils.providePlanDetailsModelFactory(this, args.mealPlanId)
+        InjectorUtils.providePlanDetailsViewModelFactory(this, args.mealPlanId)
     }
     private lateinit var mAdapter: PlanTimelineAdapter
     private lateinit var mLayoutManager: LinearLayoutManager

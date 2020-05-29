@@ -8,7 +8,10 @@ import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.plans.persistence.model.MealTime
 import edu.hm.foodweek.plans.persistence.model.WeekDay
 import edu.hm.foodweek.recipes.persistence.RecipeRepository
+import edu.hm.foodweek.recipes.persistence.model.Ingredient
 import edu.hm.foodweek.recipes.persistence.model.Recipe
+import edu.hm.foodweek.recipes.persistence.model.Unit
+import edu.hm.foodweek.recipes.persistence.model.UnitScale
 import edu.hm.foodweek.util.extensions.combineLatest
 import edu.hm.foodweek.util.extensions.map
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +63,26 @@ class SettingsViewModel(
 
     fun createMeal() {
         viewModelScope.launch {
-            recipeRepository.createRecipe(Recipe(0, "foo", "foo part twoo", ""))
+            recipeRepository.createRecipe(
+                Recipe(
+                    0,
+                    "Tomato Dipp with Bread",
+                    "The best way to use old tomatoes",
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Recipe_Unlimited_logo.png/320px-Recipe_Unlimited_logo.png",
+                    arrayListOf(
+                        Ingredient("tomato", Unit(3, UnitScale.Pieces)),
+                        Ingredient("Bread", Unit(1, UnitScale.KiloGram))
+                    ),
+                    arrayListOf(
+                        "munch those lucky tomatoes",
+                        "heat them in the microwave for 3 minutes",
+                        "cut bread into slices",
+                        "toast them",
+                        "dipp them in the tomato sausage",
+                        "enjoy"
+                    )
+                )
+            )
             mealPlanRepository.createMealPlan(
                 MealPlan(
                     0,

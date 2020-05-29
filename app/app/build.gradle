@@ -8,6 +8,10 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    dataBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "edu.hm.foodweek"
         minSdkVersion 21
@@ -36,21 +40,8 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
-    dataBinding {
-        enabled = true
-    }
-
 }
 
-// Used for type safe args
-allprojects {
-    gradle.projectsEvaluated {
-        tasks.withType(JavaCompile) {
-            options.compilerArgs << "-Xlint:unchecked"
-        }
-    }
-}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -64,25 +55,29 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation "androidx.recyclerview:recyclerview:1.1.0"
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
-    // Glide
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-
     // Serialization
     implementation 'com.google.code.gson:gson:2.8.6'
 
     // Live Data
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha03'
+
+    //recyclerview
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    /* Glide dependencies */
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     // Timeline
     implementation 'com.github.vipulasri:timelineview:1.1.4'
