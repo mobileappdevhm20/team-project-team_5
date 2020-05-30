@@ -108,7 +108,7 @@ object DatabaseEntityCreator {
         mealPlanId++,
         "Inital Title",
         "Inital description",
-        "UTL",
+        "http://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
         1,
         true,
         listOf(recipe1).map { recipe -> Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe.recipeId) }

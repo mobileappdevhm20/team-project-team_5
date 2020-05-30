@@ -9,4 +9,16 @@
     <string name="recipe_not_found">recipe not found:</string>
     <string name="ingredients_list_header">Ingredients</string>
     <string name="steps_list_header">Preparation</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_bar_browse">Browse</string>
+    <string name="tab_bar_manage">Manage</string>
+    <string name="main_image_of_recipe">Main Image of Recipe</string>
+    <string name="share_button_icon">Share Button Icon</string>
+    <string name="favorite_button_icon">Favorite Button Icon</string>
+    <string name="pie_chart">Pie Chart</string>
+    <string name="edit_your_meal_plan">Edit your meal plan</string>
+    <string name="assign_this_meal_plan_to_a_week">Assign this meal plan to a week</string>
+    <string name="remove_this_meal_plan_from_your_list">Remove this meal plan from your list</string>
 </resources>

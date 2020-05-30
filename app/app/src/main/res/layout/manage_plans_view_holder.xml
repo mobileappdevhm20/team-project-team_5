@@ -1,0 +1,78 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/plans_view_holder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="25dp"
+    android:layout_marginEnd="25dp"
+    android:layout_marginBottom="16dp"
+    android:background="@drawable/meal_plan_card_drawable"
+    android:elevation="4dp"
+    android:orientation="vertical"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <ImageView
+        android:id="@+id/recipe_plan_picture"
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        android:contentDescription="@string/main_image_of_recipe"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/recipe_plan_text"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/black"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@+id/recipe_plan_picture" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="end">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/ic_pie_chart_black_24dp"
+                android:contentDescription="@string/pie_chart" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/ic_mode_edit_black_24dp"
+                android:contentDescription="@string/edit_your_meal_plan" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/ic_perm_contact_calendar_black_24dp"
+                android:contentDescription="@string/assign_this_meal_plan_to_a_week" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/ic_delete_black_24dp"
+                android:contentDescription="@string/remove_this_meal_plan_from_your_list" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

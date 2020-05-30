@@ -23,6 +23,14 @@ class MealPlanRepository(context: Context) {
         return dao.getMealPlanNoLiveData(id)
     }
 
+    fun getMealPlanCreatedByUser(userId: Long): LiveData<List<MealPlan>>{
+        return dao.getMealPlanCreatedByUser(userId)
+    }
+
+    fun getMealPlanCreatedByUserNoLiveData(userId: Long): List<MealPlan>{
+        return dao.getMealPlanCreatedByUserNoLiveData(userId)
+    }
+
     suspend fun createMealPlan(mealPlan: MealPlan) {
          dao.createMealPlan(mealPlan)
     }

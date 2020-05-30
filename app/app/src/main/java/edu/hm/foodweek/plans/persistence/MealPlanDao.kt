@@ -19,6 +19,13 @@ interface MealPlanDao {
     @Query("SELECT * FROM MealPlan where planId = :id ")
     fun getMealPlanNoLiveData(id: Long): MealPlan
 
+    @Transaction
+    @Query("SELECT * FROM MealPlan where creatorId = :id ")
+    fun getMealPlanCreatedByUser(id: Long): LiveData<List<MealPlan>>
+
+    @Transaction
+    @Query("SELECT * FROM MealPlan where creatorId = :id ")
+    fun getMealPlanCreatedByUserNoLiveData(id: Long): List<MealPlan>
 
     @Insert
     suspend fun createMealPlan(mealPlan: MealPlan): Long
