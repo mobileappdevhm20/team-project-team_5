@@ -6,18 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import edu.hm.foodweek.R
-import edu.hm.foodweek.util.InjectorUtils
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WeekFragment : Fragment() {
 
-    private lateinit var viewModel: WeekViewModel
+    private val viewModel: WeekViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = InjectorUtils.provideWeekViewModel(this)
         return inflater.inflate(R.layout.fragment_week, container, false)
     }
 }

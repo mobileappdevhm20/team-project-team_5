@@ -108,17 +108,23 @@ object DatabaseEntityCreator {
         mealPlanId++,
         "Inital Title",
         "Inital description",
-        "http://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
+        "https://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
         1,
         true,
-        listOf(recipe1).map { recipe -> Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe.recipeId) }
+        listOf(recipe1).map { recipe ->
+            Meal(
+                WeekDay.getRandom(),
+                MealTime.getRandom(),
+                recipe.recipeId
+            )
+        }
     )
 
     val mealplan2 = MealPlan(
         mealPlanId++,
         "tomato plan",
         "reuse all your tomatoes",
-        "http://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
+        "https://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
         0,
         true,
         listOf(
@@ -137,7 +143,7 @@ object DatabaseEntityCreator {
         mealPlanId++,
         "Pizza all day long",
         "this is for the pizza lovers",
-        "http://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
+        "https://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
         0,
         true,
         listOf(

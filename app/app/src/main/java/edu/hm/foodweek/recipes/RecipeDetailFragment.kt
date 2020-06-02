@@ -2,12 +2,12 @@ package edu.hm.foodweek.recipes
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,18 +16,17 @@ import edu.hm.foodweek.R
 import edu.hm.foodweek.databinding.FragmentRecipeNotFoundBinding
 import edu.hm.foodweek.databinding.RecipeDetailFragmentBinding
 import edu.hm.foodweek.recipes.persistence.model.Ingredient
-import edu.hm.foodweek.util.InjectorUtils
 import kotlinx.android.synthetic.main.ingredient_list_item.view.*
 import kotlinx.android.synthetic.main.step_list_item.view.*
-import java.lang.StringBuilder
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RecipeDetailFragment : Fragment() {
 
-    private lateinit var viewModel: RecipeDetailViewModel
+    private val viewModel: RecipeDetailViewModel by viewModel()
+
     private var recipeId = 0L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = InjectorUtils.provideRecipeDetailViewModel(this)
         recipeId = arguments?.getLong(RECIPE_ID_PARAM) ?: 0L
         Log.d("RecipeDetailFragment", "recipe Id: $recipeId")
         viewModel.recipeId.postValue(recipeId)

@@ -1,13 +1,11 @@
 package edu.hm.foodweek.recipes.persistence
 
-import android.content.Context
 import androidx.lifecycle.LiveData
-import edu.hm.foodweek.FoodWeekDatabase
+import edu.hm.foodweek.plans.persistence.RecipeDao
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 
+class RecipeRepository(private val dao: RecipeDao) {
 
-class RecipeRepository(context: Context) {
-    val dao = FoodWeekDatabase.getInstance(context).recipeDao()
     fun getAllRecipes(): LiveData<List<Recipe>> {
         return dao.getAllRecipe()
     }
@@ -16,7 +14,7 @@ class RecipeRepository(context: Context) {
         return dao.getRecipe(id)
     }
 
-    suspend fun getRecipeById(id:Long):Recipe{
+    suspend fun getRecipeById(id: Long): Recipe {
         return dao.getRecipeNoLiveData(id)
     }
 
@@ -30,22 +28,5 @@ class RecipeRepository(context: Context) {
 
     suspend fun updateRecipe(recipe: Recipe) {
         dao.updateRecipe(recipe)
-    }
-
-    companion object {
-        private var instance: RecipeRepository? = null
-
-        @Synchronized
-        private fun createInstance(context: Context) {
-            if (instance == null) {
-                instance =
-                    RecipeRepository(context)
-            }
-        }
-
-        fun getInstance(context: Context): RecipeRepository {
-            if (instance == null) createInstance(context)
-            return instance!!
-        }
     }
 }
