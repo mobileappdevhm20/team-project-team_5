@@ -10,14 +10,14 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import edu.hm.foodweek.R
 import edu.hm.foodweek.databinding.FragmentManagePlansBinding
-import edu.hm.foodweek.util.InjectorUtils
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * A simple [Fragment] subclass.
  */
 class ManagePlansFragment : Fragment() {
 
-    private lateinit var mealPlanViewModel: MealPlanViewModel
+    private val mealPlanViewModel: MealPlanViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +29,6 @@ class ManagePlansFragment : Fragment() {
             container,
             false
         )
-        mealPlanViewModel = InjectorUtils.provideMealPlanViewModel(this)
         binding.viewModel = mealPlanViewModel
 
         // Navigate to details view on Card-Image click

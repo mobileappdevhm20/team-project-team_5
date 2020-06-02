@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -17,20 +16,18 @@ import edu.hm.foodweek.R
 import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.recipes.RecipeDetailFragment
 import edu.hm.foodweek.settings.screen.SettingsViewModel
-import edu.hm.foodweek.util.InjectorUtils
 import kotlinx.android.synthetic.main.fragment_developer_settings.view.*
-import java.lang.StringBuilder
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DeveloperSettingsFragment : Fragment() {
 
-    private lateinit var settingsViewModel: SettingsViewModel
+    private val settingsViewModel: SettingsViewModel by viewModel()
     private lateinit var navController: NavController
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        settingsViewModel = InjectorUtils.provideSettingsViewModel(this)
         val rootView = inflater.inflate(R.layout.fragment_developer_settings, container, false)
         navController = NavHostFragment.findNavController(this)
 
