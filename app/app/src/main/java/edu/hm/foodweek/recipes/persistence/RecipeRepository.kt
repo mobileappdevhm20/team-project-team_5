@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import edu.hm.foodweek.plans.persistence.RecipeDao
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 
-class RecipeRepository(private val dao: RecipeDao) {
+open class RecipeRepository(private val dao: RecipeDao) {
 
     fun getAllRecipes(): LiveData<List<Recipe>> {
         return dao.getAllRecipe()

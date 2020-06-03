@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import edu.hm.foodweek.plans.persistence.model.MealPlan
 
 
-class MealPlanRepository(private val dao: MealPlanDao) {
+open class MealPlanRepository(private val dao: MealPlanDao) {
 
     fun getLiveDataAllMealPlans(): LiveData<List<MealPlan>> {
         return dao.getAllMealPlans()
@@ -18,16 +18,16 @@ class MealPlanRepository(private val dao: MealPlanDao) {
         return dao.getMealPlanNoLiveData(id)
     }
 
-    fun getMealPlanCreatedByUser(userId: Long): LiveData<List<MealPlan>>{
+    fun getMealPlanCreatedByUser(userId: Long): LiveData<List<MealPlan>> {
         return dao.getMealPlanCreatedByUser(userId)
     }
 
-    fun getMealPlanCreatedByUserNoLiveData(userId: Long): List<MealPlan>{
+    fun getMealPlanCreatedByUserNoLiveData(userId: Long): List<MealPlan> {
         return dao.getMealPlanCreatedByUserNoLiveData(userId)
     }
 
     suspend fun createMealPlan(mealPlan: MealPlan) {
-         dao.createMealPlan(mealPlan)
+        dao.createMealPlan(mealPlan)
     }
 
     suspend fun deleteMealPlan(mealPlan: MealPlan) {

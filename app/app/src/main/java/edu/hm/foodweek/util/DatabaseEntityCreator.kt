@@ -111,13 +111,9 @@ object DatabaseEntityCreator {
         "https://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
         1,
         true,
-        listOf(recipe1).map { recipe ->
-            Meal(
-                WeekDay.getRandom(),
-                MealTime.getRandom(),
-                recipe.recipeId
-            )
-        }
+        listOf(
+            Meal(WeekDay.MONDAY, MealTime.DINNER, recipe2.recipeId)
+        )
     )
 
     val mealplan2 = MealPlan(

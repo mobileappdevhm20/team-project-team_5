@@ -1,10 +1,7 @@
 package edu.hm.foodweek.plans.screen
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.liveData
-import androidx.lifecycle.map
-import androidx.lifecycle.switchMap
+import androidx.lifecycle.*
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.persistence.model.Meal
 import edu.hm.foodweek.plans.persistence.model.MealPlan
@@ -23,7 +20,7 @@ class PlanDetailsViewModel(
 
     private val mealPlan = mealPlanRepository.getLiveDataMealPlanById(mealPlanId)
 
-    val items = mealPlan
+    val items: LiveData<List<PlanTimelineItem>> = mealPlan
         // Load recipe for each meal
         .switchMap { mealPlan -> liveData { emit(loadRecipes(mealPlan)) } }
         // Group by day
@@ -34,8 +31,7 @@ class PlanDetailsViewModel(
         .map { byDayAndTime ->
             byDayAndTime.mapValues { byTime ->
                 byTime.value.mapValues { mealsWithRecipe ->
-                    mealsWithRecipe.value.filter { it.second.url.isNotBlank() }.map { it.second }
-                        .first()
+                    mealsWithRecipe.value.map { it.second }.first()
                 }
             }
         }
@@ -60,14 +56,13 @@ class PlanDetailsViewModel(
                 }
         }
 
-    private suspend fun loadRecipes(plan: MealPlan?): List<Pair<Meal, Recipe>> =
+    private suspend fun loadRecipes(plan: MealPlan): List<Pair<Meal, Recipe>> =
         withContext(Dispatchers.IO) {
-            return@withContext plan?.meals?.map { meal ->
+            return@withContext plan.meals.map { meal ->
                 Pair(
                     meal,
                     recipeRepository.getRecipeById(meal.recipeId)
                 )
             }
-                ?: emptyList()
         }
 }
