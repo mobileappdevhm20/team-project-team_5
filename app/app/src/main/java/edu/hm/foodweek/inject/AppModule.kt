@@ -52,8 +52,14 @@ val appModule = module {
             androidApplication()
         )
     }
+    viewModel { (id: Long) ->
+        RecipeDetailViewModel(
+            id,
+            get(),
+            androidApplication()
+        )
+    }
     viewModel { MealPlanViewModel(get(), androidApplication()) }
-    viewModel { RecipeDetailViewModel(get(), androidApplication()) }
     viewModel { SettingsViewModel(get(), get(), androidApplication()) }
 
 

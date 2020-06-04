@@ -9,39 +9,27 @@ import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import edu.hm.foodweek.R
-import edu.hm.foodweek.databinding.FragmentRecipeNotFoundBinding
 import edu.hm.foodweek.databinding.RecipeDetailFragmentBinding
 import edu.hm.foodweek.recipes.persistence.model.Ingredient
 import kotlinx.android.synthetic.main.ingredient_list_item.view.*
 import kotlinx.android.synthetic.main.step_list_item.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class RecipeDetailFragment : Fragment() {
-
-    private val viewModel: RecipeDetailViewModel by viewModel()
-
-    private var recipeId = 0L
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        recipeId = arguments?.getLong(RECIPE_ID_PARAM) ?: 0L
-        Log.d("RecipeDetailFragment", "recipe Id: $recipeId")
-        viewModel.recipeId.postValue(recipeId)
-    }
+    private val args: RecipeDetailFragmentArgs by navArgs()
+    private val viewModel: RecipeDetailViewModel by viewModel { parametersOf(args.recipeId) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (recipeId == 0L) {
-            val binding = DataBindingUtil.inflate<FragmentRecipeNotFoundBinding>(layoutInflater, R.layout.fragment_recipe_not_found, container, false)
-            binding.model = viewModel
-            binding.lifecycleOwner = viewLifecycleOwner
-            return binding.root
-        }
+        Log.i("RecipeDetailFragment", "recipeId by args: ${args.recipeId}")
         val binding = DataBindingUtil.inflate<RecipeDetailFragmentBinding>(layoutInflater, R.layout.recipe_detail_fragment, container, false)
         binding.model = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -58,22 +46,16 @@ class RecipeDetailFragment : Fragment() {
         viewModel.title.observe(viewLifecycleOwner, Observer {
             activity?.title = it.toString()
         })
-        Glide
-            .with(binding.imagePreview.context)
-            .load(getString(R.string.default_recipe_image))
-            .into(binding.imagePreview)
-            .onLoadFailed(resources.getDrawable(R.drawable.ic_no_image_found, null))
+        viewModel.url.observe(viewLifecycleOwner, Observer {
+            Glide
+                .with(binding.imagePreview.context)
+                .load(it)
+                .centerCrop()
+                .into(binding.imagePreview)
+                .onLoadFailed(resources.getDrawable(R.drawable.ic_no_image_found, null))
+        })
 
         return binding.root
-    }
-
-    companion object {
-        @JvmStatic
-        val RECIPE_ID_PARAM = "recipeId"
-
-        fun createBundle(recipeId: Long): Bundle {
-            return bundleOf(RECIPE_ID_PARAM to recipeId)
-        }
     }
 }
 

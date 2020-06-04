@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import edu.hm.foodweek.R
 import edu.hm.foodweek.plans.persistence.model.MealPlan
+import edu.hm.foodweek.plans.screen.PlanFragmentDirections
 import edu.hm.foodweek.recipes.RecipeDetailFragment
 import edu.hm.foodweek.settings.screen.SettingsViewModel
 import kotlinx.android.synthetic.main.fragment_developer_settings.view.*
@@ -49,8 +51,11 @@ class DeveloperSettingsFragment : Fragment() {
         }
 
         rootView.btn_go_to_recipe.setOnClickListener {
+            /*
             val bundle = RecipeDetailFragment.createBundle(1L)
-            navController.navigate(R.id.action_developerSettingsFragment_to_recipeDetailFragment, bundle)
+            navController.navigate(R.id.action_developerSettingsFragment_to_recipeDetailFragment, bundle)*/
+            val action = DeveloperSettingsFragmentDirections.startRecipeDetails(2L)
+            findNavController().navigate(action)
         }
     }
 

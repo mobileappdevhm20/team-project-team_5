@@ -52,6 +52,9 @@
         <argument
             android:name="dayId"
             app:argType="string" />
+        <action
+            android:id="@+id/showRecipeDetail"
+            app:destination="@id/recipeDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_shopping"
@@ -73,19 +76,18 @@
     <fragment
         android:id="@+id/developerSettingsFragment"
         android:name="edu.hm.foodweek.developersettings.DeveloperSettingsFragment"
-        android:label="Developer Settings"
-        >
+        android:label="Developer Settings">
         <action
-            android:id="@+id/action_developerSettingsFragment_to_recipeDetailFragment"
-            app:destination="@id/recipeDetailFragment" />
+            android:id="@+id/startRecipeDetails"
+            app:destination="@id/recipeDetailFragment">
+        </action>
     </fragment>
     <fragment
         android:id="@+id/recipeDetailFragment"
         android:name="edu.hm.foodweek.recipes.RecipeDetailFragment"
-        tools:layout="@layout/recipe_detail_fragment" >
+        tools:layout="@layout/recipe_detail_fragment">
         <argument
             android:name="recipeId"
-            app:argType="long"
-            android:defaultValue="-1L" />
+            app:argType="long" />
     </fragment>
 </navigation>

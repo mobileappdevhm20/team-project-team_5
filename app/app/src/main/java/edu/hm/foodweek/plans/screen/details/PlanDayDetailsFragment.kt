@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -47,7 +48,8 @@ class PlanDayDetailsFragment : Fragment() {
 
         // Init recipe click listener
         val onRecipeClicked = { recipe: Recipe ->
-            Log.i("PlanDayDetailFragment", "Clicked recipe: $recipe")
+            val action = PlanDayDetailsFragmentDirections.showRecipeDetail(recipe.recipeId)
+            findNavController().navigate(action)
             Unit
         }
 

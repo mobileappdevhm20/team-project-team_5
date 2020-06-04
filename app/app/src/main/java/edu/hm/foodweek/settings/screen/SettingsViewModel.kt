@@ -24,6 +24,8 @@ class SettingsViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
+    val text = "This is the Settings fragment"
+
     val allMealPlans = mealPlanRepository.getLiveDataAllMealPlans()
 
     val selectedIndex = MutableLiveData<Int>().apply { value = 0 }
