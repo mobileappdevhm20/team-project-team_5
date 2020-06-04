@@ -3,16 +3,16 @@ package edu.hm.foodweek.plans.screen
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import edu.hm.foodweek.getOrAwaitValue
 import edu.hm.foodweek.inject.appModule
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.persistence.model.WeekDay
+import edu.hm.foodweek.plans.screen.details.PlanDetailsItem
+import edu.hm.foodweek.plans.screen.details.PlanDetailsViewModel
 import edu.hm.foodweek.recipes.persistence.RecipeRepository
 import edu.hm.foodweek.util.DatabaseEntityCreator.createMealPlans
 import edu.hm.foodweek.util.DatabaseEntityCreator.recipe2
 import io.mockk.*
-import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.newSingleThreadContext
@@ -34,9 +34,6 @@ class PlanDetailsViewModelTest : KoinTest, Application() {
     @Rule
     @JvmField
     var instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
-
-    @MockK
-    lateinit var observer: Observer<List<PlanTimelineItem>>
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
@@ -78,7 +75,7 @@ class PlanDetailsViewModelTest : KoinTest, Application() {
             val viewModel: PlanDetailsViewModel = get(parameters = { parametersOf(0) })
             val mealPlanItems = viewModel.items.getOrAwaitValue()
             val want = listOf(
-                PlanTimelineItem(
+                PlanDetailsItem(
                     day = WeekDay.MONDAY,
                     dishImageURL = "https://icons.iconarchive.com/icons/papirus-team/papirus-status/512/image-missing-icon.png",
                     breakfastTitle = "-",

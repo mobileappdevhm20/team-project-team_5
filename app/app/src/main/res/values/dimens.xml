@@ -6,4 +6,19 @@
     <dimen name="general_padding">12dp</dimen>
     <dimen name="image_padding">8dp</dimen>
     <dimen name="list_identation">4dp</dimen>
+
+    <!-- Plan Details fragment -->
+    <dimen name="fragment_plan_details_margin_bottom">40dp</dimen>
+    <dimen name="fragment_plan_details_padding">30dp</dimen>
+
+    <!-- Plan Details Timeline -->
+    <dimen name="timeline_line_width">3dp</dimen>
+    <dimen name="timeline_marker_size" />
+    <dimen name="timeline_item_text_start_margin">20dp</dimen>
+    <dimen name="timeline_item_header_text_size">20dp</dimen>
+    <dimen name="timeline_item_body_text_size">14sp</dimen>
+    <dimen name="timeline_content_margin_top">15dp</dimen>
+    <dimen name="timeline_content_margin_bottom">15dp</dimen>
+    <dimen name="timeline_content_margin_start">25dp</dimen>
+    <dimen name="timeline_content_margin_end">5dp</dimen>
 </resources>

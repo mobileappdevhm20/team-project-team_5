@@ -24,12 +24,34 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_plan_details"
-        android:name="edu.hm.foodweek.plans.screen.PlanDetailsFragment"
+        android:name="edu.hm.foodweek.plans.screen.details.PlanDetailsFragment"
         android:label="@string/title_plan_details"
         tools:layout="@layout/fragment_plan_details">
         <argument
             android:name="mealPlanId"
             app:argType="long" />
+        <action
+            android:id="@+id/startPlanDayDetails"
+            app:destination="@+id/navigation_plan_day_details">
+            <argument
+                android:name="mealPlanId"
+                app:argType="long" />
+            <argument
+                android:name="dayId"
+                app:argType="string" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_plan_day_details"
+        android:name="edu.hm.foodweek.plans.screen.details.PlanDayDetailsFragment"
+        android:label="@string/title_plan_details"
+        tools:layout="@layout/fragment_plan_details">
+        <argument
+            android:name="mealPlanId"
+            app:argType="long" />
+        <argument
+            android:name="dayId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/navigation_shopping"

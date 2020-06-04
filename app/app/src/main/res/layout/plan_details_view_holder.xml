@@ -3,27 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
     android:orientation="horizontal">
 
     <com.github.vipulasri.timelineview.TimelineView
         android:id="@+id/timeline"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:markerSize="20dp"
-        app:lineWidth="3dp"
-        app:startLineColor="@color/colorAccent"
         app:endLineColor="@color/colorAccent"
-        app:lineStyle="dash" />
+        app:lineStyle="dash"
+        app:lineWidth="@dimen/timeline_line_width"
+        app:markerSize="@dimen/timeline_marker_size"
+        app:startLineColor="@color/colorAccent" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginTop="@dimen/timeline_content_margin_top"
+        android:layout_marginBottom="@dimen/timeline_content_margin_bottom"
+        android:layout_marginStart="@dimen/timeline_content_margin_start"
+        android:layout_marginEnd="@dimen/timeline_content_margin_end"
         android:layout_gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -38,35 +36,38 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/timeline_item_text_start_margin"
             android:layout_weight="1"
-            android:layout_marginStart="20dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/day_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="20dp"
-                android:text="Monday" />
+                android:text="Monday"
+                android:textSize="@dimen/timeline_item_header_text_size"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/breakfast_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Breakfast" />
+                android:text="Breakfast"
+                android:textSize="@dimen/timeline_item_body_text_size" />
 
             <TextView
                 android:id="@+id/lunch_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lunch" />
+                android:text="Lunch"
+                android:textSize="@dimen/timeline_item_body_text_size" />
 
             <TextView
                 android:id="@+id/dinner_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dinner" />
+                android:text="Dinner"
+                android:textSize="@dimen/timeline_item_body_text_size" />
         </LinearLayout>
     </LinearLayout>
 

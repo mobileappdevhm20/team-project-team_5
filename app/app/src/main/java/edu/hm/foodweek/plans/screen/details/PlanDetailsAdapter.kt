@@ -1,4 +1,4 @@
-package edu.hm.foodweek.plans.screen
+package edu.hm.foodweek.plans.screen.details
 
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -11,20 +11,13 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import com.github.vipulasri.timelineview.TimelineView
 import edu.hm.foodweek.R
 import edu.hm.foodweek.plans.persistence.model.WeekDay
-import kotlinx.android.synthetic.main.day_meals_timeline_entry.view.*
+import kotlinx.android.synthetic.main.plan_details_view_holder.view.*
 
-data class PlanTimelineItem(
-    val day: WeekDay,
-    val dishImageURL: String,
-    val breakfastTitle: String,
-    val lunchTitle: String,
-    val dinnerTitle: String
-)
-
-class PlanTimelineAdapter(
-    private val mFeedList: List<PlanTimelineItem>,
-    val request: RequestBuilder<Drawable>
-) : RecyclerView.Adapter<PlanTimelineAdapter.PlanTimelineViewHolder>() {
+class PlanDetailsAdapter(
+    private val mFeedList: List<PlanDetailsItem>,
+    val request: RequestBuilder<Drawable>,
+    private val onDayClicked: (WeekDay) -> Unit
+) : RecyclerView.Adapter<PlanDetailsAdapter.PlanTimelineViewHolder>() {
     private lateinit var mLayoutInflater: LayoutInflater
 
     override fun getItemViewType(position: Int): Int {
@@ -38,7 +31,7 @@ class PlanTimelineAdapter(
 
         return PlanTimelineViewHolder(
             mLayoutInflater.inflate(
-                R.layout.day_meals_timeline_entry,
+                R.layout.plan_details_view_holder,
                 parent,
                 false
             ), viewType
@@ -59,6 +52,10 @@ class PlanTimelineAdapter(
         holder.breakfastTitle.text = day.breakfastTitle
         holder.lunchTitle.text = day.lunchTitle
         holder.dinnerTitle.text = day.dinnerTitle
+
+        holder.imageView.setOnClickListener {
+            onDayClicked(day.day)
+        }
     }
 
     override fun getItemCount() = mFeedList.size

@@ -3,7 +3,6 @@ package edu.hm.foodweek.plans.screen
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import edu.hm.foodweek.getOrAwaitValue
 import edu.hm.foodweek.inject.appModule
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
@@ -12,7 +11,6 @@ import edu.hm.foodweek.util.DatabaseEntityCreator.mealplan2
 import edu.hm.foodweek.util.DatabaseEntityCreator.mealplan3
 import io.mockk.MockKAnnotations
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.mockkClass
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
@@ -39,9 +37,6 @@ class MealPlanViewModelTest : KoinTest, Application() {
     @Rule
     @JvmField
     var instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
-
-    @MockK
-    lateinit var observer: Observer<List<PlanTimelineItem>>
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
