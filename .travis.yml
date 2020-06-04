@@ -26,6 +26,8 @@ android:
     - extra-google-m2repository
     - extra-android-m2repository
     - addon-google_apis-google-$ANDROID_API_LEVEL
+    - $ANDROID_TARGET
+    - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -42,18 +44,22 @@ before_script:
   - chmod +x gradlew
 
 stages:
-  - compile
-  - test
+  - build
   - name: deploy
     if:  (branch = master) AND (NOT (type IN (push, pull_request)))
 
 jobs:
   include:
-    - stage: compile
-      script: ./gradlew assembleDebug
-    - stage: test
-      script:
-        - ./gradlew build assembleAndroidTest
+    - stage: build
+      script: 
+      - ./gradlew build jacocoTestReport assembleAndroidTest
+      - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+      - emulator -avd test -no-skin -no-audio -no-window &
+      - android-wait-for-emulator
+      - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
+      - ./gradlew connectedCheck
+      after_success:
+      - bash <(curl -s https://codecov.io/bash)
     - stage: deploy
       deploy:
         provider: releases
