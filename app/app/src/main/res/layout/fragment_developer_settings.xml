@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <Spinner
+            android:id="@+id/meal_plan_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
+
+        <TextView
+            android:id="@+id/meal_plan_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="default_text" />
+
+        <TextView
+            android:id="@+id/recipe_list_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_add_meal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="create new mealplan" />
+
+    <Button
+        android:id="@+id/btn_go_to_recipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="go to recipe 2" />
+
+</LinearLayout>
+
+
+</ScrollView>

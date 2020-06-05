@@ -1,0 +1,312 @@
+{
+  "mealplans": [
+    {
+      "title": "MealPlan 1",
+      "creator": "user@email.com",
+      "week": [
+        {
+          "weekday": "Monday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle1",
+              "lunch": "recipetitle2",
+              "dinner": "recipetitle3"
+            }
+          ]
+        },
+        {
+          "weekday": "Tuesday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle4",
+              "lunch": "recipetitle5",
+              "dinner": "recipetitle6"
+            }
+          ]
+        },
+        {
+          "weekday": "Wednesday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle7",
+              "lunch": "recipetitle8",
+              "dinner": "recipetitle9"
+            }
+          ]
+        },
+        {
+          "weekday": "Thursday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle10",
+              "lunch": "recipetitle11",
+              "dinner": "recipetitle12"
+            }
+          ]
+        },
+        {
+          "weekday": "Friday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle13",
+              "lunch": "recipetitle14",
+              "dinner": "recipetitle15"
+            }
+          ]
+        },
+        {
+          "weekday": "Saturday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle16",
+              "lunch": "recipetitle17",
+              "dinner": "recipetitle18"
+            }
+          ]
+        },
+        {
+          "weekday": "Sunday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle19",
+              "lunch": "recipetitle20",
+              "dinner": "recipetitle21"
+            }
+          ]
+        }
+      ],
+      "draft": false
+    },
+    {
+      "title": "MealPlan 2",
+      "creator": "user2@email.com",
+      "week": [
+        {
+          "weekday": "Monday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle13",
+              "lunch": "recipetitle12",
+              "dinner": "recipetitle3"
+            }
+          ]
+        },
+        {
+          "weekday": "Tuesday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle14",
+              "lunch": "recipetitle5",
+              "dinner": "recipetitle16"
+            }
+          ]
+        },
+        {
+          "weekday": "Wednesday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle17",
+              "lunch": "recipetitle18",
+              "dinner": "recipetitle9"
+            }
+          ]
+        },
+        {
+          "weekday": "Thursday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle10",
+              "lunch": "recipetitle11",
+              "dinner": "recipetitle12"
+            }
+          ]
+        },
+        {
+          "weekday": "Friday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle13",
+              "lunch": "recipetitle14",
+              "dinner": "recipetitle15"
+            }
+          ]
+        },
+        {
+          "weekday": "Saturday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle16",
+              "lunch": "recipetitle17",
+              "dinner": "recipetitle18"
+            }
+          ]
+        },
+        {
+          "weekday": "Sunday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle19",
+              "lunch": "recipetitle20",
+              "dinner": "recipetitle21"
+            }
+          ]
+        }
+      ],
+      "draft": false
+    },
+    {
+      "title": "MealPlan 3",
+      "creator": "user3@email.com",
+      "week": [
+        {
+          "weekday": "Monday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle21",
+              "lunch": "recipetitle20",
+              "dinner": "recipetitle19"
+            }
+          ]
+        },
+        {
+          "weekday": "Tuesday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle18",
+              "lunch": "recipetitle17",
+              "dinner": "recipetitle16"
+            }
+          ]
+        },
+        {
+          "weekday": "Wednesday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle15",
+              "lunch": "recipetitle14",
+              "dinner": "recipetitle13"
+            }
+          ]
+        },
+        {
+          "weekday": "Thursday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle12",
+              "lunch": "recipetitle11",
+              "dinner": "recipetitle10"
+            }
+          ]
+        },
+        {
+          "weekday": "Friday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle9",
+              "lunch": "recipetitle8",
+              "dinner": "recipetitle7"
+            }
+          ]
+        },
+        {
+          "weekday": "Saturday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle6",
+              "lunch": "recipetitle5",
+              "dinner": "recipetitle4"
+            }
+          ]
+        },
+        {
+          "weekday": "Sunday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle3",
+              "lunch": "recipetitle2",
+              "dinner": "recipetitle1"
+            }
+          ]
+        }
+      ],
+      "draft": false
+    },
+    {
+      "title": "MealPlan 4",
+      "creator": "user4@email.com",
+      "week": [
+        {
+          "weekday": "Monday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle1",
+              "lunch": "recipetitle2",
+              "dinner": "recipetitle3"
+            }
+          ]
+        },
+        {
+          "weekday": "Tuesday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle4",
+              "lunch": "recipetitle5",
+              "dinner": "recipetitle6"
+            }
+          ]
+        },
+        {
+          "weekday": "Wednesday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle7",
+              "lunch": "recipetitle8",
+              "dinner": "recipetitle9"
+            }
+          ]
+        },
+        {
+          "weekday": "Thursday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle10",
+              "lunch": "recipetitle11",
+              "dinner": "recipetitle12"
+            }
+          ]
+        },
+        {
+          "weekday": "Friday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle13",
+              "lunch": "recipetitle14",
+              "dinner": "recipetitle15"
+            }
+          ]
+        },
+        {
+          "weekday": "Saturday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle16",
+              "lunch": "recipetitle17",
+              "dinner": "recipetitle18"
+            }
+          ]
+        },
+        {
+          "weekday": "Sunday", 
+          "recipesPerDay": [
+            {
+              "breakfast": "recipetitle19",
+              "lunch": "recipetitle20",
+              "dinner": "recipetitle21"
+            }
+          ]
+        }
+      ],
+      "draft": true
+    }
+  ]
+}

@@ -1,3 +1,20 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+
+
+## Gitignore template
 # Built application files
 *.apk
 *.aar
@@ -37,7 +54,6 @@ proguard/
 captures/
 
 # IntelliJ
-*.iml
 .idea
 .idea/workspace.xml
 .idea/tasks.xml
@@ -57,7 +73,6 @@ captures/
 #*.keystore
 
 # External native build folder generated in Android Studio 2.2 and later
-.externalNativeBuild
 .cxx/
 
 # Google Services (e.g. APIs or Firebase)
@@ -84,3 +99,5 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+
+.project
