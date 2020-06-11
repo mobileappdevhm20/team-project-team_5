@@ -21,5 +21,4 @@
     <string name="assign_this_meal_plan_to_a_week">Assign this meal plan to a week</string>
     <string name="remove_this_meal_plan_from_your_list">Remove this meal plan from your list</string>
     <string name="show_entire_plan">show entire plan</string>
-    <string name="backend_url">http://foodweek-env.eba-qy49mda5.eu-central-1.elasticbeanstalk.com</string>
 </resources>
