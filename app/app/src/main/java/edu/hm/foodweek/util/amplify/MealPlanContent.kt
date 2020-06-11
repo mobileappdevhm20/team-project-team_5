@@ -15,5 +15,7 @@ data class MealPlanContent (
     @SerializedName("number")
     var pageNumber: Int,
     @SerializedName("numberOfElements")
-    var numberOfElementsOnPage: Int
+    var numberOfElementsOnPage: Int,
+    @SerializedName("last")
+    var lastPage: Boolean
 )
