@@ -19,7 +19,7 @@ open class MealPlanRepository(private val dao: MealPlanDao) : KoinComponent {
 
     fun getLiveDataAllMealPlans(): LiveData<List<MealPlan>> {
         val liveDataMealPlan = MutableLiveData<List<MealPlan>>()
-        foodWeekClient.getFoodWeekServiceClient().getMealPlans().enqueue(object : Callback,
+        foodWeekClient.getFoodWeekServiceClient().getMealPlans(0, 20).enqueue(object : Callback,
             retrofit2.Callback<MealPlanContent> {
             override fun onFailure(call: Call<MealPlanContent>, t: Throwable) {
                 Log.v("MealPlanRepository", "HTTP-Request /mealplans failed: ${t.message}")
