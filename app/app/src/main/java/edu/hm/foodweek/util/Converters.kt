@@ -1,8 +1,6 @@
 package edu.hm.foodweek.util
 
 import androidx.room.TypeConverter
-import edu.hm.foodweek.plans.persistence.model.MealTime
-import edu.hm.foodweek.plans.persistence.model.WeekDay
 import edu.hm.foodweek.recipes.persistence.model.Ingredient
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -18,22 +16,23 @@ class Converters {
         val itemType = object : TypeToken<List<Meal>>() {}.type
         Gson().fromJson<List<Meal>>(value, itemType)
     }
-/*
-    // ################# WeekDay
-    @TypeConverter
-    fun toWeekDay(value: String) = enumValueOf<WeekDay>(value)
 
-    @TypeConverter
-    fun fromWeekDay(value: WeekDay) = value.name
-*/
-  /*
-    // ################# MealTime
-    @TypeConverter
-    fun toMealTime(value: String) = enumValueOf<MealTime>(value)
+    /*
+        // ################# WeekDay
+        @TypeConverter
+        fun toWeekDay(value: String) = enumValueOf<WeekDay>(value)
 
-    @TypeConverter
-    fun fromMealTime(value: MealTime) = value.name
-*/
+        @TypeConverter
+        fun fromWeekDay(value: WeekDay) = value.name
+    */
+    /*
+      // ################# MealTime
+      @TypeConverter
+      fun toMealTime(value: String) = enumValueOf<MealTime>(value)
+
+      @TypeConverter
+      fun fromMealTime(value: MealTime) = value.name
+  */
     // ################# List<Ingredient>
     @TypeConverter
     fun toIngredientList(value: String) = run {
@@ -63,4 +62,21 @@ class Converters {
 
     @TypeConverter
     fun fromStringSet(value: Set<String>) = Gson().toJson(value.toList())
+
+    // ################# Map<Int,Long>
+    @TypeConverter
+    fun toIntLongMap(value: String) = run {
+        val itemType = object : TypeToken<List<Pair<Int, Long>>>() {}.type
+        val map: MutableMap<Int, Long> = mutableMapOf<Int,Long>()
+        Gson().fromJson<List<Pair<Int, Long>>>(value, itemType).forEach { pair ->
+            // cast to Int, because SQL-lite holds numbers as double values
+            map[pair.first.toInt()] = pair.second.toLong()
+        }
+        map
+    }
+
+    @TypeConverter
+    fun fromIntLongMap(value: Map<Int, Long>) = Gson().toJson(value.toList())
+
+
 }

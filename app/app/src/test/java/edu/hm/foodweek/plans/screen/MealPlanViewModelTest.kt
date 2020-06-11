@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import edu.hm.foodweek.getOrAwaitValue
 import edu.hm.foodweek.inject.appModule
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
+import edu.hm.foodweek.util.DatabaseEntityCreator
 import edu.hm.foodweek.util.DatabaseEntityCreator.createMealPlans
 import edu.hm.foodweek.util.DatabaseEntityCreator.mealplan2
 import edu.hm.foodweek.util.DatabaseEntityCreator.mealplan3
@@ -90,6 +91,6 @@ class MealPlanViewModelTest : KoinTest, Application() {
         }
 
         verify(atLeast = 1) { mockMealPlanRepository.getLiveDataAllMealPlans() }
-        verify(atLeast = 1) { mockMealPlanRepository.getMealPlanCreatedByUser(0) }
+        verify(atLeast = 1) { mockMealPlanRepository.getMealPlanCreatedByUser(DatabaseEntityCreator.mealplan2.creatorId) }
     }
 }

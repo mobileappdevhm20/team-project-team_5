@@ -21,7 +21,7 @@ interface MealPlanDao {
 
     @Transaction
     @Query("SELECT * FROM MealPlan where creatorId = :id ")
-    fun getMealPlanCreatedByUser(id: Long): LiveData<List<MealPlan>>
+    fun getMealPlanCreatedByUser(id: String): LiveData<List<MealPlan>>
 
     @Transaction
     @Query("SELECT * FROM MealPlan where creatorId = :id ")

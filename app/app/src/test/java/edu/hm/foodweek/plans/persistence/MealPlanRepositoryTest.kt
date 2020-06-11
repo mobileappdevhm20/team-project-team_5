@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import edu.hm.foodweek.inject.appModule
 import edu.hm.foodweek.plans.persistence.model.MealPlan
+import edu.hm.foodweek.util.DatabaseEntityCreator
 import edu.hm.foodweek.util.DatabaseEntityCreator.createMealPlans
 import edu.hm.foodweek.util.DatabaseEntityCreator.mealplan1
 import edu.hm.foodweek.util.DatabaseEntityCreator.mealplan2
@@ -25,7 +26,7 @@ class MealPlanRepositoryTest : KoinTest, Application() {
 
     lateinit var mockMealPlanDao: MealPlanDao
     lateinit var mealPlanRepository: MealPlanRepository
-
+    private var userId = DatabaseEntityCreator.mealplan2.creatorId
     @get:Rule
     val koinTestRule = KoinTestRule.create {
         printLogger(Level.DEBUG)
@@ -46,7 +47,7 @@ class MealPlanRepositoryTest : KoinTest, Application() {
                 createMealPlans()
             )
             every { getMealPlan(1) } returns MutableLiveData(mealplan1)
-            every { getMealPlanCreatedByUser(1) } returns MutableLiveData(
+            every { getMealPlanCreatedByUser(userId) } returns MutableLiveData(
                 listOf(mealplan2, mealplan3)
             )
             coJustRun { createMealPlan(any()) }
@@ -76,9 +77,9 @@ class MealPlanRepositoryTest : KoinTest, Application() {
     @Test
     fun testGetMealPlanCreatedByUser() {
         val expected = listOf(mealplan2, mealplan3)
-        val actual = mealPlanRepository.getMealPlanCreatedByUser(1).value
+        val actual = mealPlanRepository.getMealPlanCreatedByUser(userId).value
 
-        verify(atLeast = 1) { mockMealPlanDao.getMealPlanCreatedByUser(1) }
+        verify(atLeast = 1) { mockMealPlanDao.getMealPlanCreatedByUser(userId) }
         testEqualityOfMealPlans(expected, actual)
     }
 

@@ -10,5 +10,5 @@ class MealPlanViewModel(
     application: Application
 ) : AndroidViewModel(application) {
     val allMealPlans = mealPlanRepository.getLiveDataAllMealPlans()
-    val allMealPlansCreatedByUser = mealPlanRepository.getMealPlanCreatedByUser(0)
+    val allMealPlansCreatedByUser = mealPlanRepository.getMealPlanCreatedByUser("userId2")
 }

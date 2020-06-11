@@ -10,9 +10,12 @@ import edu.hm.foodweek.plans.persistence.model.WeekDay
 import edu.hm.foodweek.recipes.persistence.model.Ingredient
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 import edu.hm.foodweek.recipes.persistence.model.UnitScale
+import edu.hm.foodweek.users.persistence.UserDao
+import edu.hm.foodweek.users.persistence.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 object DatabaseEntityCreator {
     // Insert data using daos
@@ -109,7 +112,7 @@ object DatabaseEntityCreator {
         "Inital Title",
         "Inital description",
         "https://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
-        1,
+        "userId1",
         true,
         listOf(
             Meal(WeekDay.MONDAY, MealTime.DINNER, recipe2.recipeId)
@@ -121,7 +124,7 @@ object DatabaseEntityCreator {
         "tomato plan",
         "reuse all your tomatoes",
         "https://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
-        0,
+        "userId2",
         true,
         listOf(
             Meal(WeekDay.MONDAY, MealTime.DINNER, recipe2.recipeId),
@@ -140,7 +143,7 @@ object DatabaseEntityCreator {
         "Pizza all day long",
         "this is for the pizza lovers",
         "https://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
-        0,
+        "userId2",
         true,
         listOf(
             Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe5.recipeId),
@@ -165,10 +168,12 @@ object DatabaseEntityCreator {
     fun insertPresetIntoDatabase(recipeDao: RecipeDao, mealPlanDao: MealPlanDao) {
         CoroutineScope(Dispatchers.IO).launch {
             Log.i("FoodWeekDatabase", "Insert recipe")
+            // Recipes
             for (recipe in createRecipes()) {
                 val recipeId = recipeDao.createRecipe(recipe)
                 Log.i("DatabaseEntityCreator", "recipe ${recipe.title} ($recipeId) created")
             }
+            // MealPlans
             for (mealPlan in createMealPlans()) {
                 val mealPlanId = mealPlanDao.createMealPlan(mealPlan)
                 Log.i("DatabaseEntityCreator", "mealplan ${mealPlan.planId} ($mealPlanId) created")
@@ -178,5 +183,17 @@ object DatabaseEntityCreator {
         }
     }
 
+    val localUserWithMap = User("null", "LocalUser", mapOf(Pair<Int, Long>(Calendar.getInstance().get(Calendar.WEEK_OF_YEAR), mealplan2.planId)))
+    val localUserWithoutMap = User("null", "LocalUser", emptyMap())
+
+    fun createUser(userDao: UserDao, androidId: String) {
+        val usedUser = localUserWithoutMap
+        CoroutineScope(Dispatchers.IO).launch {
+            usedUser.userId = androidId
+            userDao.insert(usedUser)
+        }.invokeOnCompletion {
+            Log.i("DatabaseEntityCreator", "local user created :$usedUser")
+        }
+    }
 
 }

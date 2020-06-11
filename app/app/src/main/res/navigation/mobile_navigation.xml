@@ -8,7 +8,11 @@
         android:id="@+id/navigation_week"
         android:name="edu.hm.foodweek.week.screen.WeekFragment"
         android:label="@string/title_week"
-        tools:layout="@layout/fragment_week" />
+        tools:layout="@layout/fragment_week" >
+        <action
+            android:id="@+id/startPlanDetails"
+            app:destination="@id/navigation_plan_details" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_plan"
         android:name="edu.hm.foodweek.plans.screen.PlanFragment"

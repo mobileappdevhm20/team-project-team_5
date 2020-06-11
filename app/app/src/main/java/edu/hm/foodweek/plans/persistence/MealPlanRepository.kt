@@ -10,15 +10,16 @@ open class MealPlanRepository(private val dao: MealPlanDao) {
         return dao.getAllMealPlans()
     }
 
-    fun getLiveDataMealPlanById(id: Long): LiveData<MealPlan> {
-        return dao.getMealPlan(id)
+    fun getLiveDataMealPlanById(mealplanId: Long): LiveData<MealPlan> {
+        val mealplanlivedata = dao.getMealPlan(mealplanId)
+        return mealplanlivedata
     }
 
-    fun getMealPlanById(id: Long): MealPlan {
-        return dao.getMealPlanNoLiveData(id)
+    fun getMealPlanById(mealplanId: Long): MealPlan {
+        return dao.getMealPlanNoLiveData(mealplanId)
     }
 
-    fun getMealPlanCreatedByUser(userId: Long): LiveData<List<MealPlan>> {
+    fun getMealPlanCreatedByUser(userId: String): LiveData<List<MealPlan>> {
         return dao.getMealPlanCreatedByUser(userId)
     }
 

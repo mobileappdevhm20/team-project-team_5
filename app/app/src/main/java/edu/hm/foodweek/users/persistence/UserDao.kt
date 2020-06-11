@@ -1,5 +1,6 @@
 package edu.hm.foodweek.users.persistence
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import edu.hm.foodweek.users.persistence.model.User
 
@@ -11,9 +12,17 @@ interface UserDao {
     @Update
     fun update(user: User)
 
-    @Query(value = "SELECT * FROM users WHERE email = :email")
-    fun get(email: String): User?
+    // acutally there is only one User per app
+    @Query(value = "SELECT * FROM users Limit 1")
+    fun getLiveDataUser(): LiveData<User>
+
+    @Transaction
+    @Query(value = "SELECT * FROM users Limit 1")
+    suspend fun getUser(): User
+
 
     @Delete
     fun delete(user: User)
+
+
 }

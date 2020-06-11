@@ -16,6 +16,11 @@ interface RecipeDao {
     @Query("SELECT * FROM Recipe where recipeId = :id")
     fun getRecipe(id: Long): LiveData<Recipe>
 
+    @Transaction
+    @Query("SELECT * FROM RECIPE where recipeId IN(:ids)")
+    fun getRecipes(ids: List<Long>): LiveData<List<Recipe>>
+
+
     @Query("SELECT * FROM Recipe where recipeId = :id")
     suspend fun getRecipeNoLiveData(id: Long): Recipe
 

@@ -17,7 +17,8 @@ import edu.hm.foodweek.util.Converters
     version = 1
 )
 @TypeConverters(Converters::class)
-abstract class FoodWeekDatabase : RoomDatabase() {
+abstract class FoodWeekDatabase() : RoomDatabase() {
+
     abstract fun userDao(): UserDao
     abstract fun mealPlanDao(): MealPlanDao
     abstract fun recipeDao(): RecipeDao

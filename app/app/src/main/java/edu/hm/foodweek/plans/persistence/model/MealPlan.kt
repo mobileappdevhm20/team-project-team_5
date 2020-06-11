@@ -10,8 +10,8 @@ data class MealPlan(
     val title: String,
     val description: String,
     val imageURL: String,
-    val creatorId: Long,
+    val creatorId: String,
     var draft: Boolean = true,
-    var meals : List<Meal> = emptyList()
+    var meals: List<Meal> = emptyList()
 )
 

@@ -21,4 +21,5 @@
     <string name="edit_your_meal_plan">Edit your meal plan</string>
     <string name="assign_this_meal_plan_to_a_week">Assign this meal plan to a week</string>
     <string name="remove_this_meal_plan_from_your_list">Remove this meal plan from your list</string>
+    <string name="show_entire_plan">show entire plan</string>
 </resources>

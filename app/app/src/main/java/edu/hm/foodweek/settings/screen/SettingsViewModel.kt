@@ -12,15 +12,19 @@ import edu.hm.foodweek.recipes.persistence.model.Ingredient
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 import edu.hm.foodweek.recipes.persistence.model.Unit
 import edu.hm.foodweek.recipes.persistence.model.UnitScale
+import edu.hm.foodweek.users.persistence.UserRepository
 import edu.hm.foodweek.util.extensions.combineLatest
 import edu.hm.foodweek.util.extensions.map
+import edu.hm.foodweek.util.extensions.mapSkipNulls
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class SettingsViewModel(
     private val mealPlanRepository: MealPlanRepository,
     private val recipeRepository: RecipeRepository,
+    private val userRepository: UserRepository,
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -85,17 +89,20 @@ class SettingsViewModel(
                     )
                 )
             )
-            mealPlanRepository.createMealPlan(
-                MealPlan(
-                    0,
-                    "hello World",
-                    "description",
-                    "imgUrl",
-                    0,
-                    true,
-                    listOf(Meal(WeekDay.MONDAY, MealTime.BREAKFAST, 1L))
+            runBlocking {
+                val userid = userRepository.getUserNoLiveData().userId
+                mealPlanRepository.createMealPlan(
+                    MealPlan(
+                        0,
+                        "hello World",
+                        "description",
+                        "imgUrl",
+                        userid,
+                        true,
+                        listOf(Meal(WeekDay.MONDAY, MealTime.BREAKFAST, 1L))
+                    )
                 )
-            )
+            }
         }
     }
 }

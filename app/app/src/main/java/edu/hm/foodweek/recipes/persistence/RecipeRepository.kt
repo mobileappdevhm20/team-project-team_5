@@ -10,6 +10,10 @@ open class RecipeRepository(private val dao: RecipeDao) {
         return dao.getAllRecipe()
     }
 
+    fun getLiveDataRecipesByIds(ids: List<Long>): LiveData<List<Recipe>> {
+        return dao.getRecipes(ids)
+    }
+
     fun getLiveDataRecipeById(id: Long): LiveData<Recipe> {
         return dao.getRecipe(id)
     }
