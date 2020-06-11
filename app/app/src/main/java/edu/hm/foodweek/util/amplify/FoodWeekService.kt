@@ -6,5 +6,5 @@ import retrofit2.http.GET
 interface FoodWeekService {
 
     @GET("/mealplans")
-    fun getMealPlans(): Call<Content>
+    fun getMealPlans(): Call<MealPlanContent>
 }
