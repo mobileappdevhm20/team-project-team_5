@@ -3,6 +3,8 @@ package edu.hm.foodweek.plans.screen
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
 
 class MealPlanViewModel(
@@ -10,5 +12,10 @@ class MealPlanViewModel(
     application: Application
 ) : AndroidViewModel(application) {
     val allMealPlans = mealPlanRepository.getLiveDataAllMealPlans(null)
+    val filterText = MutableLiveData<String>("")
     val allMealPlansCreatedByUser = mealPlanRepository.getMealPlanCreatedByUser("userId2")
+
+    val filteredMealPlans = filterText.switchMap {
+        mealPlanRepository.getLiveDataAllMealPlans(it)
+    }
 }

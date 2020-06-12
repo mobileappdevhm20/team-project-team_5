@@ -18,18 +18,23 @@ open class MealPlanRepository(private val dao: MealPlanDao, private val foodWeek
 
     fun getLiveDataAllMealPlans(query: String?): LiveData<List<MealPlan>> {
         val liveDataMealPlan = MutableLiveData<List<MealPlan>>()
-        foodWeekClient.getFoodWeekServiceClient().getMealPlans(0, 20, query).enqueue(object : Callback,
-            retrofit2.Callback<MealPlanResponse> {
-            override fun onFailure(call: Call<MealPlanResponse>, t: Throwable) {
-                Log.println(Log.ERROR, "MealPlanRepository", "HTTP-Request /mealplans failed: ${t.message}")
-            }
+        Log.i("MealPlanRepository", "requested new MealPlans")
+        foodWeekClient
+            .getFoodWeekServiceClient()
+            .getMealPlans(0, 20, query)
+            .enqueue(
+                object : Callback,
+                    retrofit2.Callback<MealPlanResponse> {
+                    override fun onFailure(call: Call<MealPlanResponse>, t: Throwable) {
+                        Log.println(Log.ERROR, "MealPlanRepository", "HTTP-Request /mealplans failed: ${t.message}")
+                    }
 
-            override fun onResponse(call: Call<MealPlanResponse>, response: Response<MealPlanResponse>) {
-                Log.println(Log.INFO, "MealPlanRepository", "HTTP-Request /mealplans was successful: ${response.code()}")
-                liveDataMealPlan.value = response.body()?.mealPlans
-            }
-
-        })
+                    override fun onResponse(call: Call<MealPlanResponse>, response: Response<MealPlanResponse>) {
+                        Log.println(Log.INFO, "MealPlanRepository", "HTTP-Request /mealplans was successful: ${response.code()}")
+                        val foundMealPlans = response.body()?.mealPlans ?: emptyList<MealPlan>()
+                        liveDataMealPlan.postValue(foundMealPlans)
+                    }
+                })
         return liveDataMealPlan
     }
 

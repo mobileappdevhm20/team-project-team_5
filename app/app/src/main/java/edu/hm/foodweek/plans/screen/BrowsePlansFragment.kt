@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -31,6 +32,22 @@ class BrowsePlansFragment : Fragment() {
         )
         binding.viewModel = mealPlanViewModel
 
+        binding.browsePlansSearchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener, androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // inline this line, if you want to fire a call on each searchbar change
+                // mealPlanViewModel.filterText.postValue(newText)
+                if(newText.isNullOrEmpty()){
+                    mealPlanViewModel.filterText.postValue("")
+                }
+                return true
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                mealPlanViewModel.filterText.postValue(query)
+                return true
+            }
+        })
+
         // Navigate to details view on Card-Image click
         val onCardClicked = { planId: Long ->
             val action = PlanFragmentDirections.startPlanDetails(planId)
@@ -41,7 +58,7 @@ class BrowsePlansFragment : Fragment() {
         val recyclerView = binding.plansList
         recyclerView.adapter = adapter
 
-        mealPlanViewModel.allMealPlans.observe(viewLifecycleOwner, Observer {
+        mealPlanViewModel.filteredMealPlans.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.data = it
             }
