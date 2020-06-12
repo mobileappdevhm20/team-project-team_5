@@ -7,5 +7,5 @@ import retrofit2.http.Query
 interface FoodWeekService {
 
     @GET("/mealplans")
-    fun getMealPlans(@Query("page") page: Int, @Query("size") size: Int): Call<MealPlanContent>
+    fun getMealPlans(@Query("page") page: Int, @Query("size") size: Int): Call<MealPlanResponse>
 }

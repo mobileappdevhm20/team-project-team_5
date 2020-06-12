@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import edu.hm.foodweek.plans.persistence.model.MealPlan
-import edu.hm.foodweek.util.amplify.MealPlanContent
+import edu.hm.foodweek.util.amplify.MealPlanResponse
 import edu.hm.foodweek.util.amplify.FoodWeekClient
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -20,12 +20,12 @@ open class MealPlanRepository(private val dao: MealPlanDao) : KoinComponent {
     fun getLiveDataAllMealPlans(): LiveData<List<MealPlan>> {
         val liveDataMealPlan = MutableLiveData<List<MealPlan>>()
         foodWeekClient.getFoodWeekServiceClient().getMealPlans(0, 20).enqueue(object : Callback,
-            retrofit2.Callback<MealPlanContent> {
-            override fun onFailure(call: Call<MealPlanContent>, t: Throwable) {
+            retrofit2.Callback<MealPlanResponse> {
+            override fun onFailure(call: Call<MealPlanResponse>, t: Throwable) {
                 Log.v("MealPlanRepository", "HTTP-Request /mealplans failed: ${t.message}")
             }
 
-            override fun onResponse(call: Call<MealPlanContent>, response: Response<MealPlanContent>) {
+            override fun onResponse(call: Call<MealPlanResponse>, response: Response<MealPlanResponse>) {
                 liveDataMealPlan.value = response.body()?.mealPlans
             }
 
