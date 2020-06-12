@@ -8,6 +8,7 @@ import edu.hm.foodweek.util.DatabaseEntityCreator.createMealPlans
 import edu.hm.foodweek.util.DatabaseEntityCreator.mealplan1
 import edu.hm.foodweek.util.DatabaseEntityCreator.mealplan2
 import edu.hm.foodweek.util.DatabaseEntityCreator.mealplan3
+import edu.hm.foodweek.util.amplify.FoodWeekClient
 import io.mockk.*
 import kotlinx.coroutines.runBlocking
 import org.junit.*
@@ -23,6 +24,8 @@ class MealPlanRepositoryTest : KoinTest, Application() {
 
     lateinit var mockMealPlanDao: MealPlanDao
     lateinit var mealPlanRepository: MealPlanRepository
+    lateinit var mockFoodWeekClient: FoodWeekClient
+
     private var userId = mealplan2.creatorId
 
     @get:Rule
@@ -40,6 +43,7 @@ class MealPlanRepositoryTest : KoinTest, Application() {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+        mockFoodWeekClient = declareMock {  }
         mockMealPlanDao = declareMock {
             every { getAllMealPlans() } returns MutableLiveData(
                 createMealPlans()
@@ -50,7 +54,7 @@ class MealPlanRepositoryTest : KoinTest, Application() {
             )
             coJustRun { createMealPlan(any()) }
         }
-        mealPlanRepository = MealPlanRepository(mockMealPlanDao)
+        mealPlanRepository = MealPlanRepository(mockMealPlanDao, mockFoodWeekClient)
     }
 
     @After
