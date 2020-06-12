@@ -30,7 +30,7 @@ class SettingsViewModel(
 
     val text = "This is the Settings fragment"
 
-    val allMealPlans = mealPlanRepository.getLiveDataAllMealPlans()
+    val allMealPlans = mealPlanRepository.getLiveDataAllMealPlans(null)
 
     val selectedIndex = MutableLiveData<Int>().apply { value = 0 }
 

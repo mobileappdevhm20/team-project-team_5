@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.util.amplify.MealPlanResponse
 import edu.hm.foodweek.util.amplify.FoodWeekClient
+import edu.hm.foodweek.util.amplify.FoodWeekService
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import retrofit2.Call
@@ -13,19 +14,18 @@ import retrofit2.Response
 import javax.security.auth.callback.Callback
 
 
-open class MealPlanRepository(private val dao: MealPlanDao) : KoinComponent {
+open class MealPlanRepository(private val dao: MealPlanDao, private val foodWeekClient: FoodWeekClient) : KoinComponent {
 
-    private val foodWeekClient: FoodWeekClient by inject()
-
-    fun getLiveDataAllMealPlans(): LiveData<List<MealPlan>> {
+    fun getLiveDataAllMealPlans(query: String?): LiveData<List<MealPlan>> {
         val liveDataMealPlan = MutableLiveData<List<MealPlan>>()
-        foodWeekClient.getFoodWeekServiceClient().getMealPlans(0, 20).enqueue(object : Callback,
+        foodWeekClient.getFoodWeekServiceClient().getMealPlans(0, 20, query).enqueue(object : Callback,
             retrofit2.Callback<MealPlanResponse> {
             override fun onFailure(call: Call<MealPlanResponse>, t: Throwable) {
-                Log.v("MealPlanRepository", "HTTP-Request /mealplans failed: ${t.message}")
+                Log.println(Log.ERROR, "MealPlanRepository", "HTTP-Request /mealplans failed: ${t.message}")
             }
 
             override fun onResponse(call: Call<MealPlanResponse>, response: Response<MealPlanResponse>) {
+                Log.println(Log.INFO, "MealPlanRepository", "HTTP-Request /mealplans was successful: ${response.code()}")
                 liveDataMealPlan.value = response.body()?.mealPlans
             }
 
@@ -34,32 +34,14 @@ open class MealPlanRepository(private val dao: MealPlanDao) : KoinComponent {
     }
 
     fun getLiveDataMealPlanById(mealplanId: Long): LiveData<MealPlan> {
-        val mealplanlivedata = dao.getMealPlan(mealplanId)
-        return mealplanlivedata
-    }
-
-    fun getMealPlanById(mealplanId: Long): MealPlan {
-        return dao.getMealPlanNoLiveData(mealplanId)
+        return dao.getMealPlan(mealplanId)
     }
 
     fun getMealPlanCreatedByUser(userId: String): LiveData<List<MealPlan>> {
         return dao.getMealPlanCreatedByUser(userId)
     }
 
-    fun getMealPlanCreatedByUserNoLiveData(userId: Long): List<MealPlan> {
-        return dao.getMealPlanCreatedByUserNoLiveData(userId)
-    }
-
     suspend fun createMealPlan(mealPlan: MealPlan) {
         dao.createMealPlan(mealPlan)
     }
-
-    suspend fun deleteMealPlan(mealPlan: MealPlan) {
-        return dao.deleteMealPlan(mealPlan)
-    }
-
-    suspend fun updateMealPlan(mealPlan: MealPlan) {
-        return dao.updateMealPlan(mealPlan)
-    }
-
 }
