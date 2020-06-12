@@ -50,7 +50,7 @@ val appModule = module {
     single { get<FoodWeekDatabase>().recipeDao() }
 
     // Repositories
-    single { MealPlanRepository(get()) }
+    single { MealPlanRepository(get(), get()) }
     single { RecipeRepository(get()) }
     single { UserRepository(get()) }
 
