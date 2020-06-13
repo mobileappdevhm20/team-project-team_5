@@ -118,4 +118,7 @@ dependencies {
 
     // Timeline
     implementation 'com.github.vipulasri:timelineview:1.1.4'
+
+    // Paging
+    implementation 'androidx.paging:paging-runtime:2.1.2'
 }
