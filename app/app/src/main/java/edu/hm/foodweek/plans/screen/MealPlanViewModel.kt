@@ -10,7 +10,7 @@ import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.util.extensions.debounce
 
 class MealPlanViewModel(
-    val mealPlanRepository: MealPlanRepository,
+    mealPlanRepository: MealPlanRepository,
     application: Application
 ) : AndroidViewModel(application) {
     val filterText = MutableLiveData<String>("")

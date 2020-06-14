@@ -17,7 +17,6 @@ import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.screen.EndlessScrollListener
 import edu.hm.foodweek.plans.screen.MealPlanViewModel
 import edu.hm.foodweek.plans.screen.PlanFragmentDirections
-import edu.hm.foodweek.util.amplify.FoodWeekClient
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -25,7 +24,6 @@ import org.koin.core.inject
 class BrowsePlansFragment : Fragment(), KoinComponent {
 
     private val mealPlanViewModel: MealPlanViewModel by viewModel()
-    private val foodWeekClient: FoodWeekClient by inject()
     private val mealPlanRepository: MealPlanRepository by inject()
 
     override fun onCreateView(
@@ -84,7 +82,7 @@ class BrowsePlansFragment : Fragment(), KoinComponent {
                         "BrowsePlansFragment",
                         "isLoading? $loading currentPage $page"
                     )
-                    mealPlanViewModel.mealPlanRepository.getLiveDataAllMealPlans(
+                    mealPlanRepository.getLiveDataAllMealPlans(
                         query = binding.browsePlansSearchview.query.toString(),
                         page = page
                     ).observe(viewLifecycleOwner, Observer { nextPage ->
