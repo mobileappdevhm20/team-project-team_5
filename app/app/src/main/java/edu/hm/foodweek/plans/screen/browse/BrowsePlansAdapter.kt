@@ -14,7 +14,7 @@ class BrowsePlansAdapter(
     private val onCardClicked: (Long) -> Unit
 ) : RecyclerView.Adapter<BrowsePlansAdapter.PlansViewHolder>() {
 
-    var data = listOf<MealPlan>()
+    var data = mutableListOf<MealPlan>()
         set(value) {
             field = value
             notifyDataSetChanged()

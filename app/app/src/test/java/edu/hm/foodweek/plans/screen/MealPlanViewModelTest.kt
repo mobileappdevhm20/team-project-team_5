@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import edu.hm.foodweek.getOrAwaitValue
 import edu.hm.foodweek.inject.appModule
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
-import edu.hm.foodweek.util.DatabaseEntityCreator
 import edu.hm.foodweek.util.DatabaseEntityCreator.createMealPlans
 import edu.hm.foodweek.util.DatabaseEntityCreator.mealplan2
 import edu.hm.foodweek.util.DatabaseEntityCreator.mealplan3
@@ -80,7 +79,7 @@ class MealPlanViewModelTest : KoinTest, Application() {
 
         runBlocking {
             val viewModel: MealPlanViewModel = get()
-            val allMealPlans = viewModel.allMealPlans.getOrAwaitValue()
+            val allMealPlans = viewModel.filteredMealPlans.getOrAwaitValue()
             val ownMealPlans = viewModel.allMealPlansCreatedByUser.getOrAwaitValue()
 
             assertEquals("All mealPlans should be there", createMealPlans(), allMealPlans)

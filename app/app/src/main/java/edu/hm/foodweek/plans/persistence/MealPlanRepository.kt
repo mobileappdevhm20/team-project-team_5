@@ -4,11 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import edu.hm.foodweek.plans.persistence.model.MealPlan
-import edu.hm.foodweek.util.amplify.MealPlanResponse
 import edu.hm.foodweek.util.amplify.FoodWeekClient
-import edu.hm.foodweek.util.amplify.FoodWeekService
+import edu.hm.foodweek.util.amplify.MealPlanResponse
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 import retrofit2.Call
 import retrofit2.Response
 import javax.security.auth.callback.Callback
@@ -16,22 +14,30 @@ import javax.security.auth.callback.Callback
 
 open class MealPlanRepository(private val dao: MealPlanDao, private val foodWeekClient: FoodWeekClient) : KoinComponent {
 
-    fun getLiveDataAllMealPlans(query: String?): LiveData<List<MealPlan>> {
+    fun getLiveDataAllMealPlans(
+        query: String?,
+        page: Int = 0,
+        size: Int = 10
+    ): LiveData<List<MealPlan>> {
         val liveDataMealPlan = MutableLiveData<List<MealPlan>>()
-        Log.i("MealPlanRepository", "requested new MealPlans")
+        Log.i("MealPlanRepository", "requested new MealPlans with query: $query")
         foodWeekClient
             .getFoodWeekServiceClient()
-            .getMealPlans(0, 20, query)
+            .getMealPlans(page, size, query)
             .enqueue(
                 object : Callback,
                     retrofit2.Callback<MealPlanResponse> {
                     override fun onFailure(call: Call<MealPlanResponse>, t: Throwable) {
-                        Log.println(Log.ERROR, "MealPlanRepository", "HTTP-Request /mealplans failed: ${t.message}")
+                        Log.println(
+                            Log.ERROR,
+                            "MealPlanRepository",
+                            "HTTP-Request /mealplans failed: ${t.message}"
+                        )
                     }
 
                     override fun onResponse(call: Call<MealPlanResponse>, response: Response<MealPlanResponse>) {
                         Log.println(Log.INFO, "MealPlanRepository", "HTTP-Request /mealplans was successful: ${response.code()}")
-                        val foundMealPlans = response.body()?.mealPlans ?: emptyList<MealPlan>()
+                        val foundMealPlans = response.body()?.mealPlans ?: emptyList()
                         liveDataMealPlan.postValue(foundMealPlans)
                     }
                 })

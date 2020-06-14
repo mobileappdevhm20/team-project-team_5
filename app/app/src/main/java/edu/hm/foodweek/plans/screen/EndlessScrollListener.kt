@@ -3,29 +3,23 @@ package edu.hm.foodweek.plans.screen
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class EndlessScrollListener(private val linearLayoutManager: LinearLayoutManager) :
-    RecyclerView.OnScrollListener() {
+abstract class EndlessScrollListener(
+    private val linearLayoutManager: LinearLayoutManager,
+    private val pageSize: Int = 10,
+    private val preLoadSize: Int = 2
+) : RecyclerView.OnScrollListener() {
 
-    var lastPage: Boolean = false
-    var currentPage: Int = 0
     var loading: Boolean = false
-
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
+        val count = linearLayoutManager.itemCount
+        val i = linearLayoutManager.findLastCompletelyVisibleItemPosition()
 
-        val visibleItemCount = linearLayoutManager.childCount
-        val totalItemCount = linearLayoutManager.itemCount
-        val firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition()
-
-        if(!isLoading() && !isLastPage()){
-            if((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0){
-                loadMoreItems()
-            }
+        if (i > count - preLoadSize) {
+            loadPage(count / pageSize + 1)
         }
     }
 
-    abstract fun loadMoreItems()
-    abstract fun isLastPage(): Boolean
-    abstract fun isLoading(): Boolean
+    abstract fun loadPage(page: Int)
 }
