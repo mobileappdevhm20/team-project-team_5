@@ -7,6 +7,7 @@ import hm.edu.foodweek.dto.MealPlanBriefDto
 import hm.edu.foodweek.dto.MealPlanDetailedDto
 import hm.edu.foodweek.model.Meal
 import hm.edu.foodweek.model.MealPlan
+import hm.edu.foodweek.model.User
 import hm.edu.foodweek.repository.MealPlanRepository
 import hm.edu.foodweek.repository.MealRepository
 import hm.edu.foodweek.repository.RecipeRepository
@@ -50,12 +51,12 @@ class MealPlanController(
     }
 
     @PostMapping
-    fun create(@RequestBody input: MealPlan): ResponseEntity<Any> {
+    fun create(@RequestBody input: MealPlan, @RequestHeader user: Optional<String>): ResponseEntity<Any> {
         // Attach or create creator
-        if (input.creator == null) {
-            return ResponseEntity.badRequest().body("Creator does not exist!")
+        if (user.isEmpty) {
+            throw UnauthorizedException()
         }
-        input.creator = userRepository.findById(input.creator!!.userId).orElse(userRepository.save(input.creator!!))
+        input.creator = userRepository.findById(user.get()).orElse(userRepository.save(User(user.get(), null)))
 
         val inMeals = input.meals
         input.meals = emptyList()

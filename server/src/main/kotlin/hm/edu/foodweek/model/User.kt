@@ -12,14 +12,14 @@ data class User(
         var username: String?,
 
         @JsonIgnore
-        @OneToMany(mappedBy = "creator")
-        var ownMealPlans: List<MealPlan>?,
+        @OneToMany(mappedBy = "creator", cascade = [CascadeType.ALL])
+        var ownMealPlans: List<MealPlan> = emptyList(),
 
         @JsonIgnore
-        @ManyToMany(cascade = [CascadeType.ALL])
+        @ManyToMany(cascade = [CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH])
         @JoinTable(name = "meal_plan_subscription",
                 joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "user_id")],
                 inverseJoinColumns = [JoinColumn(name = "plan_id", referencedColumnName = "plan_id")])
-        var subscribedPlans: List<MealPlan>?
+        var subscribedPlans: MutableList<MealPlan> = mutableListOf()
 
 )
