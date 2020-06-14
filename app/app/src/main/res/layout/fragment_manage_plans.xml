@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".plans.screen.ManagePlansFragment">
+        tools:context=".plans.screen.manage.ManagePlansFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/plans_list"

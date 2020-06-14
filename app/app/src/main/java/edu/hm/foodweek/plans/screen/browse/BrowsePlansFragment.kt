@@ -1,4 +1,4 @@
-package edu.hm.foodweek.plans.screen
+package edu.hm.foodweek.plans.screen.browse
 
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import edu.hm.foodweek.R
 import edu.hm.foodweek.databinding.FragmentBrowsePlansBinding
 import edu.hm.foodweek.plans.persistence.model.MealPlan
+import edu.hm.foodweek.plans.screen.MealPlanViewModel
+import edu.hm.foodweek.plans.screen.PlanFragmentDirections
+import edu.hm.foodweek.plans.screen.EndlessScrollListener
 import edu.hm.foodweek.util.amplify.FoodWeekClient
 import edu.hm.foodweek.util.amplify.MealPlanResponse
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -63,11 +66,15 @@ class BrowsePlansFragment : Fragment(), KoinComponent {
 
         // Navigate to details view on Card-Image click
         val onCardClicked = { planId: Long ->
-            val action = PlanFragmentDirections.startPlanDetails(planId)
+            val action =
+                PlanFragmentDirections.startPlanDetails(
+                    planId
+                )
             findNavController().navigate(action)
         }
 
-        val adapter = BrowsePlansAdapter(onCardClicked)
+        val adapter =
+            BrowsePlansAdapter(onCardClicked)
         val recyclerView = binding.plansList
         recyclerView.adapter = adapter
 
@@ -78,7 +85,7 @@ class BrowsePlansFragment : Fragment(), KoinComponent {
         })
 
         recyclerView.addOnScrollListener(object :
-            PlansEndlessScrollListener(LinearLayoutManager(this.context)) {
+            EndlessScrollListener(LinearLayoutManager(this.context)) {
             override fun loadMoreItems() {
                 loading = true
                 currentPage += 1

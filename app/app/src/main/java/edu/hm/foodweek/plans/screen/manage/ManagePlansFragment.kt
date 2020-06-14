@@ -1,4 +1,4 @@
-package edu.hm.foodweek.plans.screen
+package edu.hm.foodweek.plans.screen.manage
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import edu.hm.foodweek.R
 import edu.hm.foodweek.databinding.FragmentManagePlansBinding
+import edu.hm.foodweek.plans.screen.MealPlanViewModel
+import edu.hm.foodweek.plans.screen.PlanFragmentDirections
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -33,11 +35,15 @@ class ManagePlansFragment : Fragment() {
 
         // Navigate to details view on Card-Image click
         val onCardClicked = { planId: Long ->
-            val action = PlanFragmentDirections.startPlanDetails(planId)
+            val action =
+                PlanFragmentDirections.startPlanDetails(
+                    planId
+                )
             findNavController().navigate(action)
         }
 
-        val adapter = ManagePlansAdapter(onCardClicked)
+        val adapter =
+            ManagePlansAdapter(onCardClicked)
         val recyclerView = binding.plansList
         recyclerView.adapter = adapter
 

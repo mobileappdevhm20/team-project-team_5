@@ -3,7 +3,7 @@ package edu.hm.foodweek.plans.screen
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class PlansEndlessScrollListener(private val linearLayoutManager: LinearLayoutManager) :
+abstract class EndlessScrollListener(private val linearLayoutManager: LinearLayoutManager) :
     RecyclerView.OnScrollListener() {
 
     var lastPage: Boolean = false
