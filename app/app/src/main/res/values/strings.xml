@@ -10,7 +10,6 @@
     <string name="ingredients_list_header">Ingredients</string>
     <string name="steps_list_header">Preparation</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tab_bar_browse">Browse</string>
     <string name="tab_bar_manage">Manage</string>

@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import edu.hm.foodweek.getOrAwaitValue
 import edu.hm.foodweek.inject.appModule
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
-import edu.hm.foodweek.util.DatabaseEntityCreator
 import edu.hm.foodweek.util.DatabaseEntityCreator.createMealPlans
 import edu.hm.foodweek.util.DatabaseEntityCreator.mealplan2
 import edu.hm.foodweek.util.DatabaseEntityCreator.mealplan3
@@ -14,10 +13,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockkClass
 import io.mockk.verify
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -54,12 +50,16 @@ class MealPlanViewModelTest : KoinTest, Application() {
     @ObsoleteCoroutinesApi
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
+    @ObsoleteCoroutinesApi
+    @ExperimentalCoroutinesApi
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
         Dispatchers.setMain(mainThreadSurrogate)
     }
 
+    @ObsoleteCoroutinesApi
+    @ExperimentalCoroutinesApi
     @After
     fun tearDown() {
         Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
@@ -69,7 +69,7 @@ class MealPlanViewModelTest : KoinTest, Application() {
     @Test
     fun getItems() {
         val mockMealPlanRepository = declareMock<MealPlanRepository> {
-            every { getLiveDataAllMealPlans() } returns MutableLiveData(
+            every { getLiveDataAllMealPlans(any()) } returns MutableLiveData(
                 createMealPlans()
             )
             every { getMealPlanCreatedByUser(any()) } returns MutableLiveData(
@@ -79,7 +79,7 @@ class MealPlanViewModelTest : KoinTest, Application() {
 
         runBlocking {
             val viewModel: MealPlanViewModel = get()
-            val allMealPlans = viewModel.allMealPlans.getOrAwaitValue()
+            val allMealPlans = viewModel.filteredMealPlans.getOrAwaitValue()
             val ownMealPlans = viewModel.allMealPlansCreatedByUser.getOrAwaitValue()
 
             assertEquals("All mealPlans should be there", createMealPlans(), allMealPlans)
@@ -90,7 +90,7 @@ class MealPlanViewModelTest : KoinTest, Application() {
             )
         }
 
-        verify(atLeast = 1) { mockMealPlanRepository.getLiveDataAllMealPlans() }
-        verify(atLeast = 1) { mockMealPlanRepository.getMealPlanCreatedByUser(DatabaseEntityCreator.mealplan2.creatorId) }
+        verify(atLeast = 1) { mockMealPlanRepository.getLiveDataAllMealPlans(any()) }
+        verify(atLeast = 1) { mockMealPlanRepository.getMealPlanCreatedByUser(mealplan2.creatorId) }
     }
 }

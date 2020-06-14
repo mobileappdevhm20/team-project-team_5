@@ -1,4 +1,4 @@
-package edu.hm.foodweek.plans.screen
+package edu.hm.foodweek.plans.screen.manage
 
 import android.view.LayoutInflater
 import android.view.View
@@ -42,7 +42,10 @@ class ManagePlansAdapter(
         val itemView =
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.manage_plans_view_holder, parent, false)
-        return PlansViewHolder(itemView, onCardClicked)
+        return PlansViewHolder(
+            itemView,
+            onCardClicked
+        )
     }
 
     override fun getItemCount(): Int = data.size

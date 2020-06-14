@@ -5,7 +5,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import edu.hm.foodweek.FoodWeekDatabase
-import edu.hm.foodweek.MainActivity
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.screen.MealPlanViewModel
 import edu.hm.foodweek.plans.screen.details.PlanDetailsViewModel
@@ -14,6 +13,7 @@ import edu.hm.foodweek.recipes.persistence.RecipeRepository
 import edu.hm.foodweek.settings.screen.SettingsViewModel
 import edu.hm.foodweek.users.persistence.UserRepository
 import edu.hm.foodweek.util.DatabaseEntityCreator
+import edu.hm.foodweek.util.amplify.FoodWeekClient
 import edu.hm.foodweek.week.screen.WeekViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -50,7 +50,7 @@ val appModule = module {
     single { get<FoodWeekDatabase>().recipeDao() }
 
     // Repositories
-    single { MealPlanRepository(get()) }
+    single { MealPlanRepository(get(), get()) }
     single { RecipeRepository(get()) }
     single { UserRepository(get()) }
 
@@ -74,5 +74,6 @@ val appModule = module {
     viewModel { MealPlanViewModel(get(), androidApplication()) }
     viewModel { SettingsViewModel(get(), get(), get(), androidApplication()) }
 
-
+    // Amplify Backend
+    single { FoodWeekClient() }
 }

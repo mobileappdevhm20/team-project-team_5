@@ -1,4 +1,4 @@
-package edu.hm.foodweek.plans.screen
+package edu.hm.foodweek.plans.screen.manage
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,13 +9,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import edu.hm.foodweek.R
-import edu.hm.foodweek.databinding.FragmentBrowsePlansBinding
+import edu.hm.foodweek.databinding.FragmentManagePlansBinding
+import edu.hm.foodweek.plans.screen.MealPlanViewModel
+import edu.hm.foodweek.plans.screen.PlanFragmentDirections
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * A simple [Fragment] subclass.
  */
-class BrowsePlansFragment : Fragment() {
+class ManagePlansFragment : Fragment() {
 
     private val mealPlanViewModel: MealPlanViewModel by viewModel()
 
@@ -23,9 +25,9 @@ class BrowsePlansFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate<FragmentBrowsePlansBinding>(
+        val binding = DataBindingUtil.inflate<FragmentManagePlansBinding>(
             inflater,
-            R.layout.fragment_browse_plans,
+            R.layout.fragment_manage_plans,
             container,
             false
         )
@@ -33,15 +35,19 @@ class BrowsePlansFragment : Fragment() {
 
         // Navigate to details view on Card-Image click
         val onCardClicked = { planId: Long ->
-            val action = PlanFragmentDirections.startPlanDetails(planId)
+            val action =
+                PlanFragmentDirections.startPlanDetails(
+                    planId
+                )
             findNavController().navigate(action)
         }
 
-        val adapter = BrowsePlansAdapter(onCardClicked)
+        val adapter =
+            ManagePlansAdapter(onCardClicked)
         val recyclerView = binding.plansList
         recyclerView.adapter = adapter
 
-        mealPlanViewModel.allMealPlans.observe(viewLifecycleOwner, Observer {
+        mealPlanViewModel.allMealPlansCreatedByUser.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.data = it
             }

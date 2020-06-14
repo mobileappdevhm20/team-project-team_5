@@ -5,13 +5,13 @@ coverage:
   status:
     project: 
       default:
-        target: 10%
-        threshold: 1%
+        target: 0%
+        threshold: 20%
 
     patch: 
       default:
-        target: 10%
-        threshold: 1%
+        target: 0%
+        threshold: 20%
   
     changes: no
 
