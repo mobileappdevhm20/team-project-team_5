@@ -8,68 +8,67 @@ env:
     - ANDROID_BUILD_TOOLS_VERSION=29.0.3
     - ANDROID_TARGET=android-22
     - ANDROID_ABI=armeabi-v7a
-
 android:
   licenses:
-    - 'android-sdk-preview-license-.+'
-    - 'android-sdk-license-.+'
-    - 'google-gdk-license-.+'
+    - android-sdk-preview-license-.+
+    - android-sdk-license-.+
+    - google-gdk-license-.+
   components:
     - tools
     - platform-tools
-    # The BuildTools version used by your project
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
-    # The SDK version used to compile your project
     - android-$ANDROID_API_LEVEL
-    # Additional components
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
     - addon-google_apis-google-$ANDROID_API_LEVEL
-    - $ANDROID_TARGET
+    - "$ANDROID_TARGET"
     - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
-
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
+before_install:
+  - openssl aes-256-cbc -K $encrypted_276a71222f14_key -iv $encrypted_276a71222f14_iv -in app/foodweek-keystore.jks.enc -out app/foodweek-keystore.jks -d
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
-
+    - "$HOME/.gradle/caches/"
+    - "$HOME/.gradle/wrapper/"
+    - "$HOME/.android/build-cache"
 before_script:
   - cd app/
   - chmod +x gradlew
-
 stages:
   - build
   - name: deploy
-    if:  (branch = master) AND (NOT (type IN (push, pull_request)))
-
+    if: "(branch = master) AND (NOT (type IN (push, pull_request)))"
 jobs:
   include:
     - stage: build
-      script: 
-      - ./gradlew build jacocoTestReport assembleAndroidTest
-      - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
-      - emulator -avd test -no-skin -no-audio -no-window &
-      - android-wait-for-emulator
-      - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
-      - ./gradlew connectedCheck
+      script:
+        - "./gradlew build jacocoTestReport assembleAndroidTest"
+        - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+        - emulator -avd test -no-skin -no-audio -no-window &
+        - android-wait-for-emulator
+        - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
+        - "./gradlew connectedCheck"
       after_success:
-      - bash <(curl -s https://codecov.io/bash)
+        - bash <(curl -s https://codecov.io/bash)
     - stage: deploy
+      script:
+        - "./gradlew assembleRelease"
+      before_deploy:
+        - export TRAVIS_TAG=v2.0
+        - git tag $TRAVIS_TAG
       deploy:
         provider: releases
-        token: $GITHUB_API_KEY
-        file: $TRAVIS_BUILD_DIR/app/build/outputs/apk/debug/app-debug.apk
-        name: $TRAVIS_TAG
-        release_notes: Automatic build of $TRAVIS_BRANCH ($TRAVIS_COMMIT) built by Travis CI on $(date +'%F %T %Z').
-        overwrite: true
-        cleanup: true
+        token: "$GITHUB_API_KEY"
+        file: app/build/outputs/apk/release/app-release.apk
+        file_glob: true
+        skip_cleanup: true
+        tag: "$TRAVIS_TAG"
+        name: FoodWeek-Release $TRAVIS_TAG
         on:
-          tags: true
+          branch: master
+          tags: false
       after_deploy:
         - rm -rf $TRAVIS_BUILD_DIR/app/build/outputs
