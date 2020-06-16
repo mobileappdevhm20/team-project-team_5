@@ -1,9 +1,12 @@
 package edu.hm.foodweek.plans.screen.manage
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -12,14 +15,11 @@ import edu.hm.foodweek.R
 import edu.hm.foodweek.databinding.FragmentManagePlansBinding
 import edu.hm.foodweek.plans.screen.MealPlanViewModel
 import edu.hm.foodweek.plans.screen.PlanFragmentDirections
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
 
-/**
- * A simple [Fragment] subclass.
- */
 class ManagePlansFragment : Fragment() {
 
-    private val mealPlanViewModel: MealPlanViewModel by viewModel()
+    private val mealPlanViewModel: MealPlanViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,23 +33,55 @@ class ManagePlansFragment : Fragment() {
         )
         binding.viewModel = mealPlanViewModel
 
-        // Navigate to details view on Card-Image click
-        val onCardClicked = { planId: Long ->
-            val action =
-                PlanFragmentDirections.startPlanDetails(
-                    planId
+        val adapter = ManagePlansAdapter(
+            onCardClicked = {
+                findNavController().navigate(
+                    PlanFragmentDirections.startPlanDetails(
+                        it.planId
+                    )
                 )
-            findNavController().navigate(action)
-        }
-
-        val adapter =
-            ManagePlansAdapter(onCardClicked)
+            },
+            onEditClicked = { Log.i("ManagePlansFragment", "Editing of meal plan ${it.planId}") },
+            onDeleteClicked = {
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setMessage("Are you sure you want to Delete?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes") { _, _ ->
+                        // Delete selected mealplan from database
+                        Toast.makeText(
+                            requireContext(),
+                            "MealPlan ${it.title} will be deleted!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        mealPlanViewModel.deletePlan(it)
+                    }
+                    .setNegativeButton("No") { _, _ ->
+                        // Dismiss the dialog
+                        Toast.makeText(
+                            requireContext(),
+                            "Deletion of MealPlan ${it.title} was canceled!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                val alert = builder.create()
+                alert.show()
+            },
+            onUnsubscribeClicked = { mealPlanViewModel.unsubscribePlan(it) },
+            onStatsClicked = { Log.i("ManagePlansFragment", "Stats of meal plan ${it.planId}") },
+            onScheduleClicked = {
+                Log.i(
+                    "ManagePlansFragment",
+                    "Scheduling of meal plan ${it.planId}"
+                )
+            }
+        )
         val recyclerView = binding.plansList
         recyclerView.adapter = adapter
 
-        mealPlanViewModel.allMealPlansCreatedByUser.observe(viewLifecycleOwner, Observer {
+        mealPlanViewModel.managedPlans.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.data = it
+                adapter.notifyDataSetChanged()
             }
         })
         return binding.root

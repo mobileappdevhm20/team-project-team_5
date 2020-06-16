@@ -41,6 +41,7 @@
             android:gravity="end">
 
             <ImageView
+                android:id="@+id/button_plan_stats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -49,6 +50,7 @@
                 android:contentDescription="@string/pie_chart" />
 
             <ImageView
+                android:id="@+id/button_edit_plan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -57,6 +59,7 @@
                 android:contentDescription="@string/edit_your_meal_plan" />
 
             <ImageView
+                android:id="@+id/button_schedule_plan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -65,12 +68,22 @@
                 android:contentDescription="@string/assign_this_meal_plan_to_a_week" />
 
             <ImageView
+                android:id="@+id/button_delete_plan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="6dp"
                 android:background="@drawable/ic_delete_black_24dp"
                 android:contentDescription="@string/remove_this_meal_plan_from_your_list" />
+
+            <ImageView
+                android:id="@+id/button_unsubscribe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/ic_favorite_red_24dp"
+                android:contentDescription="@string/unsubscribe_this_meal_plan" />
         </LinearLayout>
 
     </LinearLayout>

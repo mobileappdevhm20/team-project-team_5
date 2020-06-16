@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import edu.hm.foodweek.R
 import edu.hm.foodweek.databinding.RecipeDetailFragmentBinding
-import edu.hm.foodweek.recipes.persistence.model.Ingredient
+import edu.hm.foodweek.recipes.persistence.model.IngredientAmount
 import kotlinx.android.synthetic.main.ingredient_list_item.view.*
 import kotlinx.android.synthetic.main.step_list_item.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -60,7 +59,8 @@ class RecipeDetailFragment : Fragment() {
 }
 
 
-class IngredientAdapter(private var ingredients: List<Ingredient>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class IngredientAdapter(private var ingredientAmountList: List<IngredientAmount>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
@@ -71,19 +71,19 @@ class IngredientAdapter(private var ingredients: List<Ingredient>) : RecyclerVie
     }
 
     override fun getItemCount(): Int {
-        return ingredients.size
+        return ingredientAmountList.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val ingredient = ingredients[position]
+        val ingredient = ingredientAmountList[position]
         holder.itemView.apply {
-            amount.text = ingredient.amount.toString()
-            ingredient_name.text = ingredient.name
+            amount.text = ingredient.measure
+            ingredient_name.text = ingredient.ingredient.name
         }
     }
 
-    fun updateIngredients(ingredients: List<Ingredient>) {
-        this.ingredients = ingredients
+    fun updateIngredients(ingredientAmountList: List<IngredientAmount>) {
+        this.ingredientAmountList = ingredientAmountList
         notifyDataSetChanged()
     }
 

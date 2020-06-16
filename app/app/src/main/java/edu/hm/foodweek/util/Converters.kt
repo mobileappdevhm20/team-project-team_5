@@ -1,10 +1,11 @@
 package edu.hm.foodweek.util
 
 import androidx.room.TypeConverter
-import edu.hm.foodweek.recipes.persistence.model.Ingredient
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import edu.hm.foodweek.plans.persistence.model.Meal
+import edu.hm.foodweek.recipes.persistence.model.Ingredient
+import edu.hm.foodweek.recipes.persistence.model.IngredientAmount
 
 
 class Converters {
@@ -15,6 +16,15 @@ class Converters {
     fun toMeals(value: String) = run {
         val itemType = object : TypeToken<List<Meal>>() {}.type
         Gson().fromJson<List<Meal>>(value, itemType)
+    }
+
+    @TypeConverter
+    fun fromIngredientAmounts(value: List<IngredientAmount>): String = Gson().toJson(value)
+
+    @TypeConverter
+    fun toIngredientAmounts(value: String): List<IngredientAmount> = run {
+        val itemType = object : TypeToken<List<IngredientAmount>>() {}.type
+        Gson().fromJson(value, itemType)
     }
 
     /*

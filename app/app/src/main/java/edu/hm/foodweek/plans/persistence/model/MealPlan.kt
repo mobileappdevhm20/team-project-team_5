@@ -20,8 +20,8 @@ data class MealPlan(
     val creatorId: String,
     @SerializedName("draft")
     var draft: Boolean = true,
+    @SerializedName("creatorUsername")
+    val creatorUsername: String,
     @SerializedName("meals")
-    @Expose(serialize = false, deserialize = false)
     var meals: List<Meal> = emptyList()
 )
-

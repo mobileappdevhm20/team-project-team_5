@@ -13,11 +13,11 @@ interface MealPlanDao {
 
     @Transaction
     @Query("SELECT * FROM MealPlan where planId = :id ")
-    fun getMealPlan(id: Long): LiveData<MealPlan>
+    fun getMealPlan(id: Long): LiveData<MealPlan?>
 
     @Transaction
     @Query("SELECT * FROM MealPlan where planId = :id ")
-    fun getMealPlanNoLiveData(id: Long): MealPlan
+    fun getMealPlanNoLiveData(id: Long): MealPlan?
 
     @Transaction
     @Query("SELECT * FROM MealPlan where creatorId = :id ")

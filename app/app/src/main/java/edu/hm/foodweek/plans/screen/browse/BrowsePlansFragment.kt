@@ -1,7 +1,6 @@
 package edu.hm.foodweek.plans.screen.browse
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,13 +16,14 @@ import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.screen.EndlessScrollListener
 import edu.hm.foodweek.plans.screen.MealPlanViewModel
 import edu.hm.foodweek.plans.screen.PlanFragmentDirections
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import edu.hm.foodweek.util.extensions.combineLatest
+import edu.hm.foodweek.util.extensions.map
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
 class BrowsePlansFragment : Fragment(), KoinComponent {
 
-    private val mealPlanViewModel: MealPlanViewModel by viewModel()
+    private val mealPlanViewModel: MealPlanViewModel by inject()
     private val mealPlanRepository: MealPlanRepository by inject()
 
     override fun onCreateView(
@@ -61,35 +61,51 @@ class BrowsePlansFragment : Fragment(), KoinComponent {
             findNavController().navigate(action)
         }
 
-        val adapter =
-            BrowsePlansAdapter(onCardClicked)
+        // Subscribe or unsubscribe plan
+        val onSubscribeClicked = { plan: BrowsableMealPlan ->
+            if (plan.subscribed) {
+                mealPlanViewModel.unsubscribePlan(plan.plan)
+            } else {
+                mealPlanViewModel.subscribePlan(plan.plan)
+            }
+        }
+
+        val adapter = BrowsePlansAdapter(onCardClicked, onSubscribeClicked)
         val recyclerView = binding.plansList
         recyclerView.adapter = adapter
 
-        mealPlanViewModel.filteredMealPlans.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                adapter.data = it.toMutableList()
-            }
-        })
+        mealPlanViewModel.browsablePlans
+            .observe(viewLifecycleOwner, Observer {
+                it?.let {
+                    adapter.data = it.toMutableList()
+                    adapter.notifyDataSetChanged()
+                }
+            })
 
         recyclerView.addOnScrollListener(object :
             EndlessScrollListener(recyclerView.layoutManager as LinearLayoutManager) {
             override fun loadPage(page: Int) {
                 if (!loading) {
                     loading = true
-                    Log.println(
-                        Log.INFO,
-                        "BrowsePlansFragment",
-                        "isLoading? $loading currentPage $page"
-                    )
                     mealPlanRepository.getLiveDataAllMealPlans(
                         query = binding.browsePlansSearchview.query.toString(),
                         page = page
-                    ).observe(viewLifecycleOwner, Observer { nextPage ->
-                        adapter.data.addAll(nextPage)
-                        adapter.notifyDataSetChanged()
-                        loading = false
-                    })
+                    )
+                        .combineLatest(mealPlanViewModel.managedPlans)
+                        .map { combined ->
+                            combined?.first?.map { plan ->
+                                BrowsableMealPlan(
+                                    plan = plan,
+                                    subscribed = combined.second.any { it.plan.planId == plan.planId }
+                                )
+                            }
+                        }
+                        .observe(viewLifecycleOwner, Observer { nextPage ->
+                            val start = adapter.data.size - 1
+                            adapter.data.addAll(nextPage!!)
+                            adapter.notifyItemRangeChanged(start, nextPage.size)
+                            loading = false
+                        })
                 }
             }
         })

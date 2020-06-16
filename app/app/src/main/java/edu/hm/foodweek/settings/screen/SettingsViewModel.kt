@@ -9,13 +9,12 @@ import edu.hm.foodweek.plans.persistence.model.MealTime
 import edu.hm.foodweek.plans.persistence.model.WeekDay
 import edu.hm.foodweek.recipes.persistence.RecipeRepository
 import edu.hm.foodweek.recipes.persistence.model.Ingredient
+import edu.hm.foodweek.recipes.persistence.model.IngredientAmount
 import edu.hm.foodweek.recipes.persistence.model.Recipe
-import edu.hm.foodweek.recipes.persistence.model.Unit
-import edu.hm.foodweek.recipes.persistence.model.UnitScale
 import edu.hm.foodweek.users.persistence.UserRepository
+import edu.hm.foodweek.util.DatabaseEntityCreator
 import edu.hm.foodweek.util.extensions.combineLatest
 import edu.hm.foodweek.util.extensions.map
-import edu.hm.foodweek.util.extensions.mapSkipNulls
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -48,7 +47,7 @@ class SettingsViewModel(
         liveData {
             var recipesOfThisMealPlan = emptyList<Recipe>()
             if (mealplan != null && !mealplan.meals.isNullOrEmpty()) {
-                recipesOfThisMealPlan = loadRecipes(mealplan.meals.map { meal -> meal.recipeId })
+                recipesOfThisMealPlan = loadRecipes(mealplan.meals.map { meal -> meal.recipe.recipeId })
             }
             emit(recipesOfThisMealPlan)
         }
@@ -76,8 +75,8 @@ class SettingsViewModel(
                     "The best way to use old tomatoes",
                     "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Recipe_Unlimited_logo.png/320px-Recipe_Unlimited_logo.png",
                     arrayListOf(
-                        Ingredient("tomato", Unit(3, UnitScale.Pieces)),
-                        Ingredient("Bread", Unit(1, UnitScale.KiloGram))
+                        IngredientAmount(Ingredient("tomato"), "3 pieces"),
+                        IngredientAmount(Ingredient("bread"), "1kg")
                     ),
                     arrayListOf(
                         "munch those lucky tomatoes",
@@ -99,7 +98,8 @@ class SettingsViewModel(
                         "imgUrl",
                         userid,
                         true,
-                        listOf(Meal(WeekDay.MONDAY, MealTime.BREAKFAST, 1L))
+                        "username",
+                        listOf(Meal(WeekDay.MONDAY, MealTime.BREAKFAST, DatabaseEntityCreator.recipe1))
                     )
                 )
             }

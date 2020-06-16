@@ -76,7 +76,7 @@ class UserController(
 
     @PutMapping("/{userId}/subscribed/{mealPlanId}")
     fun subscribeMealPlan(@PathVariable userId: String, @PathVariable mealPlanId: Long, @RequestHeader user: Optional<String>): MealPlanBriefDto {
-        val existingUser = verifyUserIsAuthorized(userId, user)
+        val existingUser = verifyUserIsAuthorized(userId, user, true)
         val mealPlan = mealPlanRepository.findById(mealPlanId).orElseThrow { throw NotFoundException("MealPlan with id $mealPlanId does not exist!") }
 
         if (!existingUser.subscribedPlans.contains(mealPlan)) {
@@ -89,7 +89,7 @@ class UserController(
 
     @DeleteMapping("/{userId}/subscribed/{mealPlanId}")
     fun unsubscribeMealPlan(@PathVariable userId: String, @PathVariable mealPlanId: Long, @RequestHeader user: Optional<String>): MealPlanBriefDto {
-        val existingUser = verifyUserIsAuthorized(userId, user)
+        val existingUser = verifyUserIsAuthorized(userId, user, true)
         val mealPlan = mealPlanRepository.findById(mealPlanId).orElseThrow { throw NotFoundException("MealPlan with id $mealPlanId does not exist!") }
 
         if (existingUser.subscribedPlans.contains(mealPlan)) {
@@ -105,10 +105,14 @@ class UserController(
         return mapper.map(verifyUserIsAuthorized(userId, user), UserDetailDto::class.java).ownMealPlans ?: emptyList()
     }
 
-    fun verifyUserIsAuthorized(userId: String, user: Optional<String>): User {
-        val existingUser = userRepository.findById(userId)
+    fun verifyUserIsAuthorized(userId: String, user: Optional<String>, createUser: Boolean = false) : User {
+        var existingUser = userRepository.findById(userId)
         if (existingUser.isEmpty) {
-            throw NotFoundException("User with id $userId does not exist!")
+            if (createUser && userId == user.get()) {
+                existingUser = Optional.of(userRepository.save(User(userId, null)))
+            } else {
+                throw NotFoundException("User with id $userId does not exist!")
+            }
         }
 
         if (user.isEmpty || user.isPresent && user.get() != adminId && user.get() != existingUser.get().userId) {

@@ -81,7 +81,7 @@ class PlanDetailsViewModel(
             return@withContext plan?.meals?.map { meal ->
                 Pair(
                     meal,
-                    recipeRepository.getRecipeById(meal.recipeId)
+                    recipeRepository.getRecipeById(meal.recipe.recipeId)
                 )
             }
                 ?: emptyList()

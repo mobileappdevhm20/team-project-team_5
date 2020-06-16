@@ -21,6 +21,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.*
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.stopKoin
 import org.koin.core.logger.Level
 import org.koin.core.parameter.parametersOf
 import org.koin.test.KoinTest
@@ -60,6 +61,7 @@ class PlanDetailsViewModelTest : KoinTest, Application() {
     fun tearDown() {
         Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
         mainThreadSurrogate.close()
+        stopKoin()
     }
 
     @Test

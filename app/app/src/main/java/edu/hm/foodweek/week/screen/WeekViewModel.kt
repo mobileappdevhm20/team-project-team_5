@@ -21,7 +21,7 @@ import java.util.logging.Logger
 class WeekViewModel(
     private val mealPlanRepository: MealPlanRepository,
     private val recipeRepository: RecipeRepository,
-    private val userRepository: UserRepository,
+    userRepository: UserRepository,
     application: Application
 ) :
     AndroidViewModel(
@@ -42,7 +42,7 @@ class WeekViewModel(
             mealPlanRepository.getLiveDataMealPlanById(it)
         } else {
             // provide Default Mealplan, the values wont be used
-            liveData { emit(MealPlan(0, "", "", "", "nouser", true)) }
+            liveData { emit(MealPlan(0, "", "", "", "nouser", true, creatorUsername = "username")) }
         }
     }
     val planId = mealPlan.mapSkipNulls { it.planId }
@@ -60,7 +60,7 @@ class WeekViewModel(
     val planUrl = mealPlan.mapSkipNulls { it.imageURL }
 
     private val recipes = mealPlan.switchMap {
-        recipeRepository.getLiveDataRecipesByIds(it.meals.map { meal -> meal.recipeId })
+        recipeRepository.getLiveDataRecipesByIds(it.meals.map { meal -> meal.recipe.recipeId })
     }
 
     private val recipeMap = recipes.mapSkipNulls { list ->
@@ -71,9 +71,9 @@ class WeekViewModel(
         val recipes = pair.first
         val meals = pair.second
         meals.map { meal ->
-            var recipe = recipes[meal.recipeId]
+            val recipe = recipes[meal.recipe.recipeId]
             if (recipe != null)
-                MealPreview(meal.time, recipe.title, meal.recipeId, recipe.url)
+                MealPreview(meal.time, recipe.title, meal.recipe.recipeId, recipe.url)
             else
                 MealPreview(MealTime.BREAKFAST, "undefined", -1, "")
         }

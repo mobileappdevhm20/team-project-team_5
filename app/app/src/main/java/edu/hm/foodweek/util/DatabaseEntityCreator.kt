@@ -8,8 +8,8 @@ import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.plans.persistence.model.MealTime
 import edu.hm.foodweek.plans.persistence.model.WeekDay
 import edu.hm.foodweek.recipes.persistence.model.Ingredient
+import edu.hm.foodweek.recipes.persistence.model.IngredientAmount
 import edu.hm.foodweek.recipes.persistence.model.Recipe
-import edu.hm.foodweek.recipes.persistence.model.UnitScale
 import edu.hm.foodweek.users.persistence.UserDao
 import edu.hm.foodweek.users.persistence.model.User
 import kotlinx.coroutines.CoroutineScope
@@ -33,8 +33,8 @@ object DatabaseEntityCreator {
         description = "The best way to use old tomatoes",
         url = "https://www.gimmesomeoven.com/wp-content/uploads/2017/02/Catalan-Tomato-Bread-Pan-Con-Tomate-Recipe.jpg",
         ingredients = arrayListOf(
-            Ingredient("tomato", edu.hm.foodweek.recipes.persistence.model.Unit(3, UnitScale.Pieces)),
-            Ingredient("Bread", edu.hm.foodweek.recipes.persistence.model.Unit(1, UnitScale.KiloGram))
+            IngredientAmount(Ingredient("tomato"), "3 pieces"),
+            IngredientAmount(Ingredient("Bread"), "1kg")
         ),
         steps = arrayListOf(
             "munch those lucky tomatoes",
@@ -52,8 +52,8 @@ object DatabaseEntityCreator {
         description = "toast and nutella",
         url = "https://www.einfachbacken.de/sites/einfachbacken.de/files/styles/facebook/public/2020-01/french_toast_mit_nutella.jpg?h=4521fff0&itok=YdSpSTsN",
         ingredients = arrayListOf(
-            Ingredient("Nutella", edu.hm.foodweek.recipes.persistence.model.Unit(50, UnitScale.Gram)),
-            Ingredient("Bread", edu.hm.foodweek.recipes.persistence.model.Unit(1, UnitScale.Pieces))
+            IngredientAmount(Ingredient("Nutella"), "50g"),
+            IngredientAmount(Ingredient("Bread"), "1 piece")
         ),
         steps = arrayListOf(
             "take bread slice",
@@ -68,9 +68,9 @@ object DatabaseEntityCreator {
         description = "cornflakes with milk",
         url = "https://www.lidl-kochen.de/images/recipe/17367/cornflakes-mit-milch-133578.jpg",
         ingredients = arrayListOf(
-            Ingredient("Cornflakes", edu.hm.foodweek.recipes.persistence.model.Unit(90, UnitScale.Gram)),
-            Ingredient("Milk", edu.hm.foodweek.recipes.persistence.model.Unit(100, UnitScale.Millilitre)),
-            Ingredient("Fruits", edu.hm.foodweek.recipes.persistence.model.Unit(50, UnitScale.Gram))
+            IngredientAmount(Ingredient("Cornflakes"), "90g"),
+            IngredientAmount(Ingredient("Milk"), "100ml"),
+            IngredientAmount(Ingredient("Fruits"), "50g")
         ),
         steps = arrayListOf(
             "optional: cut fruits",
@@ -85,16 +85,12 @@ object DatabaseEntityCreator {
         description = "Basic Pizza",
         url = "https://www.delonghi.com/Global/recipes/multifry/pizza_fresca.jpg",
         ingredients = arrayListOf(
-            Ingredient("flour", edu.hm.foodweek.recipes.persistence.model.Unit(150, UnitScale.Gram)),
-            Ingredient("yeast", edu.hm.foodweek.recipes.persistence.model.Unit(20, UnitScale.Millilitre)),
-            Ingredient("sugar", edu.hm.foodweek.recipes.persistence.model.Unit(20, UnitScale.Gram)),
-            Ingredient("salt", edu.hm.foodweek.recipes.persistence.model.Unit(10, UnitScale.Gram)),
-            Ingredient("garlic powder", edu.hm.foodweek.recipes.persistence.model.Unit(5, UnitScale.Gram)),
-            Ingredient("olive oil", edu.hm.foodweek.recipes.persistence.model.Unit(10, UnitScale.Millilitre)),
-            Ingredient("warm water", edu.hm.foodweek.recipes.persistence.model.Unit(750, UnitScale.Millilitre)),
-            Ingredient("Tomatoes", edu.hm.foodweek.recipes.persistence.model.Unit(5, UnitScale.Pieces)),
-            Ingredient("cheese", edu.hm.foodweek.recipes.persistence.model.Unit(500, UnitScale.Gram)),
-            Ingredient("herbs", edu.hm.foodweek.recipes.persistence.model.Unit(10, UnitScale.Gram))
+            IngredientAmount(Ingredient("garlic powder"), "5g"),
+            IngredientAmount(Ingredient("olive oil"), "10ml"),
+            IngredientAmount(Ingredient("warm water"), "750ml"),
+            IngredientAmount(Ingredient("Tomatoes"), "5 pieces"),
+            IngredientAmount(Ingredient("cheese"), "500g"),
+            IngredientAmount(Ingredient("herbs"), "10g")
         ),
         steps = arrayListOf(
             "Dough: Take a bowl and put in the flour,yeast,sugar,salt,olive oil,water. Mix it for 10 Minutes",
@@ -114,8 +110,9 @@ object DatabaseEntityCreator {
         "https://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
         "userId1",
         true,
+        "username",
         listOf(
-            Meal(WeekDay.MONDAY, MealTime.DINNER, recipe2.recipeId)
+            Meal(WeekDay.MONDAY, MealTime.DINNER, recipe2)
         )
     )
 
@@ -126,15 +123,16 @@ object DatabaseEntityCreator {
         "https://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
         "userId2",
         true,
+        "username",
         listOf(
-            Meal(WeekDay.MONDAY, MealTime.DINNER, recipe2.recipeId),
-            Meal(WeekDay.TUESDAY, MealTime.DINNER, recipe2.recipeId),
-            Meal(WeekDay.WEDNESDAY, MealTime.DINNER, recipe2.recipeId),
-            Meal(WeekDay.THURSDAY, MealTime.LUNCH, recipe2.recipeId),
-            Meal(WeekDay.FRIDAY, MealTime.DINNER, recipe2.recipeId),
-            Meal(WeekDay.SATURDAY, MealTime.LUNCH, recipe3.recipeId),
-            Meal(WeekDay.SUNDAY, MealTime.DINNER, recipe2.recipeId),
-            Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe5.recipeId)
+            Meal(WeekDay.MONDAY, MealTime.DINNER, recipe2),
+            Meal(WeekDay.TUESDAY, MealTime.DINNER, recipe2),
+            Meal(WeekDay.WEDNESDAY, MealTime.DINNER, recipe2),
+            Meal(WeekDay.THURSDAY, MealTime.LUNCH, recipe2),
+            Meal(WeekDay.FRIDAY, MealTime.DINNER, recipe2),
+            Meal(WeekDay.SATURDAY, MealTime.LUNCH, recipe3),
+            Meal(WeekDay.SUNDAY, MealTime.DINNER, recipe2),
+            Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe5)
         )
     )
 
@@ -145,12 +143,13 @@ object DatabaseEntityCreator {
         "https://www.gnjumc.org/content/uploads/2017/02/red-tomato-meteorite-1.jpg",
         "userId2",
         true,
+        "username",
         listOf(
-            Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe5.recipeId),
-            Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe5.recipeId),
-            Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe5.recipeId),
-            Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe5.recipeId),
-            Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe5.recipeId)
+            Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe5),
+            Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe5),
+            Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe5),
+            Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe5),
+            Meal(WeekDay.getRandom(), MealTime.getRandom(), recipe5)
         )
     )
 
@@ -183,7 +182,11 @@ object DatabaseEntityCreator {
         }
     }
 
-    val localUserWithMap = User("null", "LocalUser", mapOf(Pair<Int, Long>(Calendar.getInstance().get(Calendar.WEEK_OF_YEAR), mealplan2.planId)))
+    val localUserWithMap = User(
+        "null",
+        "LocalUser",
+        mapOf(Pair<Int, Long>(Calendar.getInstance().get(Calendar.WEEK_OF_YEAR), mealplan2.planId))
+    )
     val localUserWithoutMap = User("null", "LocalUser", emptyMap())
 
     fun createUser(userDao: UserDao, androidId: String) {
