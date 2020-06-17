@@ -52,13 +52,13 @@ class UserController(
         val existingUser = userRepository.findById(userId).orElseThrow { throw NotFoundException("User with id $userId does not exist!") }
 
         // Remove all subscriptions of user
-        existingUser.subscribedPlans.clear()
+        existingUser.subscribedPlans?.clear()
         userRepository.save(existingUser)
 
         // Remove all owned mealplans
-        existingUser.ownMealPlans.forEach {
+        existingUser.ownMealPlans?.forEach {
             it.subscribers?.forEach { sub ->
-                sub.subscribedPlans.remove(it)
+                sub.subscribedPlans?.remove(it)
                 userRepository.save(sub)
             }
         }
@@ -79,8 +79,8 @@ class UserController(
         val existingUser = verifyUserIsAuthorized(userId, user, true)
         val mealPlan = mealPlanRepository.findById(mealPlanId).orElseThrow { throw NotFoundException("MealPlan with id $mealPlanId does not exist!") }
 
-        if (!existingUser.subscribedPlans.contains(mealPlan)) {
-            existingUser.subscribedPlans.add(mealPlan)
+        if (existingUser.subscribedPlans != null && !existingUser.subscribedPlans!!.contains(mealPlan)) {
+            existingUser.subscribedPlans!!.add(mealPlan)
             userRepository.save(existingUser)
         }
 
@@ -92,8 +92,8 @@ class UserController(
         val existingUser = verifyUserIsAuthorized(userId, user, true)
         val mealPlan = mealPlanRepository.findById(mealPlanId).orElseThrow { throw NotFoundException("MealPlan with id $mealPlanId does not exist!") }
 
-        if (existingUser.subscribedPlans.contains(mealPlan)) {
-            existingUser.subscribedPlans.remove(mealPlan)
+        if (existingUser.subscribedPlans != null && existingUser.subscribedPlans!!.contains(mealPlan)) {
+            existingUser.subscribedPlans!!.remove(mealPlan)
             userRepository.save(existingUser)
         }
 
@@ -109,7 +109,7 @@ class UserController(
         var existingUser = userRepository.findById(userId)
         if (existingUser.isEmpty) {
             if (createUser && userId == user.get()) {
-                existingUser = Optional.of(userRepository.save(User(userId, null)))
+                existingUser = Optional.of(userRepository.save(User(userId, null, mutableListOf(), mutableListOf())))
             } else {
                 throw NotFoundException("User with id $userId does not exist!")
             }

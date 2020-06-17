@@ -13,7 +13,7 @@ data class User(
 
         @JsonIgnore
         @OneToMany(mappedBy = "creator", cascade = [CascadeType.ALL])
-        var ownMealPlans: List<MealPlan>?,
+        var ownMealPlans: MutableList<MealPlan>?,
 
         @JsonIgnore
         @ManyToMany(cascade = [CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH])

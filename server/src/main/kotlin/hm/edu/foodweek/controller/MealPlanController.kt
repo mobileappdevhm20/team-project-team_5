@@ -53,19 +53,33 @@ class MealPlanController(
     @PostMapping
     fun create(@RequestBody input: MealPlan, @RequestHeader user: Optional<String>): ResponseEntity<Any> {
         // Attach or create creator
-        if (user.isEmpty) {
+        if (input.creator == null) {
             throw UnauthorizedException()
         }
-        input.creator = userRepository.findById(user.get()).orElse(userRepository.save(User(user.get(), null)))
+        val creator = verifyUserIsAuthorized(input.creator!!.userId, user, true)
+        if (input.creator!!.username != null) {
+            creator.username = input.creator!!.username
+        }
 
+        // Intermediate clearance of fields
         val inMeals = input.meals
         input.meals = emptyList()
+        input.creator = null
+
+        // Create meal plan and attach meals
         var saved = mealPlanRepository.save(input)
         if (inMeals != null) {
             saved = attachMealsToMealPlan(saved, inMeals)
         }
+
+        // Add meal plan to users own meal plans
+        creator.ownMealPlans?.add(saved)
+        userRepository.save(creator)
+        saved.creator = creator
+
         return ResponseEntity(mapper.map(mealPlanRepository.save(saved), MealPlanDetailedDto::class.java), HttpStatus.CREATED)
     }
+
 
     @PutMapping("/{mealPlanId}")
     fun update(@PathVariable mealPlanId: Long, @RequestBody input: MealPlan, @RequestHeader user: Optional<String>): ResponseEntity<Any> {
@@ -97,6 +111,12 @@ class MealPlanController(
     @DeleteMapping("/{mealPlanId}")
     fun delete(@PathVariable mealPlanId: Long, @RequestHeader user: Optional<String>): ResponseEntity<Any> {
         val mealPlan = verifyUserIsAuthorizedAndMealPlanExists(mealPlanId, user)
+
+        // Remove from subscriptions
+        mealPlan.subscribers?.forEach {
+            it.subscribedPlans?.remove(mealPlan)
+        }
+
         mealPlanRepository.delete(mealPlan)
         return ResponseEntity(HttpStatus.OK)
     }
@@ -118,6 +138,23 @@ class MealPlanController(
                 .onEach { mealRepository.save(it) }
 
         return created
+    }
+
+    fun verifyUserIsAuthorized(userId: String, user: Optional<String>, createUser: Boolean = false): User {
+        var existingUser = userRepository.findById(userId)
+        if (existingUser.isEmpty) {
+            if (createUser && userId == user.get()) {
+                existingUser = Optional.of(userRepository.save(User(userId, null, mutableListOf(), mutableListOf())))
+            } else {
+                throw NotFoundException("User with id $userId does not exist!")
+            }
+        }
+
+        if (user.isEmpty || user.isPresent && user.get() != adminId && user.get() != existingUser.get().userId) {
+            throw UnauthorizedException()
+        }
+
+        return existingUser.get()
     }
 
     fun verifyUserIsAuthorizedAndMealPlanExists(mealPlanId: Long, user: Optional<String>): MealPlan {
