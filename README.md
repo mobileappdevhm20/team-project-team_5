@@ -1,7 +1,7 @@
 # Recipes App
 
 Awesome app for building recipe plans.\
-[![Build Status](https://travis-ci.com/mobileappdevhm20/team-project-team_5.svg?branch=master)](https://travis-ci.com/mobileappdevhm20/team-project-team_5)
+[![Build](https://github.com/mobileappdevhm20/team-project-team_5/workflows/Build/badge.svg)
 [![codecov](https://codecov.io/gh/mobileappdevhm20/team-project-team_5/branch/master/graph/badge.svg)](https://codecov.io/gh/mobileappdevhm20/team-project-team_5)
 
 ## Contributing
