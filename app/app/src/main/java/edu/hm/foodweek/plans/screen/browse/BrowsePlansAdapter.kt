@@ -12,10 +12,10 @@ import kotlinx.android.synthetic.main.browse_plans_view_holder.view.*
 
 class BrowsePlansAdapter(
     private val onCardClicked: (Long) -> Unit,
-    private val onSubscribePlanClicked: (BrowsableMealPlan) -> Unit
+    private val onSubscribePlanClicked: (BrowseableMealPlan) -> Unit
 ) : RecyclerView.Adapter<BrowsePlansAdapter.PlansViewHolder>() {
 
-    var data = mutableListOf<BrowsableMealPlan>()
+    var data = mutableListOf<BrowseableMealPlan>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -24,11 +24,11 @@ class BrowsePlansAdapter(
     class PlansViewHolder(
         itemView: View,
         private val onCardClicked: (Long) -> Unit,
-        private val onSubscribePlanClicked: (BrowsableMealPlan) -> Unit
+        private val onSubscribePlanClicked: (BrowseableMealPlan) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
-        fun bind(browsablePlan: BrowsableMealPlan) {
-            val mealPlan = browsablePlan.plan
-            if (browsablePlan.subscribed) {
+        fun bind(browseablePlan: BrowseableMealPlan) {
+            val mealPlan = browseablePlan.plan
+            if (browseablePlan.subscribed) {
                 Glide.with(itemView).load(R.drawable.ic_favorite_red_24dp)
                     .into(itemView.subscribe_button)
             } else {
@@ -53,7 +53,7 @@ class BrowsePlansAdapter(
 
             // Add click listener to subscribe meal plan
             itemView.subscribe_button.setOnClickListener {
-                onSubscribePlanClicked(browsablePlan)
+                onSubscribePlanClicked(browseablePlan)
             }
 
         }

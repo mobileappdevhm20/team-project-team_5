@@ -74,7 +74,9 @@ class MealPlanViewModelTest : KoinTest, Application() {
             val allMealPlans = viewModel.browsablePlans.getOrAwaitValue()
             val ownMealPlans = viewModel.managedPlans.getOrAwaitValue()
 
-            val expected = createMealPlans().map { BrowsableMealPlan(it) }
+            val expected = createMealPlans().map { BrowseableMealPlan(it) }
+
+            Thread.sleep(500)
             assertEquals("All mealPlans should be there", expected, allMealPlans)
             assertEquals(
                 "Own mealPlans should be there",

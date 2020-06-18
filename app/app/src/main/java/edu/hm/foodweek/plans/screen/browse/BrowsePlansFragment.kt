@@ -62,7 +62,7 @@ class BrowsePlansFragment : Fragment(), KoinComponent {
         }
 
         // Subscribe or unsubscribe plan
-        val onSubscribeClicked = { plan: BrowsableMealPlan ->
+        val onSubscribeClicked = { plan: BrowseableMealPlan ->
             if (plan.subscribed) {
                 mealPlanViewModel.unsubscribePlan(plan.plan)
             } else {
@@ -94,7 +94,7 @@ class BrowsePlansFragment : Fragment(), KoinComponent {
                         .combineLatest(mealPlanViewModel.managedPlans)
                         .map { combined ->
                             combined?.first?.map { plan ->
-                                BrowsableMealPlan(
+                                BrowseableMealPlan(
                                     plan = plan,
                                     subscribed = combined.second.any { it.plan.planId == plan.planId }
                                 )

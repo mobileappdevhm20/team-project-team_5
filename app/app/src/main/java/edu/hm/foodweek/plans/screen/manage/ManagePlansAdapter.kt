@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import edu.hm.foodweek.R
 import edu.hm.foodweek.plans.persistence.model.MealPlan
-import edu.hm.foodweek.plans.screen.browse.BrowsableMealPlan
+import edu.hm.foodweek.plans.screen.browse.BrowseableMealPlan
 import kotlinx.android.synthetic.main.browse_plans_view_holder.view.recipe_plan_picture
 import kotlinx.android.synthetic.main.browse_plans_view_holder.view.recipe_plan_text
 import kotlinx.android.synthetic.main.manage_plans_view_holder.view.*
@@ -23,7 +23,7 @@ class ManagePlansAdapter(
     private val onStatsClicked: (MealPlan) -> Unit
 ) : RecyclerView.Adapter<ManagePlansAdapter.PlansViewHolder>() {
 
-    var data = listOf<BrowsableMealPlan>()
+    var data = listOf<BrowseableMealPlan>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -39,7 +39,7 @@ class ManagePlansAdapter(
         private val onStatsClicked: (MealPlan) -> Unit
     ) :
         RecyclerView.ViewHolder(itemView) {
-        fun bind(mealPlan: BrowsableMealPlan) {
+        fun bind(mealPlan: BrowseableMealPlan) {
 
             // Set text
             itemView.recipe_plan_text.text = mealPlan.plan.title

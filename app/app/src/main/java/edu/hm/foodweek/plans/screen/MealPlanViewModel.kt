@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.persistence.model.MealPlan
-import edu.hm.foodweek.plans.screen.browse.BrowsableMealPlan
+import edu.hm.foodweek.plans.screen.browse.BrowseableMealPlan
 import edu.hm.foodweek.util.extensions.combineLatest
 import edu.hm.foodweek.util.extensions.debounce
 import io.reactivex.disposables.CompositeDisposable
@@ -29,7 +29,6 @@ class MealPlanViewModel(
         )
         disposables.add(
             mealPlanRepository.getOwnMealPlans()
-                .doOnNext { Log.i("FUCK", "$it") }
                 .subscribe(
                     { _ownPlans.postValue(it) },
                     { Log.e("MealPlanViewModel", "Unable to get owned plans", it) })
@@ -45,13 +44,13 @@ class MealPlanViewModel(
         .combineLatest(_subscribedPlans)
         .map { combined ->
             combined.first.map { plan ->
-                BrowsableMealPlan(
+                BrowseableMealPlan(
                     plan = plan,
                     subscribed = combined.second.any { it.planId == plan.planId },
                     owned = true
                 )
             }.plus(combined.second.map {
-                BrowsableMealPlan(
+                BrowseableMealPlan(
                     plan = it,
                     subscribed = true
                 )
@@ -64,7 +63,7 @@ class MealPlanViewModel(
         .combineLatest(managedPlans)
         .map { combined ->
             combined.first.map { plan ->
-                BrowsableMealPlan(
+                BrowseableMealPlan(
                     plan = plan,
                     subscribed = combined.second.any { it.plan.planId == plan.planId }
                 )
