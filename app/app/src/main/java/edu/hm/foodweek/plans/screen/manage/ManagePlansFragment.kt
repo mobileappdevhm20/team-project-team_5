@@ -75,7 +75,7 @@ class ManagePlansFragment : Fragment() {
                 )
             }
         )
-        val recyclerView = binding.plansList
+        val recyclerView = binding.managePlansRecyclerView
         recyclerView.adapter = adapter
 
         mealPlanViewModel.managedPlans.observe(viewLifecycleOwner, Observer {

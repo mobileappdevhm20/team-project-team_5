@@ -1,0 +1,81 @@
+name: Build
+defaults:
+    run:
+        working-directory: ./app
+env:
+  CI: true
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+jobs:
+  ANDROID_BASE_CHECKS:
+    name: Base Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Perform base checks
+        run: ./gradlew app:assembleDebug
+  ANDROID_UNIT_TESTS:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Execute unit tests
+        run: ./gradlew app:jacocoTestReport
+      - name: Upload unit tests artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: unit_tests
+          path: ./app/app/build/jacoco/
+      - name: Upload coverage report (Codecov)
+        uses: codecov/codecov-action@v1
+        with:
+          name: unit_tests
+          fail_ci_if_error: true
+  ANDROID_EMULATOR_TESTS:
+    name: Emulator Tests
+    runs-on: macOS-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        EMULATOR_API: [29] 
+        include:
+          - EMULATOR_API: 29
+            EMULATOR_ARCH: x86_64
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Execute emulator tests
+        timeout-minutes: 30
+        uses: reactivecircus/android-emulator-runner@v2.4.0
+        with:
+          api-level: ${{ matrix.EMULATOR_API }}
+          arch: ${{ matrix.EMULATOR_ARCH }}
+          disable-animations: true
+          working-directory: ./app
+          profile: Nexus 5X
+          emulator-options: -no-snapshot -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect
+          emulator-build: 6110076
+          script: ./gradlew app:connectedCheck
+      - name: Upload emulator tests artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: emulator_tests_${{ matrix.EMULATOR_API }}
+          path: ./app/app/build/reports/coverage/debug/
+      - name: Upload coverage report (Codecov)
+        uses: codecov/codecov-action@v1
+        with:
+          name: emulator_tests_${{ matrix.EMULATOR_API }}
+          fail_ci_if_error: true
+          file: ./app/app/build/reports/coverage/debug/report.xml

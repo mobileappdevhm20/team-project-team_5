@@ -71,7 +71,7 @@ class BrowsePlansFragment : Fragment(), KoinComponent {
         }
 
         val adapter = BrowsePlansAdapter(onCardClicked, onSubscribeClicked)
-        val recyclerView = binding.plansList
+        val recyclerView = binding.browsePlansRecyclerView
         recyclerView.adapter = adapter
 
         mealPlanViewModel.browsablePlans

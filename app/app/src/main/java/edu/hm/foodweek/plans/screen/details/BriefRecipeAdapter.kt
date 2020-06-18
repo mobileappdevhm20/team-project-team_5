@@ -14,7 +14,6 @@ import com.github.vipulasri.timelineview.TimelineView
 import edu.hm.foodweek.R
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 import kotlinx.android.synthetic.main.plan_day_details_recipe_view_holder.view.*
-import kotlinx.android.synthetic.main.plan_details_view_holder.view.imageView
 
 class BriefRecipeAdapter(
     private val mFeedList: List<Recipe>,
@@ -71,7 +70,7 @@ class BriefRecipeAdapter(
     inner class RecipeBriefListViewHolder(itemView: View, viewType: Int) :
         RecyclerView.ViewHolder(itemView) {
 
-        val imageView: ImageView = itemView.imageView
+        val imageView: ImageView = itemView.plan_day_details_recipe_view_holder_imageView
         val recipeTitle: TextView = itemView.recipe_title
         val recipeDescription: TextView = itemView.recipe_description
         val recipePreparationTime: TextView = itemView.recipe_preparation_time

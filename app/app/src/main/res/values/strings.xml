@@ -4,7 +4,6 @@
     <string name="title_plan">Meal Plans</string>
     <string name="title_plan_details">Meal Plans Details</string>
     <string name="title_shopping">Shopping List</string>
-    <string name="title_settings">Settings</string>
     <string name="default_recipe_image">https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Recipe_Unlimited_logo.png/320px-Recipe_Unlimited_logo.png</string>
     <string name="recipe_not_found">recipe not found:</string>
     <string name="ingredients_list_header">Ingredients</string>

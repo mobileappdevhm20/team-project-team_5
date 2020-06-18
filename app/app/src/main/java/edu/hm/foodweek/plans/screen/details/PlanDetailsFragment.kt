@@ -51,13 +51,13 @@ class PlanDetailsFragment : Fragment() {
 
         // Init recycler view
         mLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        root.recyclerView.layoutManager = mLayoutManager
+        root.plan_details_recyclerView.layoutManager = mLayoutManager
         mAdapter = PlanDetailsAdapter(
             timelineData,
             Glide.with(this).asDrawable(),
             onDayClicked
         )
-        root.recyclerView.adapter = mAdapter
+        root.plan_details_recyclerView.adapter = mAdapter
 
         return root
     }

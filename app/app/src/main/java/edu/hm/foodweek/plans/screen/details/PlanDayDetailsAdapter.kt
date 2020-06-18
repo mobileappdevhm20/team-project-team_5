@@ -67,7 +67,7 @@ class PlanDayDetailsAdapter(
         RecyclerView.ViewHolder(itemView) {
 
         val mealTime: TextView = itemView.meal_time_label
-        val recipeList: RecyclerView = itemView.recyclerView
+        val recipeList: RecyclerView = itemView.plan_day_details_view_holder_recyclerView
         private val timeline: TimelineView = itemView.timeline
 
         init {

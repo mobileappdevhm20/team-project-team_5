@@ -66,27 +66,6 @@
         android:label="@string/title_shopping"
         tools:layout="@layout/fragment_shopping" />
     <fragment
-        android:id="@+id/navigation_settings"
-        android:name="edu.hm.foodweek.settings.screen.SettingsFragment"
-        android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings">
-        <action
-            android:id="@+id/action_navigation_settings_to_developerSettingsFragment"
-            app:destination="@id/developerSettingsFragment" />
-        <action
-            android:id="@+id/action_navigation_settings_to_developerSettingsFragment2"
-            app:destination="@id/developerSettingsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/developerSettingsFragment"
-        android:name="edu.hm.foodweek.developersettings.DeveloperSettingsFragment"
-        android:label="Developer Settings">
-        <action
-            android:id="@+id/startRecipeDetails"
-            app:destination="@id/recipeDetailFragment">
-        </action>
-    </fragment>
-    <fragment
         android:id="@+id/recipeDetailFragment"
         android:name="edu.hm.foodweek.recipes.RecipeDetailFragment"
         tools:layout="@layout/recipe_detail_fragment">

@@ -1,8 +1,7 @@
-package edu.hm.foodweek.plans.persistence
+package edu.hm.foodweek.recipes.persistence
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 
 @Dao

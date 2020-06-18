@@ -4,8 +4,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import edu.hm.foodweek.plans.persistence.MealPlanDao
-import edu.hm.foodweek.plans.persistence.RecipeDao
 import edu.hm.foodweek.plans.persistence.model.MealPlan
+import edu.hm.foodweek.recipes.persistence.RecipeDao
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 import edu.hm.foodweek.users.persistence.UserDao
 import edu.hm.foodweek.users.persistence.model.User

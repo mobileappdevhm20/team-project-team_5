@@ -5,13 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
+        android:id="@+id/plan_day_details_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".plans.screen.details.PlanDayDetailsFragment"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/plan_day_details_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/fragment_plan_details_padding"

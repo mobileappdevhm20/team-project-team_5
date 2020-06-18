@@ -2,7 +2,6 @@ package edu.hm.foodweek.plans.screen.details
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,7 @@ import com.bumptech.glide.Glide
 import edu.hm.foodweek.R
 import edu.hm.foodweek.plans.persistence.model.WeekDay
 import edu.hm.foodweek.recipes.persistence.model.Recipe
-import kotlinx.android.synthetic.main.fragment_plan_details.view.*
+import kotlinx.android.synthetic.main.fragment_plan_day_details.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -33,14 +32,14 @@ class PlanDayDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_plan_details, container, false)
+        val root = inflater.inflate(R.layout.fragment_plan_day_details, container, false)
         viewModel.detailedItems(WeekDay.valueOf(args.dayId))
             .observe(this.viewLifecycleOwner, Observer { items ->
                 timelineData.clear()
                 timelineData.addAll(items)
                 mAdapter.notifyDataSetChanged()
             })
-        initRecyclerView(root.recyclerView, requireContext())
+        initRecyclerView(root.plan_day_details_recyclerView, requireContext())
         return root
     }
 

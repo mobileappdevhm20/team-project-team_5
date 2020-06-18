@@ -3,12 +3,10 @@ package edu.hm.foodweek.recipes.persistence
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import edu.hm.foodweek.plans.persistence.RecipeDao
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 import edu.hm.foodweek.util.amplify.FoodWeekClient
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.HTTP
 import javax.security.auth.callback.Callback
 
 open class RecipeRepository(private val dao: RecipeDao, private val foodWeekClient: FoodWeekClient) {

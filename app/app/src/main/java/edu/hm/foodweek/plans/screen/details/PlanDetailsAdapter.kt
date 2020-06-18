@@ -64,7 +64,7 @@ class PlanDetailsAdapter(
         RecyclerView.ViewHolder(itemView) {
 
         val dayTitle = itemView.day_text
-        val imageView = itemView.imageView
+        val imageView = itemView.plan_details_view_holder_imageView
         val breakfastTitle = itemView.breakfast_text
         val lunchTitle = itemView.lunch_text
         val dinnerTitle = itemView.dinner_text
