@@ -1,4 +1,4 @@
-# Recipes App
+# FoodWeek
 
 [![Build](https://github.com/mobileappdevhm20/team-project-team_5/workflows/Build/badge.svg)](https://github.com/mobileappdevhm20/team-project-team_5/actions)
 [![codecov](https://codecov.io/gh/mobileappdevhm20/team-project-team_5/branch/master/graph/badge.svg)](https://codecov.io/gh/mobileappdevhm20/team-project-team_5)
