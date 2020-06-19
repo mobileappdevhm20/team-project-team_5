@@ -1,11 +1,12 @@
-package edu.hm.foodweek.util.amplify
+package edu.hm.foodweek.util.amplify.response
 
 import com.google.gson.annotations.SerializedName
 import edu.hm.foodweek.plans.persistence.model.MealPlan
+import edu.hm.foodweek.recipes.persistence.model.Recipe
 
-data class MealPlanResponse (
+data class RecipeListResponse (
     @SerializedName("content")
-    var mealPlans: List<MealPlan>,
+    var recipes: List<Recipe>,
     @SerializedName("totalPages")
     var totalPages: Int,
     @SerializedName("totalElements")

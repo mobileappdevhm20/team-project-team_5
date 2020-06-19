@@ -5,7 +5,6 @@
     android:background="@color/lighterGreyBackground">
 
     <data>
-
         <variable
             name="viewModel"
             type="edu.hm.foodweek.plans.screen.MealPlanViewModel" />
@@ -21,13 +20,25 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/manage_plans_recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="45dp"
             tools:listitem="@layout/manage_plans_view_holder"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_plan_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/manage_plans_recyclerView"
+            android:layout_marginStart="13dp"
+            android:layout_marginBottom="21dp"
+            android:src="@drawable/ic_add_black_24dp"
+            app:backgroundTint="@color/darkerGreen"
+            android:layout_alignParentStart="true"
+            app:layout_constraintBottom_toBottomOf="@id/manage_plans_recyclerView"
+            tools:ignore="RelativeOverlap" />
 
     </RelativeLayout>
 </layout>

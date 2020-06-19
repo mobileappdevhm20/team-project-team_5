@@ -43,7 +43,8 @@ class BrowsePlansFragment : Fragment(), KoinComponent {
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
                 mealPlanViewModel.filterText.postValue(newText)
-                return true
+
+                return false
             }
 
             override fun onQueryTextSubmit(query: String?): Boolean {

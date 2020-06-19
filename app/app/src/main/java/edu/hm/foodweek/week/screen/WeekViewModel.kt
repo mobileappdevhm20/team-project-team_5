@@ -1,22 +1,20 @@
 package edu.hm.foodweek.week.screen
 
 import android.app.Application
-import android.view.View
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.switchMap
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.plans.persistence.model.MealTime
 import edu.hm.foodweek.recipes.persistence.RecipeRepository
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 import edu.hm.foodweek.users.persistence.UserRepository
-import edu.hm.foodweek.users.persistence.model.User
 import edu.hm.foodweek.util.extensions.combineLatest
 import edu.hm.foodweek.util.extensions.map
 import edu.hm.foodweek.util.extensions.mapSkipNulls
 import edu.hm.foodweek.week.MealPreview
-import kotlinx.coroutines.launch
 import org.koin.android.logger.AndroidLogger
-import java.util.logging.Logger
 
 class WeekViewModel(
     private val mealPlanRepository: MealPlanRepository,

@@ -2,6 +2,8 @@ package edu.hm.foodweek.inject
 
 import androidx.room.Room
 import edu.hm.foodweek.FoodWeekDatabase
+import edu.hm.foodweek.plans.create_meal_plan.CreateMealPlanViewModel
+import edu.hm.foodweek.MainActivity
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.screen.MealPlanViewModel
 import edu.hm.foodweek.plans.screen.details.PlanDetailsViewModel
@@ -15,7 +17,6 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-
 
 val appModule = module {
     // Room database
@@ -60,6 +61,7 @@ val appModule = module {
     viewModel { WeekViewModel(get(), get(), get(), androidApplication()) }
     single { MealPlanViewModel(get(), androidApplication()) }
 
+    viewModel { CreateMealPlanViewModel(get(), get(),get(), androidApplication()) }
     // Amplify Backend
     single { FoodWeekClient() }
 }

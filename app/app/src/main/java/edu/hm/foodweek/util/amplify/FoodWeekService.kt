@@ -2,6 +2,9 @@ package edu.hm.foodweek.util.amplify
 
 import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.recipes.persistence.model.Recipe
+import edu.hm.foodweek.util.amplify.response.MealPlanResponse
+import edu.hm.foodweek.util.amplify.response.RecipeListResponse
+import edu.hm.foodweek.util.amplify.response.Response
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
@@ -52,4 +55,10 @@ interface FoodWeekService {
         @Path("mealPlanId") mealPlanId: Long,
         @Header("user") userId: String
     ): Observable<Unit>
+
+    @GET("/recipes")
+    fun getRecipes(@Query("page") page: Int, @Query("size") size: Int, @Query("search") searchQuery: String?): Call<RecipeListResponse>
+
+    @POST("/mealplans")
+    fun publishMealPlan(@Body MealPlan: MealPlan, @Header("user") userId: String): Call<Response>
 }

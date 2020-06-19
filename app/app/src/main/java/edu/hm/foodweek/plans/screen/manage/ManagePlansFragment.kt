@@ -33,6 +33,13 @@ class ManagePlansFragment : Fragment() {
         )
         binding.viewModel = mealPlanViewModel
 
+        // Create new mealplan
+        binding.addPlanFab.setOnClickListener {
+            findNavController().navigate(
+                PlanFragmentDirections.createNewPlan()
+            )
+        }
+
         val adapter = ManagePlansAdapter(
             onCardClicked = {
                 findNavController().navigate(

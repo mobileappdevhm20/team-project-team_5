@@ -21,4 +21,6 @@
     <dimen name="timeline_content_margin_bottom">15dp</dimen>
     <dimen name="timeline_content_margin_start">25dp</dimen>
     <dimen name="timeline_content_margin_end">5dp</dimen>
+    <dimen name="popup_margin">30dp</dimen>
+    <dimen name="small_border_size">2dp</dimen>
 </resources>

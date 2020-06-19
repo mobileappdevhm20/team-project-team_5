@@ -27,16 +27,10 @@ class MealPlanViewModel(
                     { _subscribedPlans.postValue(it) },
                     { Log.e("MealPlanViewModel", "Unable to get subscribed plans", it) })
         )
-        disposables.add(
-            mealPlanRepository.getOwnMealPlans()
-                .subscribe(
-                    { _ownPlans.postValue(it) },
-                    { Log.e("MealPlanViewModel", "Unable to get owned plans", it) })
-        )
     }
 
     private val _subscribedPlans = MutableLiveData<List<MealPlan>>(emptyList())
-    private val _ownPlans = MutableLiveData<List<MealPlan>>(emptyList())
+    private val _ownPlans = mealPlanRepository.getOwnMealPlans()
 
     val filterText = MutableLiveData<String>("")
 
@@ -74,10 +68,10 @@ class MealPlanViewModel(
         val uiScope = CoroutineScope(Dispatchers.IO)
         uiScope.launch {
             mealPlanRepository.deleteMealPlan(mealPlan)
-                .subscribe({}, { error ->
+                .subscribe({
+                    Log.i("MealPlanViewModel", "Meal plan deleted")
+                }, { error ->
                     Log.e("MealPlanViewModel", "Unable to delete meal plan", error)
-                }, {
-                    _ownPlans.postValue(_ownPlans.value?.minus(mealPlan))
                 })
         }
     }
@@ -94,12 +88,13 @@ class MealPlanViewModel(
     }
 
     fun unsubscribePlan(mealPlan: MealPlan) {
-        disposables.add(mealPlanRepository.unsubscribeMealPlan(mealPlan.planId)
-            .subscribe({
-                _subscribedPlans.postValue(_subscribedPlans.value?.minus(it))
-            }, {
-                Log.e("MealPlanViewModel", "Unable to unsubscribe plan ${mealPlan.planId}", it)
-            })
+        disposables.add(
+            mealPlanRepository.unsubscribeMealPlan(mealPlan.planId)
+                .subscribe({
+                    _subscribedPlans.postValue(_subscribedPlans.value?.minus(it))
+                }, {
+                    Log.e("MealPlanViewModel", "Unable to unsubscribe plan ${mealPlan.planId}", it)
+                })
         )
     }
 

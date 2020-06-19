@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".plans.create_meal_plan.CreateMealPlanFragment">
+
+    <data>
+
+        <variable
+            name="pressedButtonDay"
+            type="String" />
+
+        <variable
+            name="pressedButtonTime"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <RadioGroup
+                            android:id="@+id/radioG1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/bMonday"
+                                style="@style/RadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/monday" />
+
+                            <RadioButton
+                                android:id="@+id/bTuesday"
+                                style="@style/RadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/tuesday" />
+
+                            <RadioButton
+                                android:id="@+id/bWednesday"
+                                style="@style/RadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/wednesday" />
+
+                            <RadioButton
+                                android:id="@+id/bThursday"
+                                style="@style/RadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/thursday" />
+
+                            <RadioButton
+                                android:id="@+id/bFriday"
+                                style="@style/RadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/friday" />
+
+                            <RadioButton
+                                android:id="@+id/bSaturday"
+                                style="@style/RadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/saturday" />
+
+                            <RadioButton
+                                android:id="@+id/bSunday"
+                                style="@style/RadioButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/sunday" />
+
+                        </RadioGroup>
+
+                    </HorizontalScrollView>
+                </LinearLayout>
+
+                <RadioGroup
+                    android:id="@+id/radioG2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal">
+
+
+                    <RadioButton
+                        android:id="@+id/imageView1"
+                        style="@style/RadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/breakfast" />
+
+                    <RadioButton
+                        android:id="@+id/imageView2"
+                        style="@style/RadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lunch" />
+
+                    <RadioButton
+                        android:id="@+id/imageView3"
+                        style="@style/RadioButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dinner" />
+                </RadioGroup>
+
+                <Button
+                    android:id="@+id/btn_enter"
+                    style="@style/Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_recipe" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recipeListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="8dp" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="52dp"
+            android:layout_height="61dp"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:src="@drawable/ic_add_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

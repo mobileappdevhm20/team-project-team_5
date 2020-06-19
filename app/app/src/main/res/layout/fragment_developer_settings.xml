@@ -33,13 +33,19 @@
             android:layout_height="wrap_content"
             android:text="create new mealplan" />
 
-    <Button
-        android:id="@+id/btn_go_to_recipe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="go to recipe 2" />
+        <Button
+            android:id="@+id/btn_create_plan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="create new mealplan by martin" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_go_to_recipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="go to recipe 2" />
+
+    </LinearLayout>
 
 
 </ScrollView>

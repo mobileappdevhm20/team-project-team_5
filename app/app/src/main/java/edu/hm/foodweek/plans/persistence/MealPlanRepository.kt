@@ -8,12 +8,14 @@ import androidx.lifecycle.switchMap
 import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.util.UserProvider
 import edu.hm.foodweek.util.amplify.FoodWeekClient
-import edu.hm.foodweek.util.amplify.MealPlanResponse
+import edu.hm.foodweek.util.amplify.response.MealPlanResponse
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import org.koin.core.KoinComponent
 import retrofit2.Call
 import retrofit2.Response
+import java.util.logging.Logger
 import javax.security.auth.callback.Callback
 
 open class MealPlanRepository(
@@ -111,11 +113,8 @@ open class MealPlanRepository(
             }
     }
 
-    fun getOwnMealPlans(): Observable<List<MealPlan>> {
-        return foodWeekClient
-            .getFoodWeekServiceClient()
-            .getOwnedMealplans(userProvider.getUserID(), userProvider.getUserID())
-            .subscribeOn(Schedulers.io())
+    fun getOwnMealPlans(): LiveData<List<MealPlan>> {
+        return dao.getAllMealPlans()
     }
 
     fun getSubscribedMealPlans(): Observable<List<MealPlan>> {
@@ -139,13 +138,32 @@ open class MealPlanRepository(
             .subscribeOn(Schedulers.io())
     }
 
-    suspend fun createMealPlan(mealPlan: MealPlan) {
-        dao.createMealPlan(mealPlan)
+    suspend fun deleteMealPlan(mealPlan: MealPlan): Completable {
+        dao.deleteMealPlan(mealPlan)
+        return if (mealPlan.draft) {
+            return Completable.complete()
+        } else {
+            Completable.fromObservable(
+                foodWeekClient.getFoodWeekServiceClient()
+                    .deleteMealPlan(mealPlanId = mealPlan.planId, userId = userProvider.getUserID())
+            )
+        }
     }
 
-    suspend fun deleteMealPlan(mealPlan: MealPlan): Observable<Unit> {
-        dao.deleteMealPlan(mealPlan)
-        return foodWeekClient.getFoodWeekServiceClient()
-            .deleteMealPlan(mealPlanId = mealPlan.planId, userId = userProvider.getUserID())
+    suspend fun draftNewMealPlan(mealPlan: MealPlan) {
+        dao.createMealPlan(mealPlan)
+        Log.i("MealPlanRepository", "saved draft of MealPlan")
+    }
+
+    fun publishNewMealPlan(mealPlan: MealPlan) {
+        val call = foodWeekClient.getFoodWeekServiceClient()
+            .publishMealPlan(mealPlan, userProvider.getUserID())
+        val response = call.execute()
+        if (response.isSuccessful) {
+            Logger.getLogger("MealPlanRepository").fine("published new MealPlan")
+        } else {
+            Logger.getLogger("MealPlanRepository")
+                .warning("unable to publish MealPlan - response: $response")
+        }
     }
 }

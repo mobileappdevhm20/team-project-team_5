@@ -21,4 +21,22 @@
     <string name="remove_this_meal_plan_from_your_list">Remove this meal plan from your list</string>
     <string name="unsubscribe_this_meal_plan">Unsubscribe this meal plan</string>
     <string name="show_entire_plan">show entire plan</string>
+    <string name="no_recipe_selected">no Recipe Selected</string>
+    <string name="add_recipe">Add Recipe</string>
+    <string name="dinner">Dinner</string>
+    <string name="lunch">Lunch</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="sunday">Sunday</string>
+    <string name="saturday">Saturday</string>
+    <string name="friday">Friday</string>
+    <string name="thursday">Thursday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="monday">Monday</string>
+    <string name="draft">Draft</string>
+    <string name="publish">Publish</string>
+    <string name="hint_title">Title</string>
+    <string name="hint_description">Description</string>
+    <string name="hint_url">URL</string>
+    <string name="hint_search_for_recipes">search for recipes</string>
 </resources>

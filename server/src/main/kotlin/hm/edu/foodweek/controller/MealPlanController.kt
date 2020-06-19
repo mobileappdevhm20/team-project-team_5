@@ -53,13 +53,7 @@ class MealPlanController(
     @PostMapping
     fun create(@RequestBody input: MealPlan, @RequestHeader user: Optional<String>): ResponseEntity<Any> {
         // Attach or create creator
-        if (input.creator == null) {
-            throw UnauthorizedException()
-        }
-        val creator = verifyUserIsAuthorized(input.creator!!.userId, user, true)
-        if (input.creator!!.username != null) {
-            creator.username = input.creator!!.username
-        }
+        val creator = verifyUserIsAuthorized(user)
 
         // Intermediate clearance of fields
         val inMeals = input.meals
@@ -140,14 +134,14 @@ class MealPlanController(
         return created
     }
 
-    fun verifyUserIsAuthorized(userId: String, user: Optional<String>, createUser: Boolean = false): User {
-        var existingUser = userRepository.findById(userId)
+    fun verifyUserIsAuthorized(user: Optional<String>): User {
+        if (user.isEmpty) {
+            throw UnauthorizedException()
+        }
+
+        var existingUser = userRepository.findById(user.get())
         if (existingUser.isEmpty) {
-            if (createUser && userId == user.get()) {
-                existingUser = Optional.of(userRepository.save(User(userId, null, mutableListOf(), mutableListOf())))
-            } else {
-                throw NotFoundException("User with id $userId does not exist!")
-            }
+            existingUser = Optional.of(userRepository.save(User(user.get(), null, mutableListOf(), mutableListOf())))
         }
 
         if (user.isEmpty || user.isPresent && user.get() != adminId && user.get() != existingUser.get().userId) {

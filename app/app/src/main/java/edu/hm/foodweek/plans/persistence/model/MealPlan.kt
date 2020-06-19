@@ -9,19 +9,19 @@ import com.google.gson.annotations.SerializedName
 data class MealPlan(
     @SerializedName("planId")
     @PrimaryKey(autoGenerate = true)
-    val planId: Long,
+    var planId: Long = 0,
     @SerializedName("title")
-    val title: String,
+    var title: String = "",
     @SerializedName("description")
-    val description: String,
+    var description: String = "",
     @SerializedName("imageURL")
-    val imageURL: String,
+    var imageURL: String = "",
     @Expose(serialize = false, deserialize = false)
-    val creatorId: String,
+    var creatorId: String = "",
     @SerializedName("draft")
     var draft: Boolean = true,
     @SerializedName("creatorUsername")
-    val creatorUsername: String,
+    val creatorUsername: String = "",
     @SerializedName("meals")
     var meals: List<Meal> = emptyList()
 )

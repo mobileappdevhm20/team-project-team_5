@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@color/greyBackground"
+        android:orientation="vertical"
+        android:padding="@dimen/small_border_size">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/add_recipe_dialog_searchbar"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/small_border_size"
+            android:background="@color/white"
+            app:queryHint="@string/hint_search_for_recipes" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/add_recipe_dialog_recylcerView"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@color/white"
+            android:paddingStart="@dimen/list_identation" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/greyBackground"
+        android:orientation="vertical"
+        android:padding="@dimen/small_border_size">
+
+        <TextView
+            android:id="@+id/add_recipe_dialog_selected_title"
+            style="@style/TitleHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/small_border_size"
+            android:background="@color/white"
+            android:text="@string/no_recipe_selected" />
+
+        <TextView
+            android:id="@+id/add_recipe_dialog_selected_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:lines="5"
+            android:padding="@dimen/small_border_size"
+            android:text="@string/no_recipe_selected" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/general_padding"
+        android:background="@color/greyBackground"
+        android:orientation="horizontal"
+        android:padding="@dimen/small_border_size"
+        android:weightSum="1">
+
+        <Spinner
+            android:id="@+id/add_recipe_dialog_time_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/small_border_size"
+            android:layout_weight="0.5"
+            android:background="@color/white"
+            android:padding="@dimen/small_border_size"
+            tools:layout_height="30dp" />
+
+        <Spinner
+            android:id="@+id/add_recipe_dialog_day_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_border_size"
+            android:layout_weight="0.5"
+            android:background="@color/white"
+            android:padding="@dimen/small_border_size"
+            tools:layout_height="30dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_add_selected_recipe"
+        style="@style/Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_recipe" />
+
+
+</LinearLayout>
