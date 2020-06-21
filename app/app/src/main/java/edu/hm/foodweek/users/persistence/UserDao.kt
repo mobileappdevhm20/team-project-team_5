@@ -10,7 +10,7 @@ interface UserDao {
     fun insert(user: User)
 
     @Update
-    fun update(user: User)
+    suspend fun update(user: User)
 
     // acutally there is only one User per app
     @Query(value = "SELECT * FROM users Limit 1")
