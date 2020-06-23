@@ -40,7 +40,7 @@ val appModule = module {
     // Repositories
     single { MealPlanRepository(get(), get(), get()) }
     single { RecipeRepository(get(), get()) }
-    single { UserRepository(get(), get()) }
+    single { UserRepository(get()) }
 
     // ViewModels
     viewModel { (id: Long) ->
@@ -60,7 +60,7 @@ val appModule = module {
     }
     viewModel { WeekViewModel(get(), get(), get(), androidApplication()) }
     single { MealPlanViewModel(get(), androidApplication()) }
-    viewModel { ShoppingViewModel(get(), get()) }
+    viewModel { ShoppingViewModel(get(), get(), get()) }
     viewModel { CreateMealPlanViewModel(get(), get(), get(), androidApplication()) }
     // Amplify Backend
     single { FoodWeekClient() }
