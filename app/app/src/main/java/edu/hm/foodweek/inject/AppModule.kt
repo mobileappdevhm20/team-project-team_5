@@ -3,12 +3,12 @@ package edu.hm.foodweek.inject
 import androidx.room.Room
 import edu.hm.foodweek.FoodWeekDatabase
 import edu.hm.foodweek.plans.create_meal_plan.CreateMealPlanViewModel
-import edu.hm.foodweek.MainActivity
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.screen.MealPlanViewModel
 import edu.hm.foodweek.plans.screen.details.PlanDetailsViewModel
 import edu.hm.foodweek.recipes.RecipeDetailViewModel
 import edu.hm.foodweek.recipes.persistence.RecipeRepository
+import edu.hm.foodweek.shopping.screen.ShoppingViewModel
 import edu.hm.foodweek.users.persistence.UserRepository
 import edu.hm.foodweek.util.UserProvider
 import edu.hm.foodweek.util.amplify.FoodWeekClient
@@ -40,7 +40,7 @@ val appModule = module {
     // Repositories
     single { MealPlanRepository(get(), get(), get()) }
     single { RecipeRepository(get(), get()) }
-    single { UserRepository(get()) }
+    single { UserRepository(get(), get()) }
 
     // ViewModels
     viewModel { (id: Long) ->
@@ -60,8 +60,8 @@ val appModule = module {
     }
     viewModel { WeekViewModel(get(), get(), get(), androidApplication()) }
     single { MealPlanViewModel(get(), androidApplication()) }
-
-    viewModel { CreateMealPlanViewModel(get(), get(),get(), androidApplication()) }
+    viewModel { ShoppingViewModel(get(), get()) }
+    viewModel { CreateMealPlanViewModel(get(), get(), get(), androidApplication()) }
     // Amplify Backend
     single { FoodWeekClient() }
 }

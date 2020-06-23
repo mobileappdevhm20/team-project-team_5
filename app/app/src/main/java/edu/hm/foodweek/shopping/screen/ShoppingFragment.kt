@@ -4,42 +4,45 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.Observer
 import edu.hm.foodweek.R
-import edu.hm.foodweek.recipes.persistence.model.Ingredient
-import edu.hm.foodweek.recipes.persistence.model.IngredientAmount
-import kotlinx.android.synthetic.main.fragment_shopping.*
+import edu.hm.foodweek.databinding.FragmentShoppingBinding
+import org.koin.android.ext.android.inject
+import org.koin.core.KoinComponent
 
-class ShoppingFragment : Fragment() {
+class ShoppingFragment : Fragment(), KoinComponent {
 
-    private lateinit var shoppingViewModel: ShoppingViewModel
-    //private lateinit var listOfIngredient : Ingredient
-
-    var myIngredientList = mutableListOf(IngredientAmount(Ingredient("Butter"), "1"))
-    val adapter = ShoppingAdapter(myIngredientList)
+    private val shoppingViewModel: ShoppingViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        shoppingViewModel =
-            ViewModelProviders.of(this).get(ShoppingViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_shopping, container, false)
-        val listView = root.findViewById<RecyclerView>(R.id.rv_ingredients)
-        rv_ingredients?.layoutManager = LinearLayoutManager(requireContext())
-        listView.adapter = adapter
-        adapter.myIngredientList.add(IngredientAmount(Ingredient("Butter"), "1"))
-        adapter.notifyDataSetChanged()
+        // Apply data binding
+        val binding = DataBindingUtil.inflate<FragmentShoppingBinding>(
+            inflater,
+            R.layout.fragment_shopping,
+            container,
+            false
+        )
+        binding.viewModel = shoppingViewModel
 
+        // Set own adapter to recycler view
+        val adapter = ShoppingAdapter()
+        val recyclerView = binding.rvIngredients
+        recyclerView.adapter = adapter
 
-        /* val textView: TextView = root.findViewById(R.id.text_notifications)
-         shoppingViewModel.text.observe(viewLifecycleOwner, Observer {
-             textView.text = it
-         })*/
-        return root
+        // Populate items to rv
+        shoppingViewModel.ingredients.observe(viewLifecycleOwner, Observer { ingredientAmounts ->
+            if (ingredientAmounts != null) {
+                adapter.myIngredientList = ingredientAmounts.toMutableList()
+                adapter.notifyDataSetChanged()
+            }
+        })
+
+        return binding.root
     }
 }

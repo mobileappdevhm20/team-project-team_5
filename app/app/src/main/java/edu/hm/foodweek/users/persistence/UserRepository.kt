@@ -2,15 +2,16 @@ package edu.hm.foodweek.users.persistence
 
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.users.persistence.model.User
+import edu.hm.foodweek.util.UserProvider
 import edu.hm.foodweek.util.extensions.mapSkipNulls
 import java.util.*
-import java.util.logging.Logger
-import kotlin.collections.HashMap
 
-open class UserRepository(private val userDao: UserDao) {
+open class UserRepository(
+    private val userDao: UserDao,
+    private val userProvider: UserProvider
+) {
 
     fun getUser(): LiveData<User> {
         return userDao.getLiveDataUser()
@@ -35,8 +36,10 @@ open class UserRepository(private val userDao: UserDao) {
     }
 
     suspend fun setMealToWeek(mealPlan: MealPlan, week: Int) {
-        val user = getUser().value
+        var user = getUser().value
         if (user == null) {
+            user = User(userProvider.getUserID(), "")
+            userDao.insert(user)
             return
         }
         val userMap = user.weekMealPlanMap as HashMap
