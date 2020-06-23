@@ -4,15 +4,12 @@ package edu.hm.foodweek.users.persistence
 import androidx.lifecycle.LiveData
 import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.users.persistence.model.User
-import edu.hm.foodweek.util.UserProvider
 import edu.hm.foodweek.util.extensions.mapSkipNulls
+import kotlinx.coroutines.runBlocking
 import java.util.*
+import kotlin.collections.HashMap
 
-open class UserRepository(
-    private val userDao: UserDao,
-    private val userProvider: UserProvider
-) {
-
+open class UserRepository(private val userDao: UserDao) {
     fun getUser(): LiveData<User> {
         return userDao.getLiveDataUser()
     }
@@ -31,21 +28,26 @@ open class UserRepository(
     }
 
     suspend fun setMealToCurrentWeek(mealPlan: MealPlan) {
-        var currentWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
-        setMealToWeek(mealPlan, currentWeek)
+        setMealToCurrentWeek(mealPlan.planId)
     }
 
-    suspend fun setMealToWeek(mealPlan: MealPlan, week: Int) {
-        var user = getUser().value
-        if (user == null) {
-            user = User(userProvider.getUserID(), "")
-            userDao.insert(user)
-            return
-        }
-        val userMap = user.weekMealPlanMap as HashMap
-        userMap.put(week, mealPlan.planId)
-        user.weekMealPlanMap = userMap
-        userDao.update(user)
+    suspend fun setMealToCurrentWeek(mealId: Long) {
+        var currentWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
+        setMealToWeek(mealId, currentWeek)
     }
+
+    suspend fun setMealToWeek(mealId: Long, week: Int) {
+        runBlocking {
+            val user = getUserNoLiveData()
+            if (user == null) {
+                return@runBlocking
+            }
+            val userMap = user.weekMealPlanMap as HashMap
+            userMap[week] = mealId
+            user.weekMealPlanMap = userMap
+            userDao.update(user)
+        }
+    }
+
 
 }
