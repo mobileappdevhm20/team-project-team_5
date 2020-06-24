@@ -76,10 +76,7 @@ class ManagePlansFragment : Fragment() {
             onUnsubscribeClicked = { mealPlanViewModel.unsubscribePlan(it) },
             onStatsClicked = { Log.i("ManagePlansFragment", "Stats of meal plan ${it.planId}") },
             onScheduleClicked = {
-                Log.i(
-                    "ManagePlansFragment",
-                    "Scheduling of meal plan ${it.planId}"
-                )
+                SelectWeekDialog(it.planId).show(parentFragmentManager,"Select Week")
             }
         )
         val recyclerView = binding.managePlansRecyclerView
