@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.URLUtil
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -11,17 +12,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import edu.hm.foodweek.R
 import edu.hm.foodweek.databinding.FragmentWeekBinding
-import edu.hm.foodweek.plans.screen.PlanFragmentDirections
-import edu.hm.foodweek.week.MealPreview
+import edu.hm.foodweek.plans.persistence.model.Meal
 import kotlinx.android.synthetic.main.meal_preview_item.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WeekFragment : Fragment() {
 
     private val viewModel: WeekViewModel by viewModel()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,30 +39,33 @@ class WeekFragment : Fragment() {
         setImage(binding)
         setRecyclerView(binding)
         return binding.root
-
     }
 
     private fun setRecyclerView(binding: FragmentWeekBinding) {
         binding.weekPreviewRecipeList.adapter = MealPreviewAdapter(emptyList())
         binding.weekPreviewRecipeList.layoutManager = LinearLayoutManager(context)
         viewModel.meals.observe(viewLifecycleOwner, Observer {
-            (binding.weekPreviewRecipeList.adapter as MealPreviewAdapter).updateMealPlans(it)
+            it?.let {
+                (binding.weekPreviewRecipeList.adapter as MealPreviewAdapter).updateMealPlans(it)
+            }
         })
     }
 
     private fun setImage(binding: FragmentWeekBinding) {
         viewModel.planUrl.observe(viewLifecycleOwner, Observer {
             Glide
-                .with(binding.weekPreviewImage.context)
+                .with(binding.weekPreviewImage)
+                .asDrawable()
                 .load(it)
+                .placeholder(R.drawable.ic_no_image_found)
                 .centerCrop()
+                .priority(Priority.HIGH)
                 .into(binding.weekPreviewImage)
-                .onLoadFailed(resources.getDrawable(R.drawable.ic_no_image_found, null))
         })
     }
 
-    class MealPreviewAdapter(private var mealPreviews: List<MealPreview>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    class MealPreviewAdapter(private var meals: List<Meal>) : RecyclerView.Adapter<MealPreviewAdapter.IngredientItemViewHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientItemViewHolder {
             val context = parent.context
             val inflater = LayoutInflater.from(context)
             // Inflate the custom layout
@@ -72,28 +75,39 @@ class WeekFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return mealPreviews.size
+            return meals.size
         }
 
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            val mealPreview = mealPreviews[position]
-            holder.itemView.apply {
-                mealpreview_header.text = mealPreview.recipeName
-                mealpreview_time.text = mealPreview.mealTime.toString()
-                Glide
-                    .with(mealpreview_image.context)
-                    .load(mealPreview.url)
-                    .circleCrop()
-                    .into(mealpreview_image)
-                    .onLoadFailed(resources.getDrawable(R.drawable.ic_no_image_found, null))
-            }
+        override fun onBindViewHolder(holder: IngredientItemViewHolder, position: Int) {
+            val meal = meals[position]
+            holder.bind(meal)
+
         }
 
-        fun updateMealPlans(mealPreviews: List<MealPreview>) {
-            this.mealPreviews = mealPreviews
+        fun updateMealPlans(meals: List<Meal>) {
+            this.meals = meals
             notifyDataSetChanged()
         }
 
-        class IngredientItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+        class IngredientItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+            fun bind(meal: Meal) {
+                itemView.apply {
+                    mealpreview_header.text = meal.recipe.title
+                    mealpreview_time.text = meal.time.toString()
+                    if (URLUtil.isValidUrl(meal.recipe.url)) {
+                        Glide
+                            .with(itemView)
+                            .asDrawable()
+                            .load(meal.recipe.url)
+                            .placeholder(R.drawable.ic_no_image_found)
+                            .priority(Priority.HIGH)
+                            .circleCrop()
+                            .into(mealpreview_image)
+
+                    }
+                }
+            }
+        }
     }
 }

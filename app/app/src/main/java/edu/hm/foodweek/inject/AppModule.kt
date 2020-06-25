@@ -57,7 +57,7 @@ val appModule = module {
             androidApplication()
         )
     }
-    viewModel { WeekViewModel(get(), get(), get(), androidApplication()) }
+    viewModel { WeekViewModel(get(), get(), androidApplication()) }
     single { MealPlanViewModel(get(), androidApplication()) }
     viewModel { (mealplanid: Long) -> CreateMealPlanViewModel(mealplanid, get(), get(), get(), androidApplication()) }
     viewModel { ShoppingViewModel(get(), get(), get()) }

@@ -18,7 +18,6 @@ import org.koin.android.logger.AndroidLogger
 
 class WeekViewModel(
     private val mealPlanRepository: MealPlanRepository,
-    private val recipeRepository: RecipeRepository,
     userRepository: UserRepository,
     application: Application
 ) :
@@ -57,24 +56,6 @@ class WeekViewModel(
     val planDescription = mealPlan.mapSkipNulls { it.description }
     val planUrl = mealPlan.mapSkipNulls { it.imageURL }
 
-    private val recipes = mealPlan.switchMap {
-        recipeRepository.getLiveDataRecipesByIds(it.meals.map { meal -> meal.recipe.recipeId })
-    }
-
-    private val recipeMap = recipes.mapSkipNulls { list ->
-        list.map { recipe -> Pair<Long, Recipe>(recipe.recipeId, recipe) }.toMap()
-    }
-
-    val meals = recipeMap.combineLatest(mealPlan.mapSkipNulls { it.meals }).mapSkipNulls { pair ->
-        val recipes = pair.first
-        val meals = pair.second
-        meals.map { meal ->
-            val recipe = recipes[meal.recipe.recipeId]
-            if (recipe != null)
-                MealPreview(meal.time, recipe.title, meal.recipe.recipeId, recipe.url)
-            else
-                MealPreview(MealTime.BREAKFAST, "undefined", -1, "")
-        }
-    }
+    val meals = mealPlan.map { it?.meals }
 
 }
