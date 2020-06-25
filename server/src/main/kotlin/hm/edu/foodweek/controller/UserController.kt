@@ -1,5 +1,6 @@
 package hm.edu.foodweek.controller
 
+import hm.edu.foodweek.controller.exceptions.BadRequestException
 import hm.edu.foodweek.controller.exceptions.NotFoundException
 import hm.edu.foodweek.controller.exceptions.UnauthorizedException
 import hm.edu.foodweek.dto.MealPlanBriefDto
@@ -65,6 +66,35 @@ class UserController(
 
         // Delete user
         userRepository.delete(existingUser)
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+    @DeleteMapping
+    fun deleteUsers(@RequestBody users: List<User>?, @RequestHeader user: Optional<String>): ResponseEntity<Any> {
+        verifyUserIsAdmin(user)
+        if (users == null || users.isEmpty()) {
+            throw BadRequestException("No users passed in request body")
+        }
+
+        users.forEach { user ->
+            val existingUser = userRepository.findById(user.userId).orElseThrow { throw NotFoundException("User with id ${user.userId} does not exist!") }
+
+            // Remove all subscriptions of user
+            existingUser.subscribedPlans?.clear()
+            userRepository.save(existingUser)
+
+            // Remove all owned mealplans
+            existingUser.ownMealPlans?.forEach {
+                it.subscribers?.forEach { sub ->
+                    sub.subscribedPlans?.remove(it)
+                    userRepository.save(sub)
+                }
+            }
+
+            // Delete user
+            userRepository.delete(existingUser)
+        }
+
         return ResponseEntity(HttpStatus.OK)
     }
 
