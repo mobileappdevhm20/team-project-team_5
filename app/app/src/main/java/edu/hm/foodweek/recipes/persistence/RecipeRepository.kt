@@ -1,14 +1,14 @@
 package edu.hm.foodweek.recipes.persistence
 
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 import edu.hm.foodweek.util.amplify.FoodWeekClient
-import retrofit2.Call
-import retrofit2.Response
 import edu.hm.foodweek.util.amplify.response.RecipeListResponse
+import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
 
 
 open class RecipeRepository(private val dao: RecipeDao, private val foodWeekClient: FoodWeekClient) {
@@ -23,8 +23,6 @@ open class RecipeRepository(private val dao: RecipeDao, private val foodWeekClie
         if (page == 0) {
             _recipes.postValue(emptyList())
         }
-        //val recipesByLocal = dao.getAllRecipe()
-        //val recipesByLocal = MutableLiveData<List<Recipe>>()
         val backendCall = foodWeekClient
             .getFoodWeekServiceClient()
             .getRecipes(page, size, realQuery)
@@ -73,18 +71,6 @@ open class RecipeRepository(private val dao: RecipeDao, private val foodWeekClie
         return result.body()!!
     }
 
-    suspend fun createRecipe(recipe: Recipe) {
-        dao.createRecipe(recipe)
-    }
-
-    suspend fun deleteRecipe(recipe: Recipe) {
-        deleteRecipe(recipe)
-    }
-
-    suspend fun updateRecipe(recipe: Recipe) {
-        dao.updateRecipe(recipe)
-    }
-
     class AllRecipesCallBack(val list: MutableLiveData<List<Recipe>>) : Callback<RecipeListResponse> {
         override fun onFailure(call: Call<RecipeListResponse>, t: Throwable) {
             Log.println(
@@ -99,32 +85,6 @@ open class RecipeRepository(private val dao: RecipeDao, private val foodWeekClie
             val foundMealPlans = response.body()?.recipes ?: emptyList()
             val acutalList = list.value ?: emptyList()
             list.postValue(acutalList.plus(foundMealPlans))
-        }
-    }
-
-    class RecipeCallBack(val recipeLiveData: MutableLiveData<Recipe>) : Callback<Recipe> {
-        override fun onFailure(call: Call<Recipe>, t: Throwable) {
-            Log.println(
-                Log.ERROR,
-                "RecipeRepository",
-                "HTTP-Request /recipes/recipeID failed: ${t.message}"
-            )
-        }
-
-        override fun onResponse(call: Call<Recipe>, response: Response<Recipe>) {
-            Log.println(Log.INFO, "RecipeRepository", "HTTP-Request /recipes/recipeId was successful: ${response.code()}")
-            if (response.code() in 200..299) {
-                val recipe = response.body()
-                if (recipe != null) {
-                    recipeLiveData.postValue(recipe)
-                }
-            } else {
-                Log.println(
-                    Log.ERROR,
-                    "RecipeRepository",
-                    "HTTP-Request /recipes/recipeID failed: ${response.code()}"
-                )
-            }
         }
     }
 }

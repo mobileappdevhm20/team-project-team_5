@@ -21,10 +21,10 @@ import edu.hm.foodweek.util.extensions.mapSkipNulls
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.util.logging.Logger
 
 
 class CreateMealPlanViewModel(
+    val mealPlanId: Long,
     val mealPlanRepository: MealPlanRepository,
     val recipeRepository: RecipeRepository,
     val userProvider: UserProvider,
@@ -40,8 +40,30 @@ class CreateMealPlanViewModel(
     val allRecipes = recipeRepository.recipes
 
     // mealplan
-    private val _currentEditingMealPlan = MutableLiveData(MealPlan())
+
+    private var _currentEditingMealPlan: MutableLiveData<MealPlan>
+    private val editExisting = mealPlanId > 0
+
+    init {
+        _currentEditingMealPlan = if (editExisting) {
+            mealPlanRepository.getLiveDataMealPlanById(mealPlanId) as MutableLiveData
+        } else {
+            MutableLiveData(
+                MealPlan(
+                    planId = 0L,
+                    creatorId = userProvider.getUserID(),
+                    title = "",
+                    description = "",
+                    imageURL = "",
+                    draft = true,
+                    meals = emptyList()
+                )
+            )
+        }
+    }
+
     val currentEditingMealPlan = _currentEditingMealPlan as LiveData<MealPlan>
+
     private val meals = currentEditingMealPlan.mapSkipNulls { plan -> plan.meals }
     private val mealsFilterByTimeAndDay = meals
         .combineLatest(selectedDay)
@@ -61,62 +83,55 @@ class CreateMealPlanViewModel(
         }?.toList() ?: emptyList<Recipe>()
     }
 
-    fun saveDraft() {
-        val mealplan = currentEditingMealPlan.value
-        if (mealplan == null) {
+    private fun saveMealPlan(mealPlan: MealPlan, existedBefore: Boolean, publish: Boolean) {
+        Log.i("CreateMealPlanViewModel", "saveMealPlan ${mealPlan.planId}, existedBefore: $existedBefore, publish: $publish")
+        if (mealPlan.meals.isEmpty() || mealPlan.title.isNullOrEmpty() || mealPlan.description.isNullOrEmpty()) {
             Log.w(
                 "CreateMealPlanViewModel",
-                "could not publish Meal plan because $mealplan is null"
+                "could not saveMealPlan: $mealPlan"
             )
-        } else if (mealplan.meals.isNullOrEmpty()) {
-            Log.w(
-                "CreateMealPlanViewModel",
-                "could not publish Meal plan because $mealplan 's meals are null or empty"
-            )
-        } else {
-            val allMeals = mealplan.meals
-                .filterNotNull()
-            viewModelScope.launch {
-                // split in MealPlan
-                val mealPlan = MealPlan(
-                    planId = 0L,
-                    creatorId = userProvider.getUserID(),
-                    title = mealplan.title ?: "",
-                    description = mealplan.description ?: "",
-                    imageURL = mealplan.imageURL ?: "",
-                    draft = true,
-                    meals = allMeals
-                )
-                mealPlanRepository.draftNewMealPlan(mealPlan)
-            }
-
         }
-    }
-
-    fun publishMealPlan() {
-        val mealplan = currentEditingMealPlan.value
-        if (mealplan == null) {
-            Log.w(
-                "CreateMealPlanViewModel",
-                "could not publish Meal plan because $mealplan is null"
-            )
-        } else if (mealplan.meals.isNullOrEmpty()) {
-            Log.w(
-                "CreateMealPlanViewModel",
-                "could not publish Meal plan because $mealplan 's meals are null or empty"
-            )
-        } else {
-            viewModelScope.launch(Dispatchers.IO) {
-                runBlocking {
-                    mealplan.creatorId = userProvider.getUserID()
-                    mealplan.draft = false
-                    mealplan.planId = 0L
-                    mealPlanRepository.publishNewMealPlan(mealplan)
+        viewModelScope.launch(Dispatchers.IO) {
+            runBlocking {
+                if (!existedBefore) {
+                    //save localy first time
+                    mealPlanRepository.draftNewMealPlan(mealPlan)
+                } else {
+                    // update Local Entry
+                    mealPlanRepository.updateMealPlanLocaly(mealPlan)
+                }
+                if (publish) {
+                    // patch online Entry
+                    if (mealPlan.draft) {
+                        mealPlanRepository.deleteMealPlanLocal(mealPlan)
+                        //create Online Entry
+                        mealPlan.draft = false
+                        mealPlanRepository.publishNewMealPlan(mealPlan)
+                        // when online Entry is created, local entry is deleted and new Entry is created
+                    } else {
+                        mealPlanRepository.updatePublishedMealPlan(mealPlan)
+                    }
                 }
             }
         }
     }
 
+
+    fun saveDraft() {
+        val mealplan = currentEditingMealPlan.value
+        val allMeals = meals.value
+        mealplan?.let {
+            it.meals = allMeals.orEmpty()
+            saveMealPlan(it, editExisting, false)
+        }
+    }
+
+    fun publishMealPlan() {
+        val mealplan = currentEditingMealPlan.value
+        mealplan?.let {
+            saveMealPlan(it, editExisting, true)
+        }
+    }
 
     fun updateTexts(title: String? = null, description: String? = null, url: String? = null) {
         val existingMealPlan = currentEditingMealPlan.value
@@ -155,10 +170,7 @@ class CreateMealPlanViewModel(
                 )
             )
         } else {
-            Log.w(
-                "CreateMealPlanViewModel",
-                "could not insert meal because: $currentList, $currentSelectedDay, $recipe"
-            )
+            Log.w("CreateMealPlanViewModel", "could not insert meal because: $currentList, $currentSelectedDay, $recipe")
         }
 
         val existingMealPlan = currentEditingMealPlan.value
@@ -172,8 +184,7 @@ class CreateMealPlanViewModel(
         val query = searchQuery.value
         recipeRepository.getAllRecipes(page = page, size = 30, query = query)
         val currentRecipes = allRecipes.value ?: emptyList()
-        Logger.getLogger("CreateMealPlanViewModel")
-            .fine("update Recipes from ${currentRecipes.size} with query ${searchQuery.value}")
+        Log.i("CreateMealPlanViewModel", "update Recipes from ${currentRecipes.size} with query ${searchQuery.value}")
     }
 
     fun removeMeal(recipeId: Long) {

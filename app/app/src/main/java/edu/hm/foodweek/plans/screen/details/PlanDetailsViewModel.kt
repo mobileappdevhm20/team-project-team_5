@@ -7,13 +7,11 @@ import androidx.lifecycle.map
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.persistence.model.MealTime
 import edu.hm.foodweek.plans.persistence.model.WeekDay
-import edu.hm.foodweek.recipes.persistence.RecipeRepository
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 
 class PlanDetailsViewModel(
     mealPlanId: Long,
     mealPlanRepository: MealPlanRepository,
-    private val recipeRepository: RecipeRepository,
     application: Application
 ) : AndroidViewModel(application) {
 

@@ -27,7 +27,7 @@
         </action>
         <action
             android:id="@+id/createNewPlan"
-            app:destination="@+id/createRecipePlanFragment"></action>
+            app:destination="@id/createMealPlanFragment"></action>
     </fragment>
     <fragment
         android:id="@+id/navigation_plan_details"
@@ -77,8 +77,11 @@
             app:argType="long" />
     </fragment>
     <fragment
-        android:id="@+id/createRecipePlanFragment"
+        android:id="@+id/createMealPlanFragment"
         android:name="edu.hm.foodweek.plans.create_meal_plan.CreateMealPlanFragment"
-        android:label="create_recipe_plan_fragment"
-        tools:layout="@layout/create_meal_plan_fragment" />
+        tools:layout="@layout/create_meal_plan_fragment">
+        <argument
+            android:name="mealPlanId"
+            app:argType="long" />
+    </fragment>
 </navigation>

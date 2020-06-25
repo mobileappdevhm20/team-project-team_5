@@ -12,10 +12,12 @@ import edu.hm.foodweek.util.amplify.response.MealPlanResponse
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import retrofit2.Call
 import retrofit2.Response
-import java.util.logging.Logger
 import javax.security.auth.callback.Callback
 
 open class MealPlanRepository(
@@ -40,7 +42,7 @@ open class MealPlanRepository(
                         Log.println(
                             Log.ERROR,
                             "MealPlanRepository",
-                            "HTTP-Request /mealplans failed: ${t.message}"
+                            "(getMealPlans $page,$size,$query) HTTP-Request /mealplans failed: ${t.message}"
                         )
                     }
 
@@ -49,18 +51,13 @@ open class MealPlanRepository(
                         response: Response<MealPlanResponse>
                     ) {
                         if (response.isSuccessful) {
-                            Log.println(
-                                Log.INFO,
-                                "MealPlanRepository",
-                                "HTTP-Request /mealplans was successful: ${response.code()}"
-                            )
                             val foundMealPlans = response.body()?.mealPlans ?: emptyList()
                             liveDataMealPlan.postValue(foundMealPlans)
                         } else {
                             Log.println(
                                 Log.ERROR,
                                 "MealPlanRepository",
-                                "HTTP-Request /mealplans was not successful: ${response.code()}"
+                                "(getMealPlans $page,$size,$query)HTTP-Request /mealplans was not successful: ${response.code()}"
                             )
                         }
                     }
@@ -69,6 +66,7 @@ open class MealPlanRepository(
     }
 
     fun getLiveDataMealPlanById(mealplanId: Long): LiveData<MealPlan> {
+        Log.i("MealPlanRepository", "getLiveDataMealPlan by id: ${mealplanId}")
 
         return dao.getMealPlan(mealplanId)
             .switchMap {
@@ -83,7 +81,7 @@ open class MealPlanRepository(
                                 Log.println(
                                     Log.ERROR,
                                     "MealPlanRepository",
-                                    "HTTP-Request /mealplans/$mealplanId failed: ${t.message}"
+                                    "(getMealPlan $mealplanId) HTTP-Request /mealplans/$mealplanId failed: ${t.message}"
                                 )
                             }
 
@@ -92,17 +90,12 @@ open class MealPlanRepository(
                                 response: Response<MealPlan>
                             ) {
                                 if (response.isSuccessful) {
-                                    Log.println(
-                                        Log.INFO,
-                                        "MealPlanRepository",
-                                        "HTTP-Request /mealplans/$mealplanId was successful: ${response.code()}"
-                                    )
                                     liveDataMealPlan.postValue(response.body())
                                 } else {
                                     Log.println(
                                         Log.ERROR,
                                         "MealPlanRepository",
-                                        "HTTP-Request /mealplans/$mealplanId was not successful: ${response.code()}"
+                                        "(getMealPlan $mealplanId) HTTP-Request /mealplans/$mealplanId was not successful: ${response.code()}"
                                     )
                                 }
                             }
@@ -139,7 +132,7 @@ open class MealPlanRepository(
     }
 
     suspend fun deleteMealPlan(mealPlan: MealPlan): Completable {
-        dao.deleteMealPlan(mealPlan)
+        deleteMealPlanLocal(mealPlan)
         return if (mealPlan.draft) {
             return Completable.complete()
         } else {
@@ -150,20 +143,61 @@ open class MealPlanRepository(
         }
     }
 
-    suspend fun draftNewMealPlan(mealPlan: MealPlan) {
-        dao.createMealPlan(mealPlan)
-        Log.i("MealPlanRepository", "saved draft of MealPlan")
+    suspend fun deleteMealPlanLocal(mealPlan: MealPlan) {
+        Log.i("MealPlanRepository", "delete local mealplan: ${mealPlan.planId}")
+        dao.deleteMealPlan(mealPlan)
     }
 
-    fun publishNewMealPlan(mealPlan: MealPlan) {
+    suspend fun draftNewMealPlan(mealPlan: MealPlan) {
+        Log.i("MealPlanRepository", "new draft (id will change by DB): ${mealPlan.planId}")
+        dao.createMealPlan(mealPlan)
+    }
+
+    suspend fun publishNewMealPlan(mealPlan: MealPlan) {
+        Log.i("MealPlanRepository", "publish (id will change by Backend): ${mealPlan.planId}")
+        //set planId to 0, to ensure to create a new MealPlan by the backend
+        mealPlan.planId = 0
         val call = foodWeekClient.getFoodWeekServiceClient()
             .publishMealPlan(mealPlan, userProvider.getUserID())
-        val response = call.execute()
-        if (response.isSuccessful) {
-            Logger.getLogger("MealPlanRepository").fine("published new MealPlan")
-        } else {
-            Logger.getLogger("MealPlanRepository")
-                .warning("unable to publish MealPlan - response: $response")
-        }
+        call.enqueue(object : retrofit2.Callback<MealPlan> {
+            override fun onFailure(call: Call<MealPlan>, t: Throwable) {
+                Log.w("MealPlanRepository", "create MealPlan did not work")
+            }
+
+            override fun onResponse(call: Call<MealPlan>, response: Response<MealPlan>) {
+                Log.i("MealPlanRepository", "create local Entry by response.body : ${response.body()}")
+                response.body()?.let {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        dao.createMealPlan(it)
+                        Log.i("MealPlanRepository", " local Entry created")
+                    }
+                }
+            }
+        })
+    }
+
+    suspend fun updateMealPlanLocaly(mealPlan: MealPlan) {
+        Log.i("MealPlanRepository", "update mealplan local: ${mealPlan.planId}")
+        dao.updateMealPlan(mealPlan)
+    }
+
+    suspend fun updatePublishedMealPlan(mealPlan: MealPlan) {
+        Log.i("MealPlanRepository", "update mealplan in Backend: ${mealPlan.planId}")
+        val call = foodWeekClient.getFoodWeekServiceClient().updateMealPlan(mealPlanId = mealPlan.planId, mealPlan = mealPlan, userId = userProvider.getUserID())
+        call.enqueue(object : retrofit2.Callback<MealPlan> {
+            override fun onFailure(call: Call<MealPlan>, t: Throwable) {
+                Log.w("MealPlanRepository", "update did not work")
+            }
+
+            override fun onResponse(call: Call<MealPlan>, response: Response<MealPlan>) {
+                Log.i("MealPlanRepository", "update local Entry by response: ${response.body()}")
+                response.body()?.let {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        dao.updateMealPlan(it)
+                        Log.i("MealPlanRepository", " local Entry updated")
+                    }
+                }
+            }
+        })
     }
 }

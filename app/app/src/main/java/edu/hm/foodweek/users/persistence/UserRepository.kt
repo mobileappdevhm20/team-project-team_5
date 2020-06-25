@@ -2,12 +2,10 @@ package edu.hm.foodweek.users.persistence
 
 
 import androidx.lifecycle.LiveData
-import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.users.persistence.model.User
 import edu.hm.foodweek.util.extensions.mapSkipNulls
 import kotlinx.coroutines.runBlocking
 import java.util.*
-import kotlin.collections.HashMap
 
 open class UserRepository(private val userDao: UserDao) {
     fun getUser(): LiveData<User> {
@@ -25,15 +23,6 @@ open class UserRepository(private val userDao: UserDao) {
             var currentWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
             return@mapSkipNulls it.weekMealPlanMap.get(currentWeek) ?: -1
         }
-    }
-
-    suspend fun setMealToCurrentWeek(mealPlan: MealPlan) {
-        setMealToCurrentWeek(mealPlan.planId)
-    }
-
-    suspend fun setMealToCurrentWeek(mealId: Long) {
-        var currentWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
-        setMealToWeek(mealId, currentWeek)
     }
 
     suspend fun setMealToWeek(mealId: Long, week: Int) {

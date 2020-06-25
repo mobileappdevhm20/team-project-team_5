@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import edu.hm.foodweek.plans.persistence.model.Meal
-import edu.hm.foodweek.recipes.persistence.model.Ingredient
 import edu.hm.foodweek.recipes.persistence.model.IngredientAmount
 
 
@@ -26,32 +25,6 @@ class Converters {
         val itemType = object : TypeToken<List<IngredientAmount>>() {}.type
         Gson().fromJson(value, itemType)
     }
-
-    /*
-        // ################# WeekDay
-        @TypeConverter
-        fun toWeekDay(value: String) = enumValueOf<WeekDay>(value)
-
-        @TypeConverter
-        fun fromWeekDay(value: WeekDay) = value.name
-    */
-    /*
-      // ################# MealTime
-      @TypeConverter
-      fun toMealTime(value: String) = enumValueOf<MealTime>(value)
-
-      @TypeConverter
-      fun fromMealTime(value: MealTime) = value.name
-  */
-    // ################# List<Ingredient>
-    @TypeConverter
-    fun toIngredientList(value: String) = run {
-        val itemType = object : TypeToken<List<Ingredient>>() {}.type
-        Gson().fromJson<List<Ingredient>>(value, itemType)
-    }
-
-    @TypeConverter
-    fun fromIngredientList(value: List<Ingredient>) = Gson().toJson(value)
 
     // ################# List<String>
     @TypeConverter

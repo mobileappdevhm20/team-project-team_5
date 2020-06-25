@@ -2,6 +2,7 @@ package edu.hm.foodweek.plans.create_meal_plan
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.hm.foodweek.R
 import edu.hm.foodweek.databinding.CreateMealPlanFragmentBinding
@@ -19,11 +21,13 @@ import edu.hm.foodweek.plans.persistence.model.MealTime
 import edu.hm.foodweek.plans.persistence.model.WeekDay
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 
 class CreateMealPlanFragment : Fragment() {
 
-    private val viewModel: CreateMealPlanViewModel by viewModel()
+    private val args: CreateMealPlanFragmentArgs by navArgs()
+    private val viewModel: CreateMealPlanViewModel by viewModel { parametersOf(args.mealPlanId) }
     private lateinit var binding: CreateMealPlanFragmentBinding
     var myList = ArrayList<Recipe>()
 
@@ -32,6 +36,7 @@ class CreateMealPlanFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.i("CreateMealPlanFragment", "mealPlan by args: ${args.mealPlanId}")
 
         binding = DataBindingUtil.inflate(
             inflater, R.layout.create_meal_plan_fragment, container, false

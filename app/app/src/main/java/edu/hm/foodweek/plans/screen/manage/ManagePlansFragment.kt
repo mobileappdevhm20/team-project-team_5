@@ -36,7 +36,7 @@ class ManagePlansFragment : Fragment() {
         // Create new mealplan
         binding.addPlanFab.setOnClickListener {
             findNavController().navigate(
-                PlanFragmentDirections.createNewPlan()
+                PlanFragmentDirections.createNewPlan(-1L)
             )
         }
 
@@ -48,7 +48,11 @@ class ManagePlansFragment : Fragment() {
                     )
                 )
             },
-            onEditClicked = { Log.i("ManagePlansFragment", "Editing of meal plan ${it.planId}") },
+            onEditClicked = {
+                findNavController().navigate(
+                    PlanFragmentDirections.createNewPlan(it.planId)
+                )
+            },
             onDeleteClicked = {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setMessage("Are you sure you want to Delete?")
@@ -76,7 +80,7 @@ class ManagePlansFragment : Fragment() {
             onUnsubscribeClicked = { mealPlanViewModel.unsubscribePlan(it) },
             onStatsClicked = { Log.i("ManagePlansFragment", "Stats of meal plan ${it.planId}") },
             onScheduleClicked = {
-                SelectWeekDialog(it.planId).show(parentFragmentManager,"Select Week")
+                SelectWeekDialog(it.planId).show(parentFragmentManager, "Select Week")
             }
         )
         val recyclerView = binding.managePlansRecyclerView

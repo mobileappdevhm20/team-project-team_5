@@ -47,7 +47,6 @@ val appModule = module {
         PlanDetailsViewModel(
             id,
             get(),
-            get(),
             androidApplication()
         )
     }
@@ -60,8 +59,8 @@ val appModule = module {
     }
     viewModel { WeekViewModel(get(), get(), get(), androidApplication()) }
     single { MealPlanViewModel(get(), androidApplication()) }
+    viewModel { (mealplanid: Long) -> CreateMealPlanViewModel(mealplanid, get(), get(), get(), androidApplication()) }
     viewModel { ShoppingViewModel(get(), get(), get()) }
-    viewModel { CreateMealPlanViewModel(get(), get(), get(), androidApplication()) }
     // Amplify Backend
     single { FoodWeekClient() }
 }
