@@ -100,7 +100,7 @@ class CreateMealPlanFragment : Fragment() {
 
         //binding.recipeListView
 
-        val myAdapter = CreateMealPlanAdapter(requireContext(), myList)
+        val myAdapter = CreateMealPlanAdapter(requireContext(), myList, viewModel)
         viewModel.filteredRecipeList.observe(viewLifecycleOwner, Observer
         {
             if (it == null || it.isNullOrEmpty()) {

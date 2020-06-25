@@ -175,4 +175,27 @@ class CreateMealPlanViewModel(
         Logger.getLogger("CreateMealPlanViewModel")
             .fine("update Recipes from ${currentRecipes.size} with query ${searchQuery.value}")
     }
+
+    fun removeMeal(recipeId: Long) {
+        val time = selectTime.value
+        val day = selectedDay.value
+        val existingMeals = meals.value
+        if (time != null && day != null && existingMeals != null) {
+            val removingMeal = existingMeals.filter { meal ->
+                meal.day == day && meal.time == time && meal.recipe.recipeId == recipeId
+            }.getOrNull(0)
+            if (removingMeal == null) {
+                Log.w("CreateMealPlanViewModel", "meal to remove was null")
+            }
+            removingMeal?.let { meal ->
+                val existingMealPlan = currentEditingMealPlan.value
+                existingMealPlan?.let {
+                    it.meals = existingMeals.minus(meal)
+                    _currentEditingMealPlan.postValue(existingMealPlan)
+                }
+            }
+        } else {
+            Log.w("CreateMealPlanViewModel", "could not remove $recipeId, because time($time) or day($day) or existingMeals($existingMeals) are null")
+        }
+    }
 }
