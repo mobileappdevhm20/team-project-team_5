@@ -57,7 +57,7 @@ class MealPlanController(
 
         // Intermediate clearance of fields
         val inMeals = input.meals
-        input.meals = emptyList()
+        input.meals = mutableListOf()
         input.creator = null
 
         // Create meal plan and attach meals
@@ -77,7 +77,7 @@ class MealPlanController(
 
     @PutMapping("/{mealPlanId}")
     fun update(@PathVariable mealPlanId: Long, @RequestBody input: MealPlan, @RequestHeader user: Optional<String>): ResponseEntity<Any> {
-        val mealPlan = verifyUserIsAuthorizedAndMealPlanExists(mealPlanId, user)
+        var mealPlan = verifyUserIsAuthorizedAndMealPlanExists(mealPlanId, user)
 
         // Update attributes
         mealPlan.title = input.title
@@ -85,17 +85,21 @@ class MealPlanController(
         mealPlan.imageURL = input.imageURL
         mealPlan.draft = input.draft
 
-        // Update meals
-        mealPlan.meals = input.meals?.map {
-            val recipeID = it.recipe.recipeId
-                    ?: return ResponseEntity.badRequest().body("Each recipe has to have its 'recipeID' specified!")
-            val matchingRecipe = recipeRepository.findById(recipeID)
-            if (matchingRecipe.isEmpty) {
-                return ResponseEntity.badRequest().body("Recipe with id $recipeID does not exist")
-            }
-            it.recipe = matchingRecipe.get()
+        // Remove old meals
+        mealPlan.meals?.forEach { meal ->
+            meal.mealPlan = null
+            mealRepository.delete(meal)
+        }
+        mealPlan.meals?.clear()
 
-            it
+        // Intermediate clearance of fields
+        val inMeals = input.meals
+        input.meals = mutableListOf()
+        input.creator = null
+
+        // Create meal plan and attach meals
+        if (inMeals != null) {
+            mealPlan = attachMealsToMealPlan(mealPlan, inMeals)
         }
 
         val saved = mealPlanRepository.save(mealPlan)
@@ -130,6 +134,7 @@ class MealPlanController(
                     it.recipe = matchingRecipe.get()
                 }
                 .onEach { mealRepository.save(it) }
+                .toMutableList()
 
         return created
     }

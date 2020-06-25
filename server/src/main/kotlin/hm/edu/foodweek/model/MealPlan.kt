@@ -28,5 +28,5 @@ data class MealPlan(
         var draft: Boolean = false,
 
         @OneToMany(mappedBy = "mealPlan", cascade = [CascadeType.ALL])
-        var meals: List<Meal>?
+        var meals: MutableList<Meal>?
 )
