@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/fragment_plan_details_padding"
-            android:layout_marginBottom="@dimen/fragment_plan_details_margin_bottom"
             android:clipToPadding="false"
             tools:listitem="@layout/plan_details_view_holder"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
