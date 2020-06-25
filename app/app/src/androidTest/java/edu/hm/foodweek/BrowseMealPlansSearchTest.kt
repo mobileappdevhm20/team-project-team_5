@@ -78,11 +78,11 @@ class BrowseMealPlansSearchTest {
                 isDisplayed()
             )
         )
-        searchAutoComplete.perform(replaceText("Healt"), closeSoftKeyboard())
+        searchAutoComplete.perform(replaceText("Week"), closeSoftKeyboard())
 
         val searchAutoComplete2 = onView(
             allOf(
-                withId(R.id.search_src_text), withText("Healt"),
+                withId(R.id.search_src_text), withText("Week"),
                 childAtPosition(
                     allOf(
                         withId(R.id.search_plate),

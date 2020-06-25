@@ -102,6 +102,17 @@ class AssignMealPlanToWeek2 {
             )
         )
         appCompatButton.perform(click())
+        Thread.sleep(emulatorSleepShortMilli)
+
+        onView(withId(R.id.manage_plans_recyclerView))
+            .perform(
+                RecyclerViewActions
+                    .actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                        0,
+                        clickOnViewChild(R.id.button_unsubscribe)
+                    )
+            )
+
     }
 
     private fun childAtPosition(
