@@ -95,10 +95,14 @@ class CreateMealPlanViewModel(
             runBlocking {
                 if (!existedBefore) {
                     //save localy first time
-                    mealPlanRepository.draftNewMealPlan(mealPlan)
+                    if (!publish) {
+                        mealPlanRepository.draftNewMealPlan(mealPlan)
+                    }
                 } else {
                     // update Local Entry
-                    mealPlanRepository.updateMealPlanLocaly(mealPlan)
+                    if (!publish) {
+                        mealPlanRepository.updateMealPlanLocaly(mealPlan)
+                    }
                 }
                 if (publish) {
                     // patch online Entry
