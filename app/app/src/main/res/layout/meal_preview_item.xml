@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/general_padding">
+
+    <ImageView
+        android:id="@+id/mealpreview_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/mealpreview_header"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:autoSizeMaxTextSize="35dp"
+        android:autoSizeTextType="uniform"
+        android:lines="1"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/mealpreview_image"
+        app:layout_constraintTop_toTopOf="@id/mealpreview_image"
+        tools:text="HEADER" />
+
+    <TextView
+        android:id="@+id/mealpreview_time"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:autoSizeTextType="uniform"
+        android:lines="1"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/mealpreview_image"
+        app:layout_constraintTop_toBottomOf="@id/mealpreview_header"
+        tools:text="TIME" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,17 +1,27 @@
 package edu.hm.foodweek.plans.persistence.model
 
-import androidx.room.*
-import edu.hm.foodweek.users.persistence.model.User
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 @Entity
 data class MealPlan(
+    @SerializedName("planId")
     @PrimaryKey(autoGenerate = true)
-    val planId: Long,
-    val title: String,
-    val description: String,
-    val imageURL: String,
-    val creatorId: Long,
+    var planId: Long = 0,
+    @SerializedName("title")
+    var title: String = "",
+    @SerializedName("description")
+    var description: String = "",
+    @SerializedName("imageURL")
+    var imageURL: String = "",
+    @Expose(serialize = false, deserialize = false)
+    var creatorId: String = "",
+    @SerializedName("draft")
     var draft: Boolean = true,
-    var meals : List<Meal> = emptyList()
+    @SerializedName("creatorUsername")
+    val creatorUsername: String = "",
+    @SerializedName("meals")
+    var meals: List<Meal> = emptyList()
 )
-

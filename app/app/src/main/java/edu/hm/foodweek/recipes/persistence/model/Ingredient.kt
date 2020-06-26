@@ -1,6 +1,8 @@
 package edu.hm.foodweek.recipes.persistence.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Ingredient(
-    val name: String,
-    val amount: Unit
+    @SerializedName("name")
+    val name: String
 )

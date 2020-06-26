@@ -1,21 +1,17 @@
 package edu.hm.foodweek.plans.screen.details
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
-import edu.hm.foodweek.plans.persistence.model.Meal
-import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.plans.persistence.model.MealTime
 import edu.hm.foodweek.plans.persistence.model.WeekDay
-import edu.hm.foodweek.recipes.persistence.RecipeRepository
 import edu.hm.foodweek.recipes.persistence.model.Recipe
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class PlanDetailsViewModel(
     mealPlanId: Long,
     mealPlanRepository: MealPlanRepository,
-    private val recipeRepository: RecipeRepository,
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -23,7 +19,8 @@ class PlanDetailsViewModel(
 
     private val groupedPlans = mealPlan
         // Load recipe for each meal
-        .switchMap { mealPlan -> liveData { emit(loadRecipes(mealPlan)) } }
+        //.switchMap { mealPlan -> liveData { emit(loadRecipes(mealPlan)) } }
+        .map { mealPlan -> mealPlan.meals.map { Pair(it, it.recipe) } }
         // Group by day
         .map { mealsWithRecipe -> mealsWithRecipe.groupBy { it.first.day } }
         // Group by time for each day
@@ -74,16 +71,4 @@ class PlanDetailsViewModel(
                     .sortedWith(compareBy({ it.day.ordinal }, { it.time.ordinal }))
             }
     }
-
-
-    private suspend fun loadRecipes(plan: MealPlan?): List<Pair<Meal, Recipe>> =
-        withContext(Dispatchers.IO) {
-            return@withContext plan?.meals?.map { meal ->
-                Pair(
-                    meal,
-                    recipeRepository.getRecipeById(meal.recipeId)
-                )
-            }
-                ?: emptyList()
-        }
 }

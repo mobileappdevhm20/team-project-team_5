@@ -8,7 +8,11 @@
         android:id="@+id/navigation_week"
         android:name="edu.hm.foodweek.week.screen.WeekFragment"
         android:label="@string/title_week"
-        tools:layout="@layout/fragment_week" />
+        tools:layout="@layout/fragment_week" >
+        <action
+            android:id="@+id/startPlanDetails"
+            app:destination="@id/navigation_plan_details" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_plan"
         android:name="edu.hm.foodweek.plans.screen.PlanFragment"
@@ -21,6 +25,9 @@
                 android:name="mealPlanId"
                 app:argType="long" />
         </action>
+        <action
+            android:id="@+id/createNewPlan"
+            app:destination="@id/createMealPlanFragment"></action>
     </fragment>
     <fragment
         android:id="@+id/navigation_plan_details"
@@ -62,32 +69,19 @@
         android:label="@string/title_shopping"
         tools:layout="@layout/fragment_shopping" />
     <fragment
-        android:id="@+id/navigation_settings"
-        android:name="edu.hm.foodweek.settings.screen.SettingsFragment"
-        android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings">
-        <action
-            android:id="@+id/action_navigation_settings_to_developerSettingsFragment"
-            app:destination="@id/developerSettingsFragment" />
-        <action
-            android:id="@+id/action_navigation_settings_to_developerSettingsFragment2"
-            app:destination="@id/developerSettingsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/developerSettingsFragment"
-        android:name="edu.hm.foodweek.developersettings.DeveloperSettingsFragment"
-        android:label="Developer Settings">
-        <action
-            android:id="@+id/startRecipeDetails"
-            app:destination="@id/recipeDetailFragment">
-        </action>
-    </fragment>
-    <fragment
         android:id="@+id/recipeDetailFragment"
         android:name="edu.hm.foodweek.recipes.RecipeDetailFragment"
         tools:layout="@layout/recipe_detail_fragment">
         <argument
             android:name="recipeId"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/createMealPlanFragment"
+        android:name="edu.hm.foodweek.plans.create_meal_plan.CreateMealPlanFragment"
+        tools:layout="@layout/create_meal_plan_fragment">
+        <argument
+            android:name="mealPlanId"
             app:argType="long" />
     </fragment>
 </navigation>

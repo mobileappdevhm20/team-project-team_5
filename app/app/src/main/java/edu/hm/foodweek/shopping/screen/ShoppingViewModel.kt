@@ -1,13 +1,37 @@
 package edu.hm.foodweek.shopping.screen
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.switchMap
+import edu.hm.foodweek.plans.persistence.MealPlanRepository
+import edu.hm.foodweek.plans.persistence.model.MealPlan
+import edu.hm.foodweek.recipes.persistence.RecipeRepository
+import edu.hm.foodweek.recipes.persistence.model.IngredientAmount
+import edu.hm.foodweek.recipes.persistence.model.Recipe
+import edu.hm.foodweek.users.persistence.UserRepository
+import edu.hm.foodweek.util.extensions.mapSkipNulls
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class ShoppingViewModel : ViewModel() {
+class ShoppingViewModel(
+    private val userRepository: UserRepository,
+    private val mealPlanRepository: MealPlanRepository,
+    private val recipeRepository: RecipeRepository
+) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is shopping Fragment"
-    }
-    val text: LiveData<String> = _text
+    val ingredients: LiveData<List<IngredientAmount>?> = userRepository.getCurrentWeek()
+        .switchMap { mealPlanRepository.getLiveDataMealPlanById(it) }
+        .switchMap { mealPlan -> liveData { emit(loadRecipes(mealPlan)) } }
+        .mapSkipNulls { recipes ->
+            recipes.map { it.ingredients }.flatten()
+        }
+
+    private suspend fun loadRecipes(plan: MealPlan?): List<Recipe> =
+        withContext(Dispatchers.IO) {
+            return@withContext plan?.meals?.map { meal ->
+                recipeRepository.getRecipeById(meal.recipe.recipeId)
+            }
+                ?: emptyList()
+        }
 }

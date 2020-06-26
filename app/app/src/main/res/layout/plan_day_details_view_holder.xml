@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:id="@+id/plan_day_details_view_holder_linear_layout_1">
 
     <com.github.vipulasri.timelineview.TimelineView
         android:id="@+id/timeline"
@@ -17,6 +18,7 @@
         app:startLineColor="@color/colorAccent" />
 
     <LinearLayout
+        android:id="@+id/plan_day_details_view_holder_linear_layout_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/timeline_content_margin_top"
@@ -40,7 +42,7 @@
             android:background="@android:color/darker_gray" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/plan_day_details_view_holder_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/timeline_content_margin_bottom"

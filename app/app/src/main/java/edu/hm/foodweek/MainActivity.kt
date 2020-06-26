@@ -3,12 +3,18 @@ package edu.hm.foodweek
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import edu.hm.foodweek.users.persistence.UserDao
+import edu.hm.foodweek.users.persistence.model.User
+import kotlinx.coroutines.*
+import org.koin.android.ext.android.get
+import java.util.logging.Logger
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -22,13 +28,15 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_week, R.id.navigation_plan, R.id.navigation_shopping, R.id.navigation_settings
+                R.id.navigation_week, R.id.navigation_plan, R.id.navigation_shopping
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         navView.setupWithNavController(navController)
-
+        lifecycleScope.launchWhenCreated {
+            checkExistingUser()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -39,6 +47,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private suspend fun checkExistingUser() = withContext(Dispatchers.IO) {
+        val userDao = get<UserDao>()
+        val user = userDao.getUser()
+        if (user == null) {
+            userDao.insert(User("", ""))
+            Logger.getLogger("MainActivity").fine("created user")
+        } else {
+            Logger.getLogger("MainActivity").fine("user exists already")
+        }
+
     }
 
 }

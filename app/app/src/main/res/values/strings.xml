@@ -4,13 +4,11 @@
     <string name="title_plan">Meal Plans</string>
     <string name="title_plan_details">Meal Plans Details</string>
     <string name="title_shopping">Shopping List</string>
-    <string name="title_settings">Settings</string>
     <string name="default_recipe_image">https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Recipe_Unlimited_logo.png/320px-Recipe_Unlimited_logo.png</string>
     <string name="recipe_not_found">recipe not found:</string>
     <string name="ingredients_list_header">Ingredients</string>
     <string name="steps_list_header">Preparation</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tab_bar_browse">Browse</string>
     <string name="tab_bar_manage">Manage</string>
@@ -21,4 +19,25 @@
     <string name="edit_your_meal_plan">Edit your meal plan</string>
     <string name="assign_this_meal_plan_to_a_week">Assign this meal plan to a week</string>
     <string name="remove_this_meal_plan_from_your_list">Remove this meal plan from your list</string>
+    <string name="unsubscribe_this_meal_plan">Unsubscribe this meal plan</string>
+    <string name="show_entire_plan">show entire plan</string>
+    <string name="no_recipe_selected">no Recipe Selected</string>
+    <string name="add_recipe">Add Recipe</string>
+    <string name="dinner">Dinner</string>
+    <string name="lunch">Lunch</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="sunday">Sunday</string>
+    <string name="saturday">Saturday</string>
+    <string name="friday">Friday</string>
+    <string name="thursday">Thursday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="monday">Monday</string>
+    <string name="draft">Draft</string>
+    <string name="publish">Publish</string>
+    <string name="hint_title">Title</string>
+    <string name="hint_description">Description</string>
+    <string name="hint_url">URL</string>
+    <string name="hint_search_for_recipes">search for recipes</string>
+    <string name="week_assigned_already">This week has been assigned already</string>
 </resources>

@@ -3,16 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:id="@+id/plan_day_details_recipe_view_holder_linear_layout_1">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/plan_day_details_recipe_view_holder_imageView"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
         app:srcCompat="@drawable/marker" />
 
     <LinearLayout
+        android:id="@+id/plan_day_details_recipe_view_holder_linear_layout_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/timeline_content_margin_top"
@@ -22,6 +24,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/plan_day_details_recipe_view_holder_linear_layout_3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
