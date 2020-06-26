@@ -7,6 +7,7 @@ import androidx.lifecycle.switchMap
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.persistence.model.MealPlan
 import edu.hm.foodweek.recipes.persistence.RecipeRepository
+import edu.hm.foodweek.recipes.persistence.model.Ingredient
 import edu.hm.foodweek.recipes.persistence.model.IngredientAmount
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 import edu.hm.foodweek.users.persistence.UserRepository
@@ -25,6 +26,13 @@ class ShoppingViewModel(
         .switchMap { mealPlan -> liveData { emit(loadRecipes(mealPlan)) } }
         .mapSkipNulls { recipes ->
             recipes.map { it.ingredients }.flatten()
+                .groupBy { ingredientAmount: IngredientAmount -> ingredientAmount.ingredient.name }
+                .entries.map { entry ->
+                    IngredientAmount(
+                        ingredient = Ingredient(entry.key),
+                        measure = entry.value.map { ingredientAmount -> ingredientAmount.measure }
+                            .joinToString { it })
+                }
         }
 
     private suspend fun loadRecipes(plan: MealPlan?): List<Recipe> =
