@@ -1,6 +1,6 @@
 # Foodweek
 
-todo: App description
+todo: App description (if we want to support multiple languages, create one in english, german and swedish)
 
 ## Logo of the App
 
