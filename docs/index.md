@@ -4,7 +4,7 @@ todo: App description
 
 ## Logo of the App
 
-![foodweek logo][images/logo.jpeg]
+![foodweek logo](images/logo.jpeg)
 
 ## Screenshots of the app
 
