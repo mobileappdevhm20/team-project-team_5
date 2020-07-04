@@ -6,15 +6,13 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.persistence.model.MealPlan
-import edu.hm.foodweek.plans.persistence.model.MealTime
-import edu.hm.foodweek.recipes.persistence.RecipeRepository
-import edu.hm.foodweek.recipes.persistence.model.Recipe
+import edu.hm.foodweek.plans.persistence.model.WeekDay
 import edu.hm.foodweek.users.persistence.UserRepository
 import edu.hm.foodweek.util.extensions.combineLatest
 import edu.hm.foodweek.util.extensions.map
 import edu.hm.foodweek.util.extensions.mapSkipNulls
-import edu.hm.foodweek.week.MealPreview
 import org.koin.android.logger.AndroidLogger
+import java.util.*
 
 class WeekViewModel(
     private val mealPlanRepository: MealPlanRepository,
@@ -56,6 +54,14 @@ class WeekViewModel(
     val planDescription = mealPlan.mapSkipNulls { it.description }
     val planUrl = mealPlan.mapSkipNulls { it.imageURL }
 
-    val meals = mealPlan.map { it?.meals }
+    val meals = mealPlan
+        .map { mealplan ->
+            mealplan?.meals?.filter { meal ->
+                val today = Calendar.getInstance(Locale.GERMAN).get(Calendar.DAY_OF_WEEK) - 1
+                val validDays = WeekDay.values().slice(IntRange(today, WeekDay.values().size - 1))
+                meal.day in validDays
+            }
+
+        }
 
 }

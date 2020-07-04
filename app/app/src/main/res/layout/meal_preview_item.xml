@@ -33,9 +33,31 @@
         android:autoSizeTextType="uniform"
         android:lines="1"
         android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/mealpreview_image"
         app:layout_constraintTop_toBottomOf="@id/mealpreview_header"
-        tools:text="TIME" />
+        tools:text="BREAKFAST" />
+
+    <TextView
+        android:id="@+id/devider"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:autoSizeTextType="uniform"
+        android:textStyle="italic"
+        android:paddingHorizontal="2dp"
+        app:layout_constraintStart_toEndOf="@id/mealpreview_time"
+        app:layout_constraintTop_toBottomOf="@id/mealpreview_header"
+        android:text="|" />
+
+    <TextView
+        android:id="@+id/mealpreview_date"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:autoSizeTextType="uniform"
+        android:lines="1"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/devider"
+        app:layout_constraintTop_toBottomOf="@id/mealpreview_header"
+        tools:text="SUNDAY" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

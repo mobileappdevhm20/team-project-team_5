@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import edu.hm.foodweek.R
 import edu.hm.foodweek.databinding.RecipeDetailFragmentBinding
 import edu.hm.foodweek.recipes.persistence.model.IngredientAmount
@@ -48,10 +49,12 @@ class RecipeDetailFragment : Fragment() {
         viewModel.url.observe(viewLifecycleOwner, Observer {
             Glide
                 .with(binding.imagePreview.context)
+                .asDrawable()
                 .load(it)
-                .centerCrop()
+                .placeholder(R.drawable.ic_no_image_found)
+                .priority(Priority.HIGH)
+                .circleCrop()
                 .into(binding.imagePreview)
-                .onLoadFailed(resources.getDrawable(R.drawable.ic_no_image_found, null))
         })
 
         return binding.root

@@ -16,6 +16,7 @@ import com.bumptech.glide.Priority
 import edu.hm.foodweek.R
 import edu.hm.foodweek.databinding.FragmentWeekBinding
 import edu.hm.foodweek.plans.persistence.model.Meal
+import edu.hm.foodweek.plans.screen.details.PlanDayDetailsFragmentDirections
 import kotlinx.android.synthetic.main.meal_preview_item.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -42,7 +43,7 @@ class WeekFragment : Fragment() {
     }
 
     private fun setRecyclerView(binding: FragmentWeekBinding) {
-        binding.weekPreviewRecipeList.adapter = MealPreviewAdapter(emptyList())
+        binding.weekPreviewRecipeList.adapter = MealPreviewAdapter(emptyList(), onRecipeClicked)
         binding.weekPreviewRecipeList.layoutManager = LinearLayoutManager(context)
         viewModel.meals.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -64,14 +65,23 @@ class WeekFragment : Fragment() {
         })
     }
 
-    class MealPreviewAdapter(private var meals: List<Meal>) : RecyclerView.Adapter<MealPreviewAdapter.IngredientItemViewHolder>() {
+    val onRecipeClicked = { recipeId: Long ->
+        val action = PlanDayDetailsFragmentDirections.showRecipeDetail(recipeId)
+        findNavController().navigate(action)
+        Unit
+    }
+
+    class MealPreviewAdapter(
+        private var meals: List<Meal>,
+        private val onRecipeClicked: (Long) -> Unit
+    ) : RecyclerView.Adapter<MealPreviewAdapter.IngredientItemViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientItemViewHolder {
             val context = parent.context
             val inflater = LayoutInflater.from(context)
             // Inflate the custom layout
             val ingredientItemView = inflater.inflate(R.layout.meal_preview_item, parent, false)
             // Return a new holder instance
-            return IngredientItemViewHolder(ingredientItemView)
+            return IngredientItemViewHolder(ingredientItemView, onRecipeClicked)
         }
 
         override fun getItemCount(): Int {
@@ -89,12 +99,18 @@ class WeekFragment : Fragment() {
             notifyDataSetChanged()
         }
 
-        class IngredientItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+        class IngredientItemViewHolder(
+            itemView: View,
+            private val onRecipeClicked: (Long) -> Unit
+        ) : RecyclerView.ViewHolder(itemView) {
             fun bind(meal: Meal) {
                 itemView.apply {
+                    setOnClickListener {
+                        onRecipeClicked(meal.recipe.recipeId)
+                    }
                     mealpreview_header.text = meal.recipe.title
                     mealpreview_time.text = meal.time.toString()
+                    mealpreview_date.text = meal.day.toString()
                     if (URLUtil.isValidUrl(meal.recipe.url)) {
                         Glide
                             .with(itemView)
