@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -11,9 +12,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import edu.hm.foodweek.R
+import edu.hm.foodweek.databinding.FragmentPlanDetailsBinding
 import edu.hm.foodweek.plans.persistence.model.WeekDay
-import kotlinx.android.synthetic.main.fragment_plan_details.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -32,7 +34,19 @@ class PlanDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_plan_details, container, false)
+        val binding: FragmentPlanDetailsBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_plan_details, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.model = viewModel
+        viewModel.planImage.observe(viewLifecycleOwner, Observer {
+            Glide
+                .with(binding.planPreviewImage)
+                .asDrawable()
+                .load(it)
+                .placeholder(R.drawable.ic_no_image_found)
+                .centerCrop()
+                .priority(Priority.HIGH)
+                .into(binding.planPreviewImage)
+        })
         viewModel.items.observe(this.viewLifecycleOwner, Observer { items ->
             timelineData.clear()
             timelineData.addAll(items)
@@ -51,15 +65,15 @@ class PlanDetailsFragment : Fragment() {
 
         // Init recycler view
         mLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        root.plan_details_recyclerView.layoutManager = mLayoutManager
+        binding.planDetailsRecyclerView.layoutManager = mLayoutManager
         mAdapter = PlanDetailsAdapter(
             timelineData,
             Glide.with(this).asDrawable(),
             onDayClicked
         )
-        root.plan_details_recyclerView.adapter = mAdapter
+        binding.planDetailsRecyclerView.adapter = mAdapter
 
-        return root
+        return binding.root
     }
 
 }
