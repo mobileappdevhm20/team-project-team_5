@@ -29,20 +29,41 @@ You need to install/configure the following prerequisites in order to work on Fo
 ---
 
 ## Installation Guide
+
 1. Clone the FoodWeek by running <br>
   ```sh
     git clone https://github.com/mobileappdevhm20/team-project-team_5.git
   ```
+
+### App
+
 2. Sync FoodWeeks dependencies by clicking the "elephant"-icon in the top right in Android Studio or run the gradle command<br>
   ```sh
+    cd app
     gradlew build
   ```
 3. Run FoodWeek on your own device or in an emulator of your choice!
+
+
+### Backend
+
+2. Build the Spring-Boot backend with following command
+```sh
+cd server
+mvn clean install
+```
+
+3. Afterwards the jar file `foodweek-0.0.1-SNAPSHOT.jar` should be available in the subfolder `./target`. You can now either run it with the command 
+```sh
+java -jar ./target/foodweek-0.0.1-SNAPSHOT.jar
+```
+or just deploy the jar file to [AWS-Elastic-Beanstalk](https://aws.amazon.com/de/elasticbeanstalk/)
 
 ---
 
 ## Dependencies
 
+### App
 - [Material Design](https://material.io/develop/android/docs/getting-started/) - Used for building high quality user interfaces
 - [Android Navigation](https://developer.android.com/jetpack/androidx/releases/navigation) - Used to ease navigation between different fragments
 - [Retrofit2](https://square.github.io/retrofit/) - Used for communicating with REST-API backend
@@ -55,6 +76,10 @@ You need to install/configure the following prerequisites in order to work on Fo
 - [Android Paging](https://developer.android.com/topic/libraries/architecture/paging) - Used to ensure that only a small chunk of mealplans are requested and displayed at a time
 - [RxJava](https://github.com/ReactiveX/RxJava) - Used to ease the handling of asynchronous request and livedata
 
+### Backend
+
+- [Spring Boot](https://spring.io/projects/spring-boot)
+
 ### Test-Dependencies
 
 - [Espresso UI-Test](https://developer.android.com/training/testing/espresso/setup) - Used for end-to-end testing
@@ -65,6 +90,9 @@ You need to install/configure the following prerequisites in order to work on Fo
 ---
 
 ## Structure
+
+### App
+
 Make sure to read through [Guide to app architecture](https://developer.android.com/jetpack/guide) to understand the structure and building blocks of our app.
 
 ![FoodWeek - Architecture](https://developer.android.com/topic/libraries/architecture/images/final-architecture.png)
@@ -92,6 +120,12 @@ Make sure to read through [Guide to app architecture](https://developer.android.
           - *FoodWeekDatabase.kt* - Abstract class file of our local room database
           - *MainActivity.kt* - Start Activity of FoodWeek
           - *MainApplication.kt* - Application file used to add start of Koin
+
+### Backend
+
+The backend follows the core Spring-Boot design guide. Only the service layer is skipped by now for development speed, which means that all business logic is implemented into the existing controllers. If you want to implement more logic into the backend, please consider separating out the business logic into own Spring-Boot services! 
+
+In order to keep the documentation of the backend as simple as possible, Swagger-UI is used to keep a generated documentation for all REST-Endpoints exposed by the backend. Just go ahead and checkout the latest version of the deployed Swagger-UI [here](http://foodweek-env.eba-qy49mda5.eu-central-1.elasticbeanstalk.com/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config)
 
 ---
 ## Architecture
@@ -129,6 +163,11 @@ The shopping list displays all ingredients from the meaplan that is assigned to 
 
 ### Spring-Boot backend and its deployment
 
+The backend is currently deployed as an [AWS Elastic Beanstalk](https://aws.amazon.com/de/elasticbeanstalk/) which is connected to a [PostgreSQL-Database](https://www.postgresql.org/) that is also hosted in AWS.
+
+If you want to host the backend on your own, just create new [profile-configuration](https://www.baeldung.com/spring-profiles) in the `resources` folder and set the credentials for your deployed database. You can use the file `template-application.properties` which is already present in the resources directory to see which configs you have to set.
+
+[This](https://aws.amazon.com/de/blogs/devops/deploying-a-spring-boot-application-on-aws-using-aws-elastic-beanstalk/) is a very useful guide on how to hoste a Spring-Boot backend in AWS Elastic Beanstalk.
 
 ## Main-Contributors
 - [Daniel-Seifert](https://github.com/Daniel-Seifert)
