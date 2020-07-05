@@ -1,5 +1,5 @@
 # FoodWeek - Ease your daily cooking with our meal planer - Documentation
-![foodweek logo](images/logo.jpeg)\
+![foodweek logo](images/logo.jpeg)
 [![Build](https://github.com/mobileappdevhm20/team-project-team_5/workflows/Build/badge.svg)](https://github.com/mobileappdevhm20/team-project-team_5/actions)
 [![codecov](https://codecov.io/gh/mobileappdevhm20/team-project-team_5/branch/develop/graph/badge.svg)](https://codecov.io/gh/mobileappdevhm20/team-project-team_5)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mobileappdevhm20_team-project-team_5&metric=alert_status)](https://sonarcloud.io/dashboard?id=mobileappdevhm20_team-project-team_5)\
