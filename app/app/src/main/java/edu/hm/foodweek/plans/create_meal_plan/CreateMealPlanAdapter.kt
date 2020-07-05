@@ -31,6 +31,14 @@ class CreateMealPlanAdapter(private var context: Context, var myList: List<Recip
         viewHolder.itemView.setOnClickListener { }
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
 
     //The viewHolder specify what to do with that view
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

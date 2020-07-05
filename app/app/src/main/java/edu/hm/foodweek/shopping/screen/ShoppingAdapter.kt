@@ -8,15 +8,24 @@ import edu.hm.foodweek.R
 import edu.hm.foodweek.recipes.persistence.model.IngredientAmount
 import kotlinx.android.synthetic.main.shoppinglist_item.view.*
 
+data class ShoppingItem(
+    val ingredientAmount: IngredientAmount,
+    var checked: Boolean = false
+)
+
 class ShoppingAdapter(
-    var myIngredientList: MutableList<IngredientAmount> = mutableListOf()
+    var itemList: MutableList<ShoppingItem> = mutableListOf()
 ) : RecyclerView.Adapter<ShoppingAdapter.ShoppingViewHolder>() {
 
     //The viewHolder specify what to do with that view
     class ShoppingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(ingredientAmount: IngredientAmount) {
-            itemView.shoppinglist_tv_title.text = ingredientAmount.ingredient.name
-            itemView.shoppinglist_tv_measure.text = ingredientAmount.measure
+        fun bind(item: ShoppingItem) {
+            itemView.shoppinglist_tv_title.text = item.ingredientAmount.ingredient.name
+            itemView.shoppinglist_tv_measure.text = item.ingredientAmount.measure
+            itemView.checkbox_ingredient.isChecked = item.checked
+            itemView.checkbox_ingredient.setOnClickListener {
+                item.checked = !item.checked
+            }
         }
     }
 
@@ -28,13 +37,21 @@ class ShoppingAdapter(
     }
 
     override fun getItemCount(): Int {
-        return myIngredientList.size
+        return itemList.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
     //this gets the number specifically associated with each item, so it gets all items from the list
     //Binding each individual item to the view
     override fun onBindViewHolder(holder: ShoppingViewHolder, position: Int) {
-        holder.bind(myIngredientList[position])
+        holder.bind(itemList[position])
     }
 
 }

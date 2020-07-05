@@ -35,10 +35,24 @@ class ShoppingFragment : Fragment(), KoinComponent {
         val recyclerView = binding.rvIngredients
         recyclerView.adapter = adapter
 
+        // Setup slider
+        val max = 7
+        val min = 1
+        val total = max - min
+        binding.fluidSlider.positionListener = { pos ->
+            val day = min + (total * pos).toInt()
+            binding.fluidSlider.bubbleText = "$day"
+            shoppingViewModel.daySelectionChanged(day)
+        }
+        binding.fluidSlider.position = .3f
+        binding.fluidSlider.startText = "now"
+        binding.fluidSlider.endText = "$max days"
+
+
         // Populate items to rv
         shoppingViewModel.ingredients.observe(viewLifecycleOwner, Observer { ingredientAmounts ->
             if (ingredientAmounts != null) {
-                adapter.myIngredientList = ingredientAmounts.toMutableList()
+                adapter.itemList = ingredientAmounts.map { ShoppingItem(it) }.toMutableList()
                 adapter.notifyDataSetChanged()
             }
         })

@@ -63,6 +63,10 @@ class PlanDayDetailsAdapter(
 
     override fun getItemCount() = mFeedList.size
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
     inner class PlanDayDetailsTimelineViewHolder(itemView: View, viewType: Int) :
         RecyclerView.ViewHolder(itemView) {
 

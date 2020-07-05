@@ -73,7 +73,11 @@ class BrowsePlansAdapter(
     override fun getItemCount(): Int = data.size
 
     override fun getItemId(position: Int): Long {
-        return data[position].plan.planId
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
     override fun onBindViewHolder(holder: PlansViewHolder, position: Int) =
