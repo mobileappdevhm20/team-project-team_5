@@ -57,7 +57,7 @@ class WeekViewModel(
     val meals = mealPlan
         .map { mealplan ->
             mealplan?.meals?.filter { meal ->
-                val today = Calendar.getInstance(Locale.GERMAN).get(Calendar.DAY_OF_WEEK) - 1
+                val today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1
                 val validDays = WeekDay.values().slice(IntRange(today, WeekDay.values().size - 1))
                 meal.day in validDays
             }

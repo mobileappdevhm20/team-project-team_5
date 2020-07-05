@@ -39,7 +39,7 @@ class SelectWeekDialog(val planId: Long) : DialogFragment() {
         })
 
         binding.numberPicker.let {
-            val thisWeek = Calendar.getInstance(Locale.GERMANY)
+            val thisWeek = Calendar.getInstance()
             thisWeek.set(Calendar.DAY_OF_WEEK, thisWeek.firstDayOfWeek)
             it.minValue = thisWeek.get(Calendar.WEEK_OF_YEAR)
             it.maxValue = thisWeek.getActualMaximum(Calendar.WEEK_OF_YEAR)
@@ -66,7 +66,7 @@ class SelectWeekDialog(val planId: Long) : DialogFragment() {
     }
 
     private fun updateValues(newWeek: Int, binding: SelectCalendarWeekBinding) {
-        val selectedWeek = Calendar.getInstance(Locale.GERMANY)
+        val selectedWeek = Calendar.getInstance()
         selectedWeek.set(Calendar.DAY_OF_WEEK, selectedWeek.firstDayOfWeek)
         selectedWeek.set(Calendar.WEEK_OF_YEAR, newWeek)
         binding.weekStart.text = buildDate(selectedWeek)
@@ -80,7 +80,7 @@ class SelectWeekDialog(val planId: Long) : DialogFragment() {
             if (mealPlan.isNullOrEmpty()) {
                 binding.errorMessage = getString(R.string.week_assigned_already)
             } else {
-                binding.errorMessage = getString(R.string.week_assigned_already) + "by\n${mealPlan[0]}"
+                binding.errorMessage = getString(R.string.week_assigned_already) + " by \n${mealPlan[0]}"
             }
             binding.warning.visibility = View.VISIBLE
         } else {
