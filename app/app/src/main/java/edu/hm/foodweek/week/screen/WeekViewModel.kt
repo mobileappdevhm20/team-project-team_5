@@ -6,7 +6,6 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.persistence.model.MealPlan
-import edu.hm.foodweek.plans.persistence.model.WeekDay
 import edu.hm.foodweek.users.persistence.UserRepository
 import edu.hm.foodweek.util.extensions.combineLatest
 import edu.hm.foodweek.util.extensions.map
@@ -56,12 +55,11 @@ class WeekViewModel(
 
     val meals = mealPlan
         .map { mealplan ->
+            val today = Calendar.getInstance()
             mealplan?.meals?.filter { meal ->
-                val today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1
-                val validDays = WeekDay.values().slice(IntRange(today, WeekDay.values().size - 1))
-                meal.day in validDays
+                val mealDay = Calendar.getInstance()
+                mealDay.set(Calendar.DAY_OF_WEEK, meal.day.asJavaCalendar())
+                mealDay.after(today)
             }
-
         }
-
 }
