@@ -16,7 +16,9 @@ class PlanDetailsViewModel(
 ) : AndroidViewModel(application) {
 
     private val mealPlan = mealPlanRepository.getLiveDataMealPlanById(mealPlanId)
-
+    val planTitle = mealPlan.map { it.title }
+    val planDescription = mealPlan.map { it.description }
+    val planImage = mealPlan.map { it.imageURL }
     private val groupedPlans = mealPlan
         // Load recipe for each meal
         //.switchMap { mealPlan -> liveData { emit(loadRecipes(mealPlan)) } }

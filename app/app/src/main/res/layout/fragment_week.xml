@@ -50,10 +50,9 @@
                 <TextView
                     android:id="@+id/week_preview_description"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
                     android:autoSizeTextType="uniform"
-                    android:maxLines="2"
                     android:text="@{model.planDescription}"
                     android:textStyle="italic"
                     tools:text="Description"
