@@ -12,7 +12,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import edu.hm.foodweek.users.persistence.UserDao
 import edu.hm.foodweek.users.persistence.model.User
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.get
 import java.util.logging.Logger
 
@@ -28,7 +29,10 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_week, R.id.navigation_plan, R.id.navigation_shopping
+                R.id.navigation_week,
+                R.id.navigation_plan,
+                R.id.navigation_shopping,
+                R.id.privacyPolicy
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

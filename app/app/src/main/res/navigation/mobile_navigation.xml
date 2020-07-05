@@ -15,6 +15,12 @@
         <action
             android:id="@+id/showRecipeDetail"
             app:destination="@id/recipeDetailFragment" />
+        <action
+            android:id="@+id/action_navigation_week_to_privacyPolicy"
+            app:destination="@id/privacyPolicy" />
+        <action
+            android:id="@+id/action_navigation_week_to_privacyPolicy2"
+            app:destination="@id/privacyPolicy" />
     </fragment>
     <fragment
         android:id="@+id/navigation_plan"
@@ -87,4 +93,8 @@
             android:name="mealPlanId"
             app:argType="long" />
     </fragment>
+    <fragment
+        android:id="@+id/privacyPolicy"
+        android:name="edu.hm.foodweek.policy.PrivacyPolicy"
+        android:label="PrivacyPolicy" />
 </navigation>
