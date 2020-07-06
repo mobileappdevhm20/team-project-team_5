@@ -69,9 +69,9 @@ open class MealPlanRepository(
         Log.i("MealPlanRepository", "getLiveDataMealPlan by id: ${mealplanId}")
 
         return dao.getMealPlan(mealplanId)
-            .switchMap {
-                return@switchMap if (it != null) {
-                    liveData { emit(it!!) }
+            .switchMap { mealplan ->
+                return@switchMap if (mealplan != null) {
+                    mealplan.let { liveData { emit(it) } }
                 } else {
                     val liveDataMealPlan = MutableLiveData<MealPlan>()
                     foodWeekClient.getFoodWeekServiceClient().getMealPlan(mealplanId)

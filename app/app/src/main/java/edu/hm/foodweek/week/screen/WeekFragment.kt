@@ -32,7 +32,7 @@ class WeekFragment : Fragment() {
         binding.model = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         viewModel.planId.observe(viewLifecycleOwner, Observer { id ->
-            binding.weekPreviewShowPlan.setOnClickListener { view ->
+            binding.weekPreviewShowPlan.setOnClickListener { _ ->
                 val action = WeekFragmentDirections.startPlanDetails(id)
                 findNavController().navigate(action)
             }

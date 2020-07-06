@@ -26,7 +26,7 @@ class RecipeAdapter(private var recipes: List<Recipe>, private val createMealPla
     }
 
     override fun onBindViewHolder(holder: StepItemViewHolder, position: Int) {
-        holder.bind(recipes[position], position == checkedPosition)
+        holder.bind(recipes[position])
     }
 
     fun updateRecipes(recipes: List<Recipe>) {
@@ -40,13 +40,10 @@ class RecipeAdapter(private var recipes: List<Recipe>, private val createMealPla
 
     inner class StepItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textView = itemView.recipe_list_item_recipe_text
-        fun bind(recipe: Recipe, isSelected: Boolean) {
+        fun bind(recipe: Recipe) {
             this.setIsRecyclable(false)
-            //textView.isSelected = isSelected
             textView.text = recipe.title
             itemView.setOnClickListener {
-/*                textView.isSelected = true
-                checkedPosition = adapterPosition*/
                 createMealPlanViewModel.selectedRecipe.postValue(recipe)
                 notifyDataSetChanged()
             }

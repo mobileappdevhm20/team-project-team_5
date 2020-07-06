@@ -51,6 +51,14 @@ class WeekViewModel(
             }
         }
     val planDescription = mealPlan.mapSkipNulls { it.description }
+        .combineLatest(isMealPlanForCurrentWeekSet)
+        .mapSkipNulls { pair ->
+            if (pair.second == null || pair.second == true) {
+                return@mapSkipNulls pair.first
+            } else {
+                return@mapSkipNulls "Browse through the meals, add them to your favorites and assign them to a Week"
+            }
+        }
     val planUrl = mealPlan.mapSkipNulls { it.imageURL }
 
     val meals = mealPlan
@@ -59,7 +67,8 @@ class WeekViewModel(
             mealplan?.meals?.filter { meal ->
                 val mealDay = Calendar.getInstance()
                 mealDay.set(Calendar.DAY_OF_WEEK, meal.day.asJavaCalendar())
-                mealDay.after(today)
+                val isafter = mealDay.after(today) || mealDay.get(Calendar.DATE) == today.get(Calendar.DATE)
+                isafter
             }
         }
 }

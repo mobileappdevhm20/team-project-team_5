@@ -23,17 +23,17 @@ import kotlinx.android.synthetic.main.add_recipe_dialog.view.*
 class AddRecipeDialog(val createMealPlanViewModel: CreateMealPlanViewModel) : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val inflater = inflater.inflate(R.layout.add_recipe_dialog, container, false)
-        setButtonClick(inflater)
-        setRecylcerView(inflater)
-        setMealTimeSpinner(inflater)
-        setDaySpinner(inflater)
-        setSelectedDayView(inflater)
-        setSearchView(inflater)
+        val view = inflater.inflate(R.layout.add_recipe_dialog, container, false)
+        setButtonClick(view)
+        setRecylcerView(view)
+        setMealTimeSpinner(view)
+        setDaySpinner(view)
+        setSelectedDayView(view)
+        setSearchView(view)
         createMealPlanViewModel.searchQuery.observe(viewLifecycleOwner, Observer {
             createMealPlanViewModel.loadMoreRecipes(0)
         })
-        return inflater
+        return view
     }
 
     private fun setSelectedDayView(inflater: View) {

@@ -49,13 +49,13 @@ class SubmitDialog(private val createMealPlanViewModel: CreateMealPlanViewModel)
                 }
             }
         }
-        view.submit_dialog_text_view_description.doOnTextChanged { text, start, before, count ->
+        view.submit_dialog_text_view_description.doOnTextChanged { text, _, _, _ ->
             createMealPlanViewModel.updateTexts(description = text.toString())
         }
-        view.submit_dialog_text_view_title.doOnTextChanged { text, start, before, count ->
+        view.submit_dialog_text_view_title.doOnTextChanged { text, _, _, _ ->
             createMealPlanViewModel.updateTexts(title = text.toString())
         }
-        view.submit_dialog_text_view_url.doOnTextChanged { text, start, before, count ->
+        view.submit_dialog_text_view_url.doOnTextChanged { text, _, _, _ ->
             createMealPlanViewModel.updateTexts(url = text.toString())
         }
         return view

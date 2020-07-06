@@ -39,7 +39,7 @@ class BriefRecipeAdapter(
                 R.layout.plan_day_details_recipe_view_holder,
                 parent,
                 false
-            ), viewType
+            )
         )
     }
 
@@ -67,7 +67,7 @@ class BriefRecipeAdapter(
 
     override fun getItemCount() = mFeedList.size
 
-    inner class RecipeBriefListViewHolder(itemView: View, viewType: Int) :
+    inner class RecipeBriefListViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 
         val imageView: ImageView = itemView.plan_day_details_recipe_view_holder_imageView

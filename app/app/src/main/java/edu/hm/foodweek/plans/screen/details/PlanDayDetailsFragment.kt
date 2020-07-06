@@ -1,6 +1,5 @@
 package edu.hm.foodweek.plans.screen.details
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,11 +38,11 @@ class PlanDayDetailsFragment : Fragment() {
                 timelineData.addAll(items)
                 mAdapter.notifyDataSetChanged()
             })
-        initRecyclerView(root.plan_day_details_recyclerView, requireContext())
+        initRecyclerView(root.plan_day_details_recyclerView)
         return root
     }
 
-    private fun initRecyclerView(recyclerView: RecyclerView, context: Context) {
+    private fun initRecyclerView(recyclerView: RecyclerView) {
 
         // Init recipe click listener
         val onRecipeClicked = { recipe: Recipe ->

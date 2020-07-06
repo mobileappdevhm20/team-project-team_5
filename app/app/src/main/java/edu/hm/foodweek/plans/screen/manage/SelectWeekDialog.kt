@@ -49,7 +49,7 @@ class SelectWeekDialog(val planId: Long) : DialogFragment() {
             thisWeek.add(Calendar.DATE, -1)
             binding.weekEnd.text = buildDate(thisWeek)
 
-            it.setOnValueChangedListener { picker, oldVal, newVal ->
+            it.setOnValueChangedListener { _, _, newVal ->
                 updateValues(newVal, binding)
             }
         }

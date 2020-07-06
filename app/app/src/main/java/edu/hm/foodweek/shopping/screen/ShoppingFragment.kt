@@ -51,9 +51,12 @@ class ShoppingFragment : Fragment(), KoinComponent {
 
         // Populate items to rv
         shoppingViewModel.ingredients.observe(viewLifecycleOwner, Observer { ingredientAmounts ->
-            if (ingredientAmounts != null) {
+            if (ingredientAmounts.isNullOrEmpty()) {
+                binding.infoText.visibility = View.VISIBLE
+            } else {
                 adapter.itemList = ingredientAmounts.map { ShoppingItem(it) }.toMutableList()
                 adapter.notifyDataSetChanged()
+                binding.infoText.visibility = View.INVISIBLE
             }
         })
 

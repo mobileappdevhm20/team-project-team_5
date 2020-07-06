@@ -37,6 +37,7 @@ open class UserRepository(private val userDao: UserDao) {
     suspend fun setMealToWeek(mealId: Long, week: Int) {
         runBlocking {
             val user = getUserNoLiveData()
+            @Suppress("SENSELESS_COMPARISON")
             if (user == null) {
                 return@runBlocking
             }

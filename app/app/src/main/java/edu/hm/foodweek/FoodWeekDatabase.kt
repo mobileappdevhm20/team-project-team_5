@@ -14,7 +14,8 @@ import edu.hm.foodweek.util.Converters
 
 @Database(
     entities = [MealPlan::class, User::class, Recipe::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class FoodWeekDatabase() : RoomDatabase() {
