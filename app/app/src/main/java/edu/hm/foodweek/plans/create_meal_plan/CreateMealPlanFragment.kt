@@ -111,7 +111,7 @@ class CreateMealPlanFragment : Fragment() {
             if (it == null || it.isNullOrEmpty()) {
                 myAdapter.myList = emptyList()
             } else {
-                myAdapter.myList = it as List<Recipe>
+                myAdapter.myList = it
             }
             myAdapter.notifyDataSetChanged()
         })

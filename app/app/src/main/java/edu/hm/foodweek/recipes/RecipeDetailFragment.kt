@@ -51,7 +51,7 @@ class RecipeDetailFragment : Fragment() {
                 .with(binding.imagePreview.context)
                 .asDrawable()
                 .load(it)
-                .placeholder(R.drawable.ic_no_image_found)
+                .placeholder(R.drawable.no_image)
                 .priority(Priority.HIGH)
                 .circleCrop()
                 .into(binding.imagePreview)

@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity() {
     private suspend fun checkExistingUser() = withContext(Dispatchers.IO) {
         val userDao = get<UserDao>()
         val user = userDao.getUser()
+        @Suppress("SENSELESS_COMPARISON")
         if (user == null) {
             userDao.insert(User("", ""))
             Logger.getLogger("MainActivity").fine("created user")

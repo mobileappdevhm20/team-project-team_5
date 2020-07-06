@@ -42,7 +42,7 @@ class PlanDetailsFragment : Fragment() {
                 .with(binding.planPreviewImage)
                 .asDrawable()
                 .load(it)
-                .placeholder(R.drawable.ic_no_image_found)
+                .placeholder(R.drawable.no_image)
                 .centerCrop()
                 .priority(Priority.HIGH)
                 .into(binding.planPreviewImage)
