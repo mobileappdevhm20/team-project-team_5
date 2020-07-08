@@ -1,4 +1,4 @@
-package edu.hm.foodweek.plans.create_meal_plan
+package edu.hm.foodweek.plans.screen.create
 
 
 import android.os.Bundle
@@ -15,10 +15,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.hm.foodweek.R
 import edu.hm.foodweek.databinding.CreateMealPlanFragmentBinding
-import edu.hm.foodweek.plans.create_meal_plan.dialogs.add.AddRecipeDialog
-import edu.hm.foodweek.plans.create_meal_plan.dialogs.submit.SubmitDialog
 import edu.hm.foodweek.plans.persistence.model.MealTime
 import edu.hm.foodweek.plans.persistence.model.WeekDay
+import edu.hm.foodweek.plans.screen.create.dialogs.add.AddRecipeDialog
+import edu.hm.foodweek.plans.screen.create.dialogs.submit.SubmitDialog
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -29,7 +29,7 @@ class CreateMealPlanFragment : Fragment() {
     private val args: CreateMealPlanFragmentArgs by navArgs()
     private val viewModel: CreateMealPlanViewModel by viewModel { parametersOf(args.mealPlanId) }
     private lateinit var binding: CreateMealPlanFragmentBinding
-    var myList = ArrayList<Recipe>()
+    private var myList = ArrayList<Recipe>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -102,10 +102,12 @@ class CreateMealPlanFragment : Fragment() {
             viewModel.selectTime.postValue(MealTime.DINNER)
         }
 
-
-        //binding.recipeListView
-
-        val myAdapter = CreateMealPlanAdapter(requireContext(), myList, viewModel)
+        val myAdapter =
+            CreateMealPlanAdapter(
+                requireContext(),
+                myList,
+                viewModel
+            )
         viewModel.filteredRecipeList.observe(viewLifecycleOwner, Observer
         {
             if (it == null || it.isNullOrEmpty()) {
@@ -122,20 +124,19 @@ class CreateMealPlanFragment : Fragment() {
             onSubmit()
         }
 
-
         binding.recipeListView.adapter = myAdapter
         binding.recipeListView.layoutManager = LinearLayoutManager(requireContext())
-
         return binding.root
     }
 
     private fun onAddRecipe() {
-        AddRecipeDialog(viewModel).show(parentFragmentManager, "AddRecipeDialog")
-
+        AddRecipeDialog(viewModel)
+            .show(parentFragmentManager, "AddRecipeDialog")
     }
 
     private fun onSubmit() {
-        SubmitDialog(viewModel).show(parentFragmentManager, "SubmitDialog")
+        SubmitDialog(viewModel)
+            .show(parentFragmentManager, "SubmitDialog")
     }
 
 }

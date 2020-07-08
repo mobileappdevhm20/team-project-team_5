@@ -1,4 +1,4 @@
-package edu.hm.foodweek.plans.create_meal_plan
+package edu.hm.foodweek.plans.screen.create
 
 import android.app.Application
 import android.util.Log

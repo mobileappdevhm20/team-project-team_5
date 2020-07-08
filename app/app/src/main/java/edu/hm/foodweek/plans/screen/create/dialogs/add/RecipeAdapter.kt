@@ -1,11 +1,11 @@
-package edu.hm.foodweek.plans.create_meal_plan.dialogs.add
+package edu.hm.foodweek.plans.screen.create.dialogs.add
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import edu.hm.foodweek.R
-import edu.hm.foodweek.plans.create_meal_plan.CreateMealPlanViewModel
+import edu.hm.foodweek.plans.screen.create.CreateMealPlanViewModel
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 import kotlinx.android.synthetic.main.recipe_list_item.view.*
 

@@ -1,4 +1,4 @@
-package edu.hm.foodweek.plans.create_meal_plan.dialogs.submit
+package edu.hm.foodweek.plans.screen.create.dialogs.submit
 
 
 import android.graphics.drawable.Drawable
@@ -19,8 +19,8 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import edu.hm.foodweek.R
-import edu.hm.foodweek.plans.create_meal_plan.CreateMealPlanViewModel
 import edu.hm.foodweek.plans.persistence.model.MealPlan
+import edu.hm.foodweek.plans.screen.create.CreateMealPlanViewModel
 import kotlinx.android.synthetic.main.mealplan_submition.view.*
 
 class SubmitDialog(private val createMealPlanViewModel: CreateMealPlanViewModel) : DialogFragment() {

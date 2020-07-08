@@ -1,23 +1,23 @@
-package edu.hm.foodweek.plans.create_meal_plan.dialogs.add
+package edu.hm.foodweek.plans.screen.create.dialogs.add
 
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import edu.hm.foodweek.plans.persistence.model.MealTime
+import edu.hm.foodweek.plans.persistence.model.WeekDay
 
-class TimeSpinnerAdapter(
+class DaySpinnerAdapter(
     val context: Context,
-    private val mealTimes: List<MealTime>
+    private val weekDay: List<WeekDay>
 ) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        return TextView(context).apply { text = mealTimes[position].toString() }
+        return TextView(context).apply { text = weekDay[position].toString() }
     }
 
     override fun getItem(position: Int): Any {
-        return mealTimes[position]
+        return weekDay[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -25,10 +25,10 @@ class TimeSpinnerAdapter(
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        return TextView(context).apply { text = mealTimes[position].toString() }
+        return TextView(context).apply { text = weekDay[position].toString() }
     }
 
     override fun getCount(): Int {
-        return mealTimes.size
+        return weekDay.size
     }
 }

@@ -79,7 +79,7 @@
         tools:layout="@layout/fragment_shopping" />
     <fragment
         android:id="@+id/recipeDetailFragment"
-        android:name="edu.hm.foodweek.recipes.RecipeDetailFragment"
+        android:name="edu.hm.foodweek.recipes.screen.detail.RecipeDetailFragment"
         tools:layout="@layout/recipe_detail_fragment">
         <argument
             android:name="recipeId"
@@ -87,7 +87,7 @@
     </fragment>
     <fragment
         android:id="@+id/createMealPlanFragment"
-        android:name="edu.hm.foodweek.plans.create_meal_plan.CreateMealPlanFragment"
+        android:name="edu.hm.foodweek.plans.screen.create.CreateMealPlanFragment"
         tools:layout="@layout/create_meal_plan_fragment">
         <argument
             android:name="mealPlanId"
