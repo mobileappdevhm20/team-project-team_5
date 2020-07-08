@@ -53,26 +53,33 @@ class ShoppingViewModel(
             var currentPlan = plansAndDays.first.first
             var nextPlan = plansAndDays.first.second
 
-            // Filter days of current week
+
+            // Compute day limits
             val today = WeekDay.valueOf(
                 LocalDate().dayOfWeek().getAsText(Locale.US).toUpperCase(
                     Locale.ROOT
                 )
             )
-            currentPlan =
-                MealPlan(meals = currentPlan.meals.filter { it.day.ordinal >= today.ordinal })
-
-            // Filter next week
             val upperLimit = WeekDay.valueOf(
                 LocalDate().plusDays(days).dayOfWeek().getAsText(Locale.US).toUpperCase(
                     Locale.ROOT
                 )
             )
+
+            // Filter days of current week
+            val weekOverflow = today.ordinal + days > 6
+            currentPlan = if (weekOverflow) {
+                MealPlan(meals = currentPlan.meals.filter { it.day.ordinal >= today.ordinal })
+            } else {
+                MealPlan(meals = currentPlan.meals.filter { it.day.ordinal >= today.ordinal && it.day.ordinal < upperLimit.ordinal })
+            }
+
+            // Filter next week
             nextPlan =
                 MealPlan(meals = nextPlan.meals.filter { it.day.ordinal < upperLimit.ordinal })
 
             // Combine meal plans
-            val plans = if (today.ordinal + days > 6) {
+            val plans = if (weekOverflow) {
                 mutableListOf(currentPlan, nextPlan)
             } else {
                 mutableListOf(currentPlan)
