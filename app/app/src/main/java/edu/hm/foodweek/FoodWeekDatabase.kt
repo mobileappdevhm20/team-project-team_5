@@ -24,4 +24,3 @@ abstract class FoodWeekDatabase() : RoomDatabase() {
     abstract fun mealPlanDao(): MealPlanDao
     abstract fun recipeDao(): RecipeDao
 }
-

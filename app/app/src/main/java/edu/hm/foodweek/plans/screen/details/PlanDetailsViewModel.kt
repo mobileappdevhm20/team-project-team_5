@@ -21,7 +21,6 @@ class PlanDetailsViewModel(
     val planImage = mealPlan.map { it.imageURL }
     private val groupedPlans = mealPlan
         // Load recipe for each meal
-        //.switchMap { mealPlan -> liveData { emit(loadRecipes(mealPlan)) } }
         .map { mealPlan -> mealPlan.meals.map { Pair(it, it.recipe) } }
         // Group by day
         .map { mealsWithRecipe -> mealsWithRecipe.groupBy { it.first.day } }
@@ -41,9 +40,12 @@ class PlanDetailsViewModel(
         .map { byDayAndTime ->
             byDayAndTime
                 .map { days ->
-                    val dummyURL =
-                        "https://icons.iconarchive.com/icons/papirus-team/papirus-status/512/image-missing-icon.png"
-                    val emptyRecipe = Recipe(0, "-", "-", url = dummyURL)
+                    val displayURL = days.value[MealTime.LUNCH]?.url
+                        ?: (days.value[MealTime.BREAKFAST]?.url
+                            ?: (days.value[MealTime.DINNER]?.url
+                                ?: "https://icons.iconarchive.com/icons/papirus-team/papirus-status/512/image-missing-icon.png"))
+
+                    val emptyRecipe = Recipe(0, "-", "-", url = displayURL)
                     PlanDetailsItem(
                         day = days.key,
                         dishImageURL = days.value.getOrElse(
