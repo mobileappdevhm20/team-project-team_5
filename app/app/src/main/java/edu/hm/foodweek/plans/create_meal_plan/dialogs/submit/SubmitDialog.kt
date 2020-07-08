@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import edu.hm.foodweek.R
 import edu.hm.foodweek.plans.create_meal_plan.CreateMealPlanViewModel
 import edu.hm.foodweek.plans.persistence.model.MealPlan
@@ -38,6 +41,22 @@ class SubmitDialog(private val createMealPlanViewModel: CreateMealPlanViewModel)
                 }
             }
         }
+
+        createMealPlanViewModel.imageUrl.observe(viewLifecycleOwner, Observer {
+            view.submit_dialog_image_preview.visibility = if (it.isNullOrEmpty()) {
+                View.INVISIBLE
+            } else {
+                View.VISIBLE
+            }
+            Glide
+                .with(view.submit_dialog_image_preview)
+                .asDrawable()
+                .load(it)
+                .placeholder(R.drawable.no_image)
+                .centerCrop()
+                .priority(Priority.HIGH)
+                .into(view.submit_dialog_image_preview)
+        })
 
         view.submit_dialog_btn_draft.setOnClickListener {
             currentMealPlan?.let {
