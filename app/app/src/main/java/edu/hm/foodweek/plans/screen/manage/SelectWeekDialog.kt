@@ -15,10 +15,7 @@ import edu.hm.foodweek.plans.screen.MealPlanViewModel
 import edu.hm.foodweek.users.persistence.UserRepository
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import java.lang.StringBuilder
 import java.util.*
-import java.util.function.IntToLongFunction
-import java.util.logging.Logger
 
 class SelectWeekDialog(val planId: Long) : DialogFragment() {
 
@@ -33,26 +30,27 @@ class SelectWeekDialog(val planId: Long) : DialogFragment() {
     ): View? {
         val binding = DataBindingUtil.inflate<SelectCalendarWeekBinding>(inflater, R.layout.select_calendar_week, container, false)
         binding.errorMessage = getString(R.string.week_assigned_already)
-        val assignedWeeks = userRepository.getUser()
-        assignedWeeks.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        val user = userRepository.getUser()
+        user.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             assignedWeekMap = it.weekMealPlanMap as MutableMap<Int, Long>
             if (assignedWeekMap.containsKey(binding.numberPicker.value)) {
-                updateValues(Calendar.getInstance(Locale.GERMAN), binding.numberPicker.value, binding)
+                updateValues(binding.numberPicker.value, binding)
             }
         })
 
         binding.numberPicker.let {
-            val thisWeek = Calendar.getInstance(Locale.GERMANY)
-            val selectedWeek = Calendar.getInstance(Locale.GERMANY)
+            val thisWeek = Calendar.getInstance()
+            thisWeek.set(Calendar.DAY_OF_WEEK, thisWeek.firstDayOfWeek)
             it.minValue = thisWeek.get(Calendar.WEEK_OF_YEAR)
-            it.maxValue = 52
+            it.maxValue = thisWeek.getActualMaximum(Calendar.WEEK_OF_YEAR)
             it.value = it.minValue
             binding.weekStart.text = buildDate(thisWeek)
-            thisWeek.add(Calendar.DATE, 7)
+            thisWeek.add(Calendar.WEEK_OF_YEAR, 1)
+            thisWeek.add(Calendar.DATE, -1)
             binding.weekEnd.text = buildDate(thisWeek)
 
-            it.setOnValueChangedListener { picker, oldVal, newVal ->
-                updateValues(selectedWeek, newVal, binding)
+            it.setOnValueChangedListener { _, _, newVal ->
+                updateValues(newVal, binding)
             }
         }
 
@@ -67,22 +65,24 @@ class SelectWeekDialog(val planId: Long) : DialogFragment() {
         return binding.root
     }
 
-    private fun updateValues(selectedWeek: Calendar, newVal: Int, binding: SelectCalendarWeekBinding) {
-        selectedWeek.set(Calendar.WEEK_OF_YEAR, newVal)
+    private fun updateValues(newWeek: Int, binding: SelectCalendarWeekBinding) {
+        val selectedWeek = Calendar.getInstance()
+        selectedWeek.set(Calendar.DAY_OF_WEEK, selectedWeek.firstDayOfWeek)
+        selectedWeek.set(Calendar.WEEK_OF_YEAR, newWeek)
         binding.weekStart.text = buildDate(selectedWeek)
-        selectedWeek.add(Calendar.DATE, 7)
+        selectedWeek.add(Calendar.WEEK_OF_YEAR, 1)
+        selectedWeek.add(Calendar.DATE, -1)
         binding.weekEnd.text = buildDate(selectedWeek)
-        if (assignedWeekMap.containsKey(newVal)) {
+        if (assignedWeekMap.containsKey(newWeek)) {
             val mealPlan = mealPlanViewModel.managedPlans.value?.filter {
-                it.plan.planId == assignedWeekMap[newVal]
+                it.plan.planId == assignedWeekMap[newWeek]
             }?.map { it.plan.title }
             if (mealPlan.isNullOrEmpty()) {
                 binding.errorMessage = getString(R.string.week_assigned_already)
             } else {
-                binding.errorMessage = getString(R.string.week_assigned_already) + "by\n${mealPlan[0]}"
+                binding.errorMessage = getString(R.string.week_assigned_already) + " by \n${mealPlan[0]}"
             }
             binding.warning.visibility = View.VISIBLE
-
         } else {
             binding.warning.visibility = View.INVISIBLE
         }
@@ -92,7 +92,7 @@ class SelectWeekDialog(val planId: Long) : DialogFragment() {
     private fun buildDate(date: Calendar): String {
         return StringBuilder("")
             .append((date.get(Calendar.DATE)).toString()).append(".")
-            .append(date.get(Calendar.MONTH).toString()).append(".")
+            .append((date.get(Calendar.MONTH) + 1).toString()).append(".")
             .append(date.get(Calendar.YEAR).toString())
             .toString()
     }

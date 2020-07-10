@@ -1,4 +1,4 @@
-package edu.hm.foodweek.plans.create_meal_plan
+package edu.hm.foodweek.plans.screen.create
 
 import android.app.Application
 import android.util.Log
@@ -38,8 +38,8 @@ class CreateMealPlanViewModel(
     var _searchQuery = MutableLiveData("")
     val searchQuery: LiveData<String> = _searchQuery.debounce(400, viewModelScope)
     val allRecipes = recipeRepository.recipes
-
     // mealplan
+
 
     private var _currentEditingMealPlan: MutableLiveData<MealPlan>
     private val editExisting = mealPlanId > 0
@@ -63,7 +63,7 @@ class CreateMealPlanViewModel(
     }
 
     val currentEditingMealPlan = _currentEditingMealPlan as LiveData<MealPlan>
-
+    val imageUrl = currentEditingMealPlan.mapSkipNulls { it.imageURL }
     private val meals = currentEditingMealPlan.mapSkipNulls { plan -> plan.meals }
     private val mealsFilterByTimeAndDay = meals
         .combineLatest(selectedDay)

@@ -6,15 +6,12 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
 import edu.hm.foodweek.plans.persistence.MealPlanRepository
 import edu.hm.foodweek.plans.persistence.model.MealPlan
-import edu.hm.foodweek.plans.persistence.model.MealTime
-import edu.hm.foodweek.recipes.persistence.RecipeRepository
-import edu.hm.foodweek.recipes.persistence.model.Recipe
 import edu.hm.foodweek.users.persistence.UserRepository
 import edu.hm.foodweek.util.extensions.combineLatest
 import edu.hm.foodweek.util.extensions.map
 import edu.hm.foodweek.util.extensions.mapSkipNulls
-import edu.hm.foodweek.week.MealPreview
 import org.koin.android.logger.AndroidLogger
+import java.util.*
 
 class WeekViewModel(
     private val mealPlanRepository: MealPlanRepository,
@@ -54,8 +51,24 @@ class WeekViewModel(
             }
         }
     val planDescription = mealPlan.mapSkipNulls { it.description }
+        .combineLatest(isMealPlanForCurrentWeekSet)
+        .mapSkipNulls { pair ->
+            if (pair.second == null || pair.second == true) {
+                return@mapSkipNulls pair.first
+            } else {
+                return@mapSkipNulls "Browse through the meals, add them to your favorites and assign them to a Week"
+            }
+        }
     val planUrl = mealPlan.mapSkipNulls { it.imageURL }
 
-    val meals = mealPlan.map { it?.meals }
-
+    val meals = mealPlan
+        .map { mealplan ->
+            val today = Calendar.getInstance()
+            mealplan?.meals?.filter { meal ->
+                val mealDay = Calendar.getInstance()
+                mealDay.set(Calendar.DAY_OF_WEEK, meal.day.asJavaCalendar())
+                val isafter = mealDay.after(today) || mealDay.get(Calendar.DATE) == today.get(Calendar.DATE)
+                isafter
+            }
+        }
 }

@@ -16,18 +16,28 @@ open class UserRepository(private val userDao: UserDao) {
         return userDao.getUser()
     }
 
-
     fun getCurrentWeek(): LiveData<Long> {
+        var currentWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
+        return getWeek(currentWeek)
+    }
+
+    fun getNextWeek(): LiveData<Long> {
+        var currentWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
+        return getWeek(currentWeek + 1)
+    }
+
+    fun getWeek(week: Int): LiveData<Long> {
         val user = userDao.getLiveDataUser()
         return user.mapSkipNulls {
-            var currentWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
-            return@mapSkipNulls it.weekMealPlanMap.get(currentWeek) ?: -1
+            return@mapSkipNulls it.weekMealPlanMap[week] ?: -1
         }
     }
+
 
     suspend fun setMealToWeek(mealId: Long, week: Int) {
         runBlocking {
             val user = getUserNoLiveData()
+            @Suppress("SENSELESS_COMPARISON")
             if (user == null) {
                 return@runBlocking
             }

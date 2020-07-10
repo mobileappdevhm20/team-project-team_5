@@ -1,4 +1,4 @@
-package edu.hm.foodweek.recipes
+package edu.hm.foodweek.recipes.screen.detail
 
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
 import edu.hm.foodweek.R
 import edu.hm.foodweek.databinding.RecipeDetailFragmentBinding
 import edu.hm.foodweek.recipes.persistence.model.IngredientAmount
@@ -33,11 +34,13 @@ class RecipeDetailFragment : Fragment() {
         binding.model = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.recipeIngredientsList.apply {
-            adapter = IngredientAdapter(emptyList())
+            adapter =
+                IngredientAdapter(emptyList())
             layoutManager = LinearLayoutManager(context)
         }
         binding.recipeStepsList.apply {
-            adapter = StepAdapter(emptyList())
+            adapter =
+                StepAdapter(emptyList())
             layoutManager = LinearLayoutManager(context)
         }
         viewModel.ingredients.observe(viewLifecycleOwner, Observer { (binding.recipeIngredientsList.adapter as IngredientAdapter).updateIngredients(it) })
@@ -48,10 +51,12 @@ class RecipeDetailFragment : Fragment() {
         viewModel.url.observe(viewLifecycleOwner, Observer {
             Glide
                 .with(binding.imagePreview.context)
+                .asDrawable()
                 .load(it)
-                .centerCrop()
+                .placeholder(R.drawable.no_image)
+                .priority(Priority.HIGH)
+                .circleCrop()
                 .into(binding.imagePreview)
-                .onLoadFailed(resources.getDrawable(R.drawable.ic_no_image_found, null))
         })
 
         return binding.root
@@ -67,7 +72,9 @@ class IngredientAdapter(private var ingredientAmountList: List<IngredientAmount>
         // Inflate the custom layout
         val ingredientItemView = inflater.inflate(R.layout.ingredient_list_item, parent, false)
         // Return a new holder instance
-        return IngredientItemViewHolder(ingredientItemView)
+        return IngredientItemViewHolder(
+            ingredientItemView
+        )
     }
 
     override fun getItemCount(): Int {
@@ -97,7 +104,9 @@ class StepAdapter(private var steps: List<String>) : RecyclerView.Adapter<Recycl
         // Inflate the custom layout
         val stepItemView = inflater.inflate(R.layout.step_list_item, parent, false)
         // Return a new holder instance
-        return StepItemViewHolder(stepItemView)
+        return StepItemViewHolder(
+            stepItemView
+        )
     }
 
     override fun getItemCount(): Int {

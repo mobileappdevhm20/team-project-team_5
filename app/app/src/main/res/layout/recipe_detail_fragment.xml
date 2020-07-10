@@ -3,7 +3,7 @@
     <data>
         <variable
             name="model"
-            type="edu.hm.foodweek.recipes.RecipeDetailViewModel" />
+            type="edu.hm.foodweek.recipes.screen.detail.RecipeDetailViewModel" />
     </data>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -11,7 +11,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".recipes.RecipeDetailFragment"
+        android:clipToPadding="false"
+        tools:context=".recipes.screen.detail.RecipeDetailFragment"
         android:padding="@dimen/general_padding"
         >
 

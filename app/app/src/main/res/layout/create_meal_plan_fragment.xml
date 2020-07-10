@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".plans.create_meal_plan.CreateMealPlanFragment">
+    tools:context=".plans.screen.create.CreateMealPlanFragment">
 
     <data>
 
@@ -156,6 +156,7 @@
             android:layout_margin="8dp"
             android:clickable="true"
             android:src="@drawable/ic_add_black_24dp"
+            app:backgroundTint="@color/darkerGreen"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

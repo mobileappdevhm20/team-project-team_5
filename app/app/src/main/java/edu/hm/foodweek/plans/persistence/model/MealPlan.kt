@@ -21,7 +21,7 @@ data class MealPlan(
     @SerializedName("draft")
     var draft: Boolean = true,
     @SerializedName("creatorUsername")
-    val creatorUsername: String = "",
+    val creatorUsername: String? = "",
     @SerializedName("meals")
     var meals: List<Meal> = emptyList()
 )

@@ -67,11 +67,11 @@ class ManagePlansAdapter(
 
             // Load image
             if (URLUtil.isValidUrl(mealPlan.plan.imageURL)) {
-                Glide.with(itemView.context).asDrawable().load(mealPlan.plan.imageURL)
-                    .placeholder(R.drawable.ic_launcher_background).priority(Priority.HIGH)
+                Glide.with(itemView).asDrawable().load(mealPlan.plan.imageURL)
+                    .placeholder(R.drawable.no_image).priority(Priority.HIGH)
                     .into(itemView.recipe_plan_picture)
             } else {
-                Glide.with(itemView).load(R.drawable.ic_launcher_background)
+                Glide.with(itemView).load(R.drawable.no_image)
                     .into(itemView.recipe_plan_picture)
             }
         }
@@ -93,6 +93,14 @@ class ManagePlansAdapter(
     }
 
     override fun getItemCount(): Int = data.size
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
 
     override fun onBindViewHolder(holder: PlansViewHolder, position: Int) =
         holder.bind(data[position])

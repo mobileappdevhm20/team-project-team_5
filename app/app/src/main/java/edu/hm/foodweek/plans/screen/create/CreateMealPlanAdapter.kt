@@ -1,4 +1,4 @@
-package edu.hm.foodweek.plans.create_meal_plan
+package edu.hm.foodweek.plans.screen.create
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -29,6 +29,14 @@ class CreateMealPlanAdapter(private var context: Context, var myList: List<Recip
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.bind(myList[position])
         viewHolder.itemView.setOnClickListener { }
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
 

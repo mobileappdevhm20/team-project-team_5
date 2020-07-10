@@ -64,7 +64,7 @@
             android:textAlignment="center"
             android:textColor="@color/red"
             android:textStyle="bold"
-            android:visibility="visible" />
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/assign_button"

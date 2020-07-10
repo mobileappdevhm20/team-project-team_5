@@ -174,4 +174,3 @@ If you want to host the backend on your own, just create new [profile-configurat
 - [Cavvar](https://github.com/Cavvar)
 - [Tosaa](https://github.com/Tosaa)
 - [MartinEkman](https://github.com/MartinEkman)
-

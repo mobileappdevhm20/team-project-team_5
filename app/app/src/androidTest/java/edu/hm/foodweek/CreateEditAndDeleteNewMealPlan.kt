@@ -251,7 +251,7 @@ class CreateEditAndDeleteNewMealPlan {
                 childAtPosition(
                     childAtPosition(
                         withClassName(`is`("android.widget.LinearLayout")),
-                        3
+                        4
                     ),
                     0
                 ),
@@ -324,7 +324,7 @@ class CreateEditAndDeleteNewMealPlan {
                 childAtPosition(
                     childAtPosition(
                         withClassName(`is`("android.widget.LinearLayout")),
-                        3
+                        4
                     ),
                     0
                 ),

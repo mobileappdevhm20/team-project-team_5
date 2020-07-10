@@ -1,7 +1,7 @@
-package edu.hm.foodweek.recipes
+package edu.hm.foodweek.recipes.screen.detail
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
 import edu.hm.foodweek.recipes.persistence.RecipeRepository
 import edu.hm.foodweek.util.extensions.mapSkipNulls
 

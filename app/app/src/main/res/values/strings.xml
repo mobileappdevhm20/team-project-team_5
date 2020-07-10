@@ -40,4 +40,7 @@
     <string name="hint_url">URL</string>
     <string name="hint_search_for_recipes">search for recipes</string>
     <string name="week_assigned_already">This week has been assigned already</string>
+    <string name="private_policy">Private Policy</string>
+    <string name="privacy_policy">Privacy Policy</string>
+
 </resources>

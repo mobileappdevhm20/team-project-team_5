@@ -1,4 +1,4 @@
-package edu.hm.foodweek.plans.create_meal_plan.dialogs.add
+package edu.hm.foodweek.plans.screen.create.dialogs.add
 
 
 import android.os.Bundle
@@ -13,27 +13,27 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.hm.foodweek.R
-import edu.hm.foodweek.plans.create_meal_plan.CreateMealPlanViewModel
 import edu.hm.foodweek.plans.persistence.model.MealTime
 import edu.hm.foodweek.plans.persistence.model.WeekDay
 import edu.hm.foodweek.plans.screen.EndlessScrollListener
+import edu.hm.foodweek.plans.screen.create.CreateMealPlanViewModel
 import edu.hm.foodweek.recipes.persistence.model.Recipe
 import kotlinx.android.synthetic.main.add_recipe_dialog.view.*
 
 class AddRecipeDialog(val createMealPlanViewModel: CreateMealPlanViewModel) : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val inflater = inflater.inflate(R.layout.add_recipe_dialog, container, false)
-        setButtonClick(inflater)
-        setRecylcerView(inflater)
-        setMealTimeSpinner(inflater)
-        setDaySpinner(inflater)
-        setSelectedDayView(inflater)
-        setSearchView(inflater)
+        val view = inflater.inflate(R.layout.add_recipe_dialog, container, false)
+        setButtonClick(view)
+        setRecylcerView(view)
+        setMealTimeSpinner(view)
+        setDaySpinner(view)
+        setSelectedDayView(view)
+        setSearchView(view)
         createMealPlanViewModel.searchQuery.observe(viewLifecycleOwner, Observer {
             createMealPlanViewModel.loadMoreRecipes(0)
         })
-        return inflater
+        return view
     }
 
     private fun setSelectedDayView(inflater: View) {
@@ -71,16 +71,30 @@ class AddRecipeDialog(val createMealPlanViewModel: CreateMealPlanViewModel) : Di
 
     private fun setMealTimeSpinner(inflater: View) {
         val mealtimes = MealTime.values().toList()
-        inflater.add_recipe_dialog_time_spinner.adapter = TimeSpinnerAdapter(requireContext(), mealtimes)
-        inflater.add_recipe_dialog_time_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        inflater.add_recipe_dialog_time_spinner.adapter =
+            TimeSpinnerAdapter(
+                requireContext(),
+                mealtimes
+            )
+        inflater.add_recipe_dialog_time_spinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                createMealPlanViewModel.selectTime.postValue(inflater.add_recipe_dialog_time_spinner.adapter.getItem(position) as MealTime)
-            }
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    createMealPlanViewModel.selectTime.postValue(
+                        inflater.add_recipe_dialog_time_spinner.adapter.getItem(
+                            position
+                        ) as MealTime
+                    )
+                }
 
-        }
+            }
         createMealPlanViewModel.selectTime.observe(viewLifecycleOwner, Observer {
             inflater.add_recipe_dialog_time_spinner.setSelection(mealtimes.indexOf(it))
         })
@@ -88,13 +102,27 @@ class AddRecipeDialog(val createMealPlanViewModel: CreateMealPlanViewModel) : Di
 
     private fun setDaySpinner(inflater: View) {
         val weekDays = WeekDay.values().toList()
-        inflater.add_recipe_dialog_day_spinner.adapter = DaySpinnerAdapter(requireContext(), weekDays)
-        inflater.add_recipe_dialog_day_spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        inflater.add_recipe_dialog_day_spinner.adapter =
+            DaySpinnerAdapter(
+                requireContext(),
+                weekDays
+            )
+        inflater.add_recipe_dialog_day_spinner.setOnItemSelectedListener(object :
+            AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                createMealPlanViewModel.selectedDay.postValue(inflater.add_recipe_dialog_day_spinner.adapter.getItem(position) as WeekDay)
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                createMealPlanViewModel.selectedDay.postValue(
+                    inflater.add_recipe_dialog_day_spinner.adapter.getItem(
+                        position
+                    ) as WeekDay
+                )
             }
 
         })
@@ -125,12 +153,17 @@ class AddRecipeDialog(val createMealPlanViewModel: CreateMealPlanViewModel) : Di
     }
 
     private fun setRecylcerView(inflater: View) {
-        inflater.add_recipe_dialog_recylcerView.adapter = RecipeAdapter(emptyList(), createMealPlanViewModel)
+        inflater.add_recipe_dialog_recylcerView.adapter =
+            RecipeAdapter(
+                emptyList(),
+                createMealPlanViewModel
+            )
         inflater.add_recipe_dialog_recylcerView.layoutManager = LinearLayoutManager(context)
         createMealPlanViewModel.allRecipes.observe(viewLifecycleOwner, Observer {
             (inflater.add_recipe_dialog_recylcerView.adapter as RecipeAdapter).updateRecipes(it)
         })
-        inflater.add_recipe_dialog_recylcerView.addOnScrollListener(object : EndlessScrollListener(pageSize = 30, preLoadSize = 10) {
+        inflater.add_recipe_dialog_recylcerView.addOnScrollListener(object :
+            EndlessScrollListener(pageSize = 30, preLoadSize = 10) {
             override fun loadPage(page: Int) {
                 createMealPlanViewModel.loadMoreRecipes(page)
             }
